@@ -1,7 +1,7 @@
 'use client';
 
 import { ProfileData } from '@/lib/profileData';
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Code2 } from 'lucide-react';
 
 interface ProfileHeaderProps {
   profile: ProfileData;
@@ -64,10 +64,10 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
                   href={socialLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:bg-blue-500 p-2 rounded transition"
+                  className="hover:bg-white/20 px-3 py-2 rounded transition font-semibold"
                   title="LinkedIn"
                 >
-                  <Linkedin size={24} />
+                  LinkedIn
                 </a>
               )}
               {socialLinks.github && (
@@ -75,10 +75,10 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
                   href={socialLinks.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:bg-blue-500 p-2 rounded transition"
+                  className="hover:bg-white/20 px-3 py-2 rounded transition font-semibold"
                   title="GitHub"
                 >
-                  <Github size={24} />
+                  GitHub
                 </a>
               )}
               {socialLinks.twitter && (
@@ -86,10 +86,10 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
                   href={socialLinks.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:bg-blue-500 p-2 rounded transition"
+                  className="hover:bg-white/20 px-3 py-2 rounded transition font-semibold"
                   title="Twitter"
                 >
-                  <Twitter size={24} />
+                  Twitter
                 </a>
               )}
             </div>
