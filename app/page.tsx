@@ -7,7 +7,7 @@ import ProfileHeader from '@/components/ProfileHeader';
 import SkillsSection from '@/components/SkillsSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import ProjectsSection from '@/components/ProjectsSection';
-import { LogIn } from 'lucide-react';
+import LogIn from 'lucide-react/dist/esm/icons/log-in.mjs';
 import Link from 'next/link';
 
 export default function Home() {
@@ -36,7 +36,7 @@ export default function Home() {
       <div className="fixed bottom-6 right-6 z-50">
         <Link
           href="/admin"
-          className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition transform hover:scale-105"
+          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition transform hover:scale-105 font-semibold"
           title="Admin Dashboard"
         >
           <LogIn size={20} />
@@ -52,30 +52,32 @@ export default function Home() {
 
       {/* Certifications Section */}
       {profile.certifications && profile.certifications.length > 0 && (
-        <section className="py-12">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold mb-8 text-gray-900">
-              Certifications
-            </h2>
+        <section className="py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-12">
+              <p className="text-red-400 text-sm font-semibold uppercase tracking-widest mb-2">CREDENTIALS</p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Certifications & Education</h2>
+              <p className="text-slate-300 text-lg max-w-2xl">
+                Professional certifications and educational achievements that validate my expertise.
+              </p>
+            </div>
             <div className="grid md:grid-cols-2 gap-6">
               {profile.certifications.map((cert, idx) => (
                 <div
                   key={idx}
-                  className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition"
+                  className="group p-6 bg-slate-800/50 border border-slate-700 rounded-lg hover:border-red-500/50 hover:bg-slate-800/80 transition-all duration-300 flex items-start gap-4"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                        ✓
-                      </div>
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-red-500 to-red-600 text-white text-lg font-bold group-hover:scale-110 transition-transform">
+                      ✓
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900">
-                        {cert.name}
-                      </h3>
-                      <p className="text-blue-600">{cert.issuer}</p>
-                      <p className="text-sm text-gray-600 mt-1">{cert.date}</p>
-                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-bold text-white group-hover:text-red-400 transition">
+                      {cert.name}
+                    </h3>
+                    <p className="text-red-400 font-semibold text-sm mt-1">{cert.issuer}</p>
+                    <p className="text-slate-400 text-sm mt-2">{cert.date}</p>
                   </div>
                 </div>
               ))}
@@ -85,14 +87,54 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-400">
-            © 2024 {profile.personalInfo.fullName}. All rights reserved.
-          </p>
-          <p className="text-gray-500 text-sm mt-2">
-            Built with Next.js & Tailwind CSS
-          </p>
+      <footer className="border-t border-slate-700 bg-slate-900/50 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-8">
+            <div>
+              <p className="text-slate-300 font-semibold text-lg">
+                © 2024 {profile.personalInfo.fullName}. All rights reserved.
+              </p>
+              <p className="text-slate-400 text-sm mt-1">
+                Built with Next.js & Tailwind CSS
+              </p>
+            </div>
+            <div className="flex gap-4 mt-6 md:mt-0">
+              {profile.socialLinks.linkedin && (
+                <a
+                  href={profile.socialLinks.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:border-red-500 hover:text-red-400 transition"
+                  title="LinkedIn"
+                >
+                  in
+                </a>
+              )}
+              {profile.socialLinks.github && (
+                <a
+                  href={profile.socialLinks.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:border-red-500 hover:text-red-400 transition"
+                  title="GitHub"
+                >
+                  gh
+                </a>
+              )}
+              {profile.socialLinks.twitter && (
+                <a
+                  href={profile.socialLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:border-red-500 hover:text-red-400 transition"
+                  title="Twitter"
+                >
+                  𝕏
+                </a>
+              )}
+            </div>
+          </div>
+          <div className="h-px bg-gradient-to-r from-slate-700 via-red-500/30 to-slate-700" />
         </div>
       </footer>
     </main>

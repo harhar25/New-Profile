@@ -10,41 +10,52 @@ export default function ExperienceSection({
   experiences,
 }: ExperienceSectionProps) {
   return (
-    <section className="py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold mb-8 text-gray-900">Experience</h2>
+    <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-12">
+          <p className="text-red-400 text-sm font-semibold uppercase tracking-widest mb-2">CAREER PATH</p>
+          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Professional Experience</h2>
+          <p className="text-slate-300 text-lg max-w-2xl">
+            A timeline of my professional journey and key roles that shaped my expertise.
+          </p>
+        </div>
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           {experiences.map((exp, index) => (
-            <div key={exp.id} className="relative">
+            <div key={exp.id} className="relative group">
+              {/* Timeline connector */}
               {index !== experiences.length - 1 && (
-                <div className="absolute left-4 top-12 w-1 h-16 bg-blue-400" />
+                <div className="absolute left-8 top-20 w-1 h-16 bg-gradient-to-b from-red-500 to-red-500/20" />
               )}
+              
               <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold">
+                {/* Timeline dot */}
+                <div className="flex-shrink-0 relative">
+                  <div className="absolute inset-0 bg-red-500/20 rounded-full blur-lg" />
+                  <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 border-2 border-red-500 text-red-400 font-bold text-lg group-hover:bg-red-500/10 transition-colors">
                     {index + 1}
                   </div>
                 </div>
-                <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
-                  <div className="flex justify-between items-start mb-2">
+
+                {/* Content card */}
+                <div className="flex-1 p-6 bg-slate-800/50 border border-slate-700 rounded-lg hover:border-red-500/50 hover:bg-slate-800/80 transition-all duration-300 group">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between sm:gap-4 mb-3">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">
+                      <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition">
                         {exp.title}
                       </h3>
-                      <p className="text-lg text-blue-600">{exp.company}</p>
+                      <p className="text-red-400 font-semibold mt-1">{exp.company}</p>
                     </div>
                     {exp.current && (
-                      <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
-                        Current
+                      <span className="inline-block bg-red-500/10 text-red-300 border border-red-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap">
+                        Currently
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 mb-3">
-                    {exp.startDate} -{' '}
-                    {exp.current ? 'Present' : exp.endDate}
+                  <p className="text-sm text-slate-400 mb-3 font-medium">
+                    {exp.startDate} — {exp.current ? 'Present' : exp.endDate}
                   </p>
-                  <p className="text-gray-700">{exp.description}</p>
+                  <p className="text-slate-300 leading-relaxed">{exp.description}</p>
                 </div>
               </div>
             </div>

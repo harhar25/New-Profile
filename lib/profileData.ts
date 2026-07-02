@@ -59,7 +59,7 @@ export const defaultProfileData: ProfileData = {
     email: 'your.email@example.com',
     phone: '+1 (555) 000-0000',
     location: 'Your Location',
-    avatar: '/uploads/avatar.jpg',
+    avatar: '',
   },
   skills: [
     {

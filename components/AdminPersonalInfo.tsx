@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { ProfileData, defaultProfileData } from '@/lib/profileData';
 import { profileStorage } from '@/lib/storage';
-import { Save, RotateCcw } from 'lucide-react';
+import Save from 'lucide-react/dist/esm/icons/save.mjs';
+import RotateCcw from 'lucide-react/dist/esm/icons/rotate-ccw.mjs';
 
 export default function AdminPersonalInfo() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);
@@ -37,12 +38,12 @@ export default function AdminPersonalInfo() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-900">Personal Information</h2>
+    <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+      <h2 className="text-2xl font-bold mb-6 text-white">Personal Information</h2>
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-300 mb-2">
             Full Name
           </label>
           <input
@@ -50,12 +51,12 @@ export default function AdminPersonalInfo() {
             name="fullName"
             value={profile.personalInfo.fullName}
             onChange={handleInputChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-300 mb-2">
             Professional Title
           </label>
           <input
@@ -64,12 +65,12 @@ export default function AdminPersonalInfo() {
             value={profile.personalInfo.title}
             onChange={handleInputChange}
             placeholder="e.g., BS Computer Science | GHL Expert"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-300 mb-2">
             Bio
           </label>
           <textarea
@@ -77,13 +78,13 @@ export default function AdminPersonalInfo() {
             value={profile.personalInfo.bio}
             onChange={handleInputChange}
             rows={4}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
               Email
             </label>
             <input
@@ -91,12 +92,12 @@ export default function AdminPersonalInfo() {
               name="email"
               value={profile.personalInfo.email}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
               Phone
             </label>
             <input
@@ -104,13 +105,13 @@ export default function AdminPersonalInfo() {
               name="phone"
               value={profile.personalInfo.phone}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-300 mb-2">
             Location
           </label>
           <input
@@ -118,12 +119,12 @@ export default function AdminPersonalInfo() {
             name="location"
             value={profile.personalInfo.location}
             onChange={handleInputChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-300 mb-2">
             Avatar URL
           </label>
           <input
@@ -132,22 +133,22 @@ export default function AdminPersonalInfo() {
             value={profile.personalInfo.avatar || ''}
             onChange={handleInputChange}
             placeholder="/uploads/avatar.jpg"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
         </div>
       </div>
 
-      <div className="flex gap-4 mt-6">
+      <div className="flex gap-4 mt-8">
         <button
           onClick={handleSave}
-          className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 rounded-lg transition font-semibold"
         >
           <Save size={20} />
           Save Changes
         </button>
         <button
           onClick={handleReset}
-          className="flex items-center gap-2 bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition"
+          className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-6 py-2.5 rounded-lg transition font-semibold"
         >
           <RotateCcw size={20} />
           Reset
@@ -155,7 +156,7 @@ export default function AdminPersonalInfo() {
       </div>
 
       {saved && (
-        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-lg">
+        <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg">
           ✓ Changes saved successfully!
         </div>
       )}

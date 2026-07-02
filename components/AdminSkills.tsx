@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { ProfileData, Skill, defaultProfileData } from '@/lib/profileData';
 import { profileStorage } from '@/lib/storage';
-import { Trash2, Plus, Save } from 'lucide-react';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2.mjs';
+import Plus from 'lucide-react/dist/esm/icons/plus.mjs';
+import Save from 'lucide-react/dist/esm/icons/save.mjs';
 
 export default function AdminSkills() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);
@@ -47,12 +49,12 @@ export default function AdminSkills() {
   const categories = [...new Set(profile.skills.map((s) => s.category))];
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-900">Skills Management</h2>
+    <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+      <h2 className="text-2xl font-bold mb-6 text-white">Skills Management</h2>
 
       {/* Add New Skill */}
-      <div className="mb-8 p-4 bg-blue-50 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4 text-gray-900">Add New Skill</h3>
+      <div className="mb-8 p-6 bg-slate-900/50 border border-red-500/30 rounded-lg">
+        <h3 className="text-lg font-semibold mb-4 text-white">Add New Skill</h3>
         <div className="grid md:grid-cols-4 gap-4 mb-4">
           <input
             type="text"
@@ -61,7 +63,7 @@ export default function AdminSkills() {
             onChange={(e) =>
               setNewSkill({ ...newSkill, name: e.target.value })
             }
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
           <input
             type="text"
@@ -70,7 +72,7 @@ export default function AdminSkills() {
             onChange={(e) =>
               setNewSkill({ ...newSkill, category: e.target.value })
             }
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
           <select
             value={newSkill.proficiency || ''}
@@ -80,7 +82,7 @@ export default function AdminSkills() {
                 proficiency: e.target.value as Skill['proficiency'],
               })
             }
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           >
             <option value="">Select Proficiency</option>
             <option value="Beginner">Beginner</option>
@@ -90,7 +92,7 @@ export default function AdminSkills() {
           </select>
           <button
             onClick={handleAddSkill}
-            className="flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+            className="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition font-semibold"
           >
             <Plus size={20} />
             Add
@@ -101,7 +103,7 @@ export default function AdminSkills() {
       {/* Skills by Category */}
       {categories.map((category) => (
         <div key={category} className="mb-6">
-          <h3 className="text-lg font-semibold mb-3 text-gray-800">
+          <h3 className="text-lg font-semibold mb-3 text-white">
             {category}
           </h3>
           <div className="space-y-2">
@@ -110,15 +112,15 @@ export default function AdminSkills() {
               .map((skill) => (
                 <div
                   key={skill.id}
-                  className="flex justify-between items-center p-4 bg-gray-50 rounded-lg"
+                  className="flex justify-between items-center p-4 bg-slate-900/50 border border-slate-700 rounded-lg hover:border-red-500/30 transition"
                 >
                   <div>
-                    <p className="font-semibold text-gray-900">{skill.name}</p>
-                    <p className="text-sm text-gray-600">{skill.proficiency}</p>
+                    <p className="font-semibold text-white">{skill.name}</p>
+                    <p className="text-sm text-slate-400">{skill.proficiency}</p>
                   </div>
                   <button
                     onClick={() => handleDeleteSkill(skill.id)}
-                    className="text-red-600 hover:text-red-800 transition"
+                    className="text-red-400 hover:text-red-300 transition"
                   >
                     <Trash2 size={20} />
                   </button>
@@ -129,13 +131,13 @@ export default function AdminSkills() {
       ))}
 
       {profile.skills.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-slate-400">
           No skills added yet. Add your first skill above!
         </div>
       )}
 
       {saved && (
-        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-lg">
+        <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg">
           ✓ Skill added successfully!
         </div>
       )}

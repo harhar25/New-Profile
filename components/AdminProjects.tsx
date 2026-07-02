@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { ProfileData, Project, defaultProfileData } from '@/lib/profileData';
 import { profileStorage } from '@/lib/storage';
-import { Trash2, Plus, Edit2 } from 'lucide-react';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2.mjs';
+import Plus from 'lucide-react/dist/esm/icons/plus.mjs';
+import Edit2 from 'lucide-react/dist/esm/icons/edit-2.mjs';
 
 export default function AdminProjects() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);
@@ -85,14 +87,14 @@ export default function AdminProjects() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-900">
+    <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+      <h2 className="text-2xl font-bold mb-6 text-white">
         Projects Management
       </h2>
 
       {/* Add/Edit Project */}
-      <div className="mb-8 p-4 bg-blue-50 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4 text-gray-900">
+      <div className="mb-8 p-6 bg-slate-900/50 border border-red-500/30 rounded-lg">
+        <h3 className="text-lg font-semibold mb-4 text-white">
           {editingId ? 'Edit Project' : 'Add New Project'}
         </h3>
         <div className="space-y-4">
@@ -103,7 +105,7 @@ export default function AdminProjects() {
             onChange={(e) =>
               setNewProject({ ...newProject, title: e.target.value })
             }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
 
           <textarea
@@ -113,11 +115,11 @@ export default function AdminProjects() {
               setNewProject({ ...newProject, description: e.target.value })
             }
             rows={3}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
               Technologies
             </label>
             <div className="space-y-2">
@@ -128,13 +130,13 @@ export default function AdminProjects() {
                   placeholder={`Technology ${idx + 1}`}
                   value={tech}
                   onChange={(e) => handleTechChange(idx, e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
                 />
               ))}
             </div>
             <button
               onClick={handleAddTech}
-              className="mt-2 text-blue-600 hover:text-blue-800 text-sm font-semibold"
+              className="mt-2 text-red-400 hover:text-red-300 text-sm font-semibold transition"
             >
               + Add Technology
             </button>
@@ -147,7 +149,7 @@ export default function AdminProjects() {
             onChange={(e) =>
               setNewProject({ ...newProject, link: e.target.value })
             }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
 
           <input
@@ -157,10 +159,10 @@ export default function AdminProjects() {
             onChange={(e) =>
               setNewProject({ ...newProject, image: e.target.value })
             }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition"
           />
 
-          <label className="flex items-center gap-2">
+          <label className="flex items-center gap-2 text-slate-300">
             <input
               type="checkbox"
               checked={newProject.featured || false}
@@ -169,13 +171,13 @@ export default function AdminProjects() {
               }
               className="w-4 h-4"
             />
-            <span className="text-gray-700">Featured Project</span>
+            <span>Featured Project</span>
           </label>
 
           <div className="flex gap-4">
             <button
               onClick={handleAddProject}
-              className="flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+              className="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition font-semibold"
             >
               <Plus size={20} />
               {editingId ? 'Update' : 'Add'}
@@ -183,7 +185,7 @@ export default function AdminProjects() {
             {editingId && (
               <button
                 onClick={handleCancelEdit}
-                className="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
+                className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition font-semibold"
               >
                 Cancel
               </button>
@@ -195,13 +197,13 @@ export default function AdminProjects() {
       {/* Projects List */}
       <div className="space-y-4">
         {profile.projects.map((proj) => (
-          <div key={proj.id} className="p-4 border border-gray-300 rounded-lg">
+          <div key={proj.id} className="p-4 bg-slate-900/50 border border-slate-700 rounded-lg hover:border-red-500/30 transition">
             <div className="flex justify-between items-start mb-2">
               <div className="flex-1">
                 <div className="flex gap-2 items-center">
-                  <p className="font-bold text-gray-900">{proj.title}</p>
+                  <p className="font-bold text-white">{proj.title}</p>
                   {proj.featured && (
-                    <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">
+                    <span className="bg-red-500/10 text-red-300 text-xs px-2 py-1 rounded border border-red-500/30">
                       Featured
                     </span>
                   )}
@@ -210,24 +212,24 @@ export default function AdminProjects() {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleEditProject(proj)}
-                  className="text-blue-600 hover:text-blue-800 transition"
+                  className="text-slate-400 hover:text-red-400 transition"
                 >
                   <Edit2 size={20} />
                 </button>
                 <button
                   onClick={() => handleDeleteProject(proj.id)}
-                  className="text-red-600 hover:text-red-800 transition"
+                  className="text-slate-400 hover:text-red-400 transition"
                 >
                   <Trash2 size={20} />
                 </button>
               </div>
             </div>
-            <p className="text-gray-700 mb-2">{proj.description}</p>
+            <p className="text-slate-300 mb-2">{proj.description}</p>
             <div className="flex flex-wrap gap-2">
               {proj.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
+                  className="bg-red-500/10 text-red-300 text-xs px-2 py-1 rounded border border-red-500/30"
                 >
                   {tech}
                 </span>
@@ -238,13 +240,13 @@ export default function AdminProjects() {
       </div>
 
       {profile.projects.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-slate-400">
           No projects added yet. Add your first project above!
         </div>
       )}
 
       {saved && (
-        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-lg">
+        <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg">
           ✓ Project saved successfully!
         </div>
       )}
