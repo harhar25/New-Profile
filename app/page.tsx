@@ -8,41 +8,78 @@ import SkillsSection from '@/components/SkillsSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import LogIn from 'lucide-react/dist/esm/icons/log-in.mjs';
+import Moon from 'lucide-react/dist/esm/icons/moon.mjs';
+import Sun from 'lucide-react/dist/esm/icons/sun.mjs';
 import Link from 'next/link';
 
 export default function Home() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);
   const [isLoading, setIsLoading] = useState(true);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [showAdmin, setShowAdmin] = useState(false);
 
   useEffect(() => {
     setProfile(profileStorage.getProfile());
+    const savedTheme = window.localStorage.getItem('profile-theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      setTheme(savedTheme);
+    }
     setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.classList.toggle('light', theme === 'light');
+    window.localStorage.setItem('profile-theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const pressed = event.key.toLowerCase();
+      if (event.shiftKey && pressed === 'h') {
+        setShowAdmin((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-slate-950 transition-colors">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading profile...</p>
+          <p className="text-gray-600 dark:text-slate-300">Loading profile...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-100">
-      {/* Admin Link */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <Link
-          href="/admin"
-          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition transform hover:scale-105 font-semibold"
-          title="Admin Dashboard"
-        >
-          <LogIn size={20} />
-          <span className="hidden sm:inline">Admin</span>
-        </Link>
-      </div>
+    <main className="min-h-screen bg-gray-100 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
+      <button
+        type="button"
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        className="fixed top-6 right-6 z-50 flex items-center gap-2 rounded-full border border-slate-300 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 shadow-lg backdrop-blur transition hover:scale-105 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100"
+        aria-label="Toggle color theme"
+      >
+        {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+      </button>
+
+      {showAdmin && (
+        <div className="fixed bottom-6 right-6 z-50">
+          <Link
+            href="/admin"
+            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition transform hover:scale-105 font-semibold"
+            title="Admin Dashboard"
+          >
+            <LogIn size={20} />
+            <span className="hidden sm:inline">Admin</span>
+          </Link>
+        </div>
+      )}
 
       {/* Profile Sections */}
       <ProfileHeader profile={profile} />
