@@ -58,15 +58,17 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-100 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
-      <button
-        type="button"
-        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        className="fixed top-6 right-6 z-50 flex items-center gap-2 rounded-full border border-slate-300 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 shadow-lg backdrop-blur transition hover:scale-105 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100"
-        aria-label="Toggle color theme"
-      >
-        {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-        {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-      </button>
+      <div className="fixed top-6 right-6 z-50">
+        <button
+          type="button"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          className="flex items-center gap-2 rounded-full border border-slate-300 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 shadow-lg backdrop-blur transition hover:scale-105 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100"
+          aria-label="Toggle color theme"
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+        </button>
+      </div>
 
       {showAdmin && (
         <div className="fixed bottom-6 right-6 z-50">
