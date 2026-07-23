@@ -6,73 +6,30 @@ interface SkillsSectionProps {
   skills: Skill[];
 }
 
-const proficiencyColors = {
-  Beginner: 'bg-blue-500/10 text-blue-300 border-blue-500/30',
-  Intermediate: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30',
-  Advanced: 'bg-amber-500/10 text-amber-300 border-amber-500/30',
-  Expert: 'bg-red-500/10 text-red-300 border-red-500/30',
-};
-
-const proficiencyBorders = {
-  Beginner: 'border-blue-500/30',
-  Intermediate: 'border-emerald-500/30',
-  Advanced: 'border-amber-500/30',
-  Expert: 'border-red-500/30',
-};
-
 export default function SkillsSection({ skills }: SkillsSectionProps) {
-  // Group skills by category
-  const groupedSkills = skills.reduce(
-    (acc, skill) => {
-      if (!acc[skill.category]) {
-        acc[skill.category] = [];
-      }
-      acc[skill.category].push(skill);
-      return acc;
-    },
-    {} as Record<string, Skill[]>
-  );
+  const groupedSkills = skills.reduce((groups, skill) => {
+    (groups[skill.category] ??= []).push(skill);
+    return groups;
+  }, {} as Record<string, Skill[]>);
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <p className="text-red-400 text-sm font-semibold uppercase tracking-widest mb-2">EXPERTISE</p>
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Technical Skills & Expertise</h2>
-          <p className="text-slate-300 text-lg max-w-2xl">
-            A comprehensive collection of tools and technologies I've mastered to deliver exceptional results.
-          </p>
+    <section id="expertise" className="border-y border-white/[0.08] bg-white/[0.018] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+          <p className="section-label">02 / Capabilities</p>
+          <div><h2 className="section-title">The toolkit behind reliable growth systems.</h2><p className="section-copy">Strategy is only useful when the system can carry it. These are the capabilities I bring from setup through optimization.</p></div>
         </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
           {Object.entries(groupedSkills).map(([category, categorySkills]) => (
-            <div
-              key={category}
-              className="group p-6 bg-slate-800/50 border border-slate-700 rounded-xl hover:border-red-500/50 hover:bg-slate-800/80 transition-all duration-300"
-            >
-              <div className="mb-4 pb-4 border-b border-slate-700">
-                <h3 className="text-lg font-bold text-white group-hover:text-red-400 transition">
-                  {category}
-                </h3>
+            <article key={category} className="bg-[#0b1120] p-6 transition hover:bg-[#101a2d]">
+              <p className="text-lg font-semibold tracking-[-0.025em] text-white">{category}</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {categorySkills.map((skill) => <span key={skill.id} className="skill-pill" title={skill.proficiency}>{skill.name}</span>)}
               </div>
-              <div className="flex flex-wrap gap-2">
-                {categorySkills.map((skill) => (
-                  <div
-                    key={skill.id}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                      proficiencyColors[skill.proficiency]
-                    }`}
-                    title={skill.proficiency}
-                  >
-                    {skill.name}
-                  </div>
-                ))}
-              </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
     </section>
   );
 }
-

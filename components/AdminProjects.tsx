@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ProfileData, Project, defaultProfileData } from '@/lib/profileData';
 import { profileStorage } from '@/lib/storage';
-import Trash2 from 'lucide-react/dist/esm/icons/trash-2.mjs';
-import Plus from 'lucide-react/dist/esm/icons/plus.mjs';
-import Edit2 from 'lucide-react/dist/esm/icons/edit-2.mjs';
+import { Plus, SquarePen as Edit2, Trash2 } from 'lucide-react';
 
 export default function AdminProjects() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);

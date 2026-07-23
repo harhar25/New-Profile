@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ProfileData, defaultProfileData } from '@/lib/profileData';
 import { profileStorage } from '@/lib/storage';
-import Save from 'lucide-react/dist/esm/icons/save.mjs';
-import RotateCcw from 'lucide-react/dist/esm/icons/rotate-ccw.mjs';
+import { RotateCcw, Save } from 'lucide-react';
 
 export default function AdminPersonalInfo() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);

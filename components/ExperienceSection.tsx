@@ -6,59 +6,21 @@ interface ExperienceSectionProps {
   experiences: Experience[];
 }
 
-export default function ExperienceSection({
-  experiences,
-}: ExperienceSectionProps) {
+export default function ExperienceSection({ experiences }: ExperienceSectionProps) {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <p className="text-red-400 text-sm font-semibold uppercase tracking-widest mb-2">CAREER PATH</p>
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Professional Experience</h2>
-          <p className="text-slate-300 text-lg max-w-2xl">
-            A timeline of my professional journey and key roles that shaped my expertise.
-          </p>
+    <section id="experience" className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+          <p className="section-label">03 / Experience</p>
+          <div><h2 className="section-title">A technical foundation with a systems mindset.</h2><p className="section-copy">Every role has sharpened how I translate operational needs into practical, maintainable digital solutions.</p></div>
         </div>
-
-        <div className="space-y-6">
-          {experiences.map((exp, index) => (
-            <div key={exp.id} className="relative group">
-              {/* Timeline connector */}
-              {index !== experiences.length - 1 && (
-                <div className="absolute left-8 top-20 w-1 h-16 bg-gradient-to-b from-red-500 to-red-500/20" />
-              )}
-              
-              <div className="flex gap-6">
-                {/* Timeline dot */}
-                <div className="flex-shrink-0 relative">
-                  <div className="absolute inset-0 bg-red-500/20 rounded-full blur-lg" />
-                  <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 border-2 border-red-500 text-red-400 font-bold text-lg group-hover:bg-red-500/10 transition-colors">
-                    {index + 1}
-                  </div>
-                </div>
-
-                {/* Content card */}
-                <div className="flex-1 p-6 bg-slate-800/50 border border-slate-700 rounded-lg hover:border-red-500/50 hover:bg-slate-800/80 transition-all duration-300 group">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between sm:gap-4 mb-3">
-                    <div>
-                      <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition">
-                        {exp.title}
-                      </h3>
-                      <p className="text-red-400 font-semibold mt-1">{exp.company}</p>
-                    </div>
-                    {exp.current && (
-                      <span className="inline-block bg-red-500/10 text-red-300 border border-red-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap">
-                        Currently
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm text-slate-400 mb-3 font-medium">
-                    {exp.startDate} — {exp.current ? 'Present' : exp.endDate}
-                  </p>
-                  <p className="text-slate-300 leading-relaxed">{exp.description}</p>
-                </div>
-              </div>
-            </div>
+        <div className="border-t border-white/10">
+          {experiences.map((experience, index) => (
+            <article key={experience.id} className="grid gap-5 border-b border-white/10 py-8 transition sm:grid-cols-[150px_1fr_auto] sm:items-start hover:px-4">
+              <p className="font-mono text-xs uppercase tracking-[0.13em] text-cyan-300">{experience.startDate} — {experience.current ? 'Now' : experience.endDate}</p>
+              <div><h3 className="text-2xl font-semibold tracking-[-0.035em] text-white">{experience.title}</h3><p className="mt-1 text-sm font-medium text-lime-300">{experience.company}</p><p className="mt-4 max-w-2xl leading-7 text-slate-400">{experience.description}</p></div>
+              <span className="hidden font-mono text-sm text-slate-600 sm:block">0{index + 1}</span>
+            </article>
           ))}
         </div>
       </div>

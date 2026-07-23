@@ -2,13 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import User from 'lucide-react/dist/esm/icons/user.mjs';
-import Briefcase from 'lucide-react/dist/esm/icons/briefcase.mjs';
-import Code from 'lucide-react/dist/esm/icons/code.mjs';
-import FileText from 'lucide-react/dist/esm/icons/file-text.mjs';
-import Home from 'lucide-react/dist/esm/icons/home.mjs';
-import Menu from 'lucide-react/dist/esm/icons/menu.mjs';
-import X from 'lucide-react/dist/esm/icons/x.mjs';
+import { Briefcase, Code, FileText, Home, Menu, User, X } from 'lucide-react';
 import AdminPersonalInfo from '@/components/AdminPersonalInfo';
 import AdminSkills from '@/components/AdminSkills';
 import AdminExperience from '@/components/AdminExperience';

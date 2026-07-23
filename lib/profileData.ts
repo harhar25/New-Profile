@@ -59,7 +59,7 @@ export const defaultProfileData: ProfileData = {
     email: 'haroldjeymadjos@gmail.com',
     phone: '09518422898',
     location: 'Butuan City, Philippines',
-    avatar: '',
+    avatar: '/uploads/avatar.jpg',
   },
   skills: [
     { id: '1', name: 'GoHighLevel CRM Setup', proficiency: 'Expert', category: 'GHL Automation' },

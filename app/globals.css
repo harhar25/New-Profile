@@ -3,12 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #0f1117;
+  --background: #080d18;
   --foreground: #e8eef2;
-  --accent: #ff4444;
-  --accent-dark: #cc0000;
-  --card-bg: #161b22;
-  --border: #30363d;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -27,15 +23,19 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
 
 body {
-  background: linear-gradient(135deg, #0f1117 0%, #161b22 50%, #0f1117 100%);
+  background: #080d18;
   min-height: 100vh;
 }
 
@@ -46,15 +46,32 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 68, 68, 0.1);
+  background: #080d18;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ff4444;
+  background: #22d3ee;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #cc0000;
+  background: #a3e635;
 }
 
+.hero-grid {
+  background-image: linear-gradient(rgba(148, 163, 184, 0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+@layer components {
+  .section-label { @apply text-xs font-bold uppercase tracking-[0.18em] text-cyan-300; }
+  .section-title { @apply max-w-3xl text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-white sm:text-5xl; }
+  .section-copy { @apply mt-5 max-w-2xl text-base leading-7 text-slate-400; }
+  .project-card { @apply rounded-2xl border border-white/10 bg-[#0b1120] p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-200/30 hover:bg-[#0e1728] sm:p-8; }
+  .tech-pill { @apply rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs font-medium text-slate-300; }
+  .skill-pill { @apply rounded-md bg-white/[0.05] px-2.5 py-1.5 text-xs leading-relaxed text-slate-300; }
+  .icon-link { @apply grid h-9 w-9 place-items-center rounded-full border border-white/10 text-slate-400 transition hover:border-lime-300 hover:bg-lime-300 hover:text-slate-950; }
+  .nav-link { @apply transition hover:text-cyan-200; }
+  .footer-link { @apply inline-flex items-center gap-1.5 transition hover:text-cyan-200; }
+}

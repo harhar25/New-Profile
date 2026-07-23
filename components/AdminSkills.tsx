@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ProfileData, Skill, defaultProfileData } from '@/lib/profileData';
 import { profileStorage } from '@/lib/storage';
-import Trash2 from 'lucide-react/dist/esm/icons/trash-2.mjs';
-import Plus from 'lucide-react/dist/esm/icons/plus.mjs';
-import Save from 'lucide-react/dist/esm/icons/save.mjs';
+import { Plus, Save, Trash2 } from 'lucide-react';
 
 export default function AdminSkills() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);
