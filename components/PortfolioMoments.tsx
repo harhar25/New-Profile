@@ -1,42 +1,43 @@
+import ScrollReveal from '@/components/ScrollReveal';
+
 export default function PortfolioMoments() {
   return (
-    <section id="story" className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+    <section id="story" className="bg-[#e9e6dc] px-5 py-20 text-[#0d1728] sm:px-8 lg:px-12 lg:py-28">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-          <p className="section-label">04 / Beyond the build</p>
-          <div>
-            <h2 className="section-title">Technology is most meaningful when it shows up in the real world.</h2>
-            <p className="section-copy">A glimpse of the curiosity, collaboration, and hands-on learning behind the systems I build.</p>
-          </div>
+        <div className="max-w-3xl">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#256b83]">04 / Beyond the build</p>
+          <h2 className="mt-5 text-4xl font-semibold leading-[1.04] tracking-[-0.055em] sm:text-6xl">The work is technical. The journey is personal.</h2>
+          <p className="mt-5 max-w-xl text-base leading-7 text-slate-600">Moments that reflect the curiosity, collaboration, and consistent learning behind every system I build.</p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
-          <article className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b1120]">
-            <div className="relative aspect-[4/3] overflow-hidden">
+        <div className="mt-14 grid gap-8 lg:grid-cols-[1.18fr_0.82fr] lg:items-end">
+          <ScrollReveal className="overflow-hidden rounded-[1.5rem] bg-white p-3 shadow-[0_20px_60px_rgba(15,23,42,0.12)] sm:p-4">
+            <div className="overflow-hidden rounded-[1rem]">
               <img
                 src="/uploads/haroldExhibit.jpg"
                 alt="Harold Madjos at the ACLC College of Butuan Project Exhibit 2025"
-                className="image-reveal h-full w-full object-cover object-center"
+                className="h-auto w-full object-cover"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0b1120] via-[#0b1120]/35 to-transparent p-6 pt-24 sm:p-8 sm:pt-28">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-200">Project Exhibit 2025</p>
-                <p className="mt-2 max-w-lg text-lg font-semibold tracking-[-0.025em] text-white">Exploring AI, automation, and applied technology with the ACLC College of Butuan community.</p>
-              </div>
             </div>
-          </article>
+            <figcaption className="flex flex-col gap-2 px-2 pb-2 pt-5 sm:flex-row sm:items-end sm:justify-between">
+              <div><p className="text-sm font-bold text-[#0d1728]">Project Exhibit 2025</p><p className="mt-1 text-sm text-slate-500">ACLC College of Butuan · AI & automation</p></div>
+              <span className="font-mono text-xs text-slate-400">01 — 01</span>
+            </figcaption>
+          </ScrollReveal>
 
-          <article className="relative min-h-[450px] overflow-hidden rounded-2xl border border-cyan-200/15 bg-[radial-gradient(circle_at_50%_20%,rgba(34,211,238,0.24),transparent_38%),linear-gradient(145deg,#111d36,#090e1a)] p-6 sm:p-8">
+          <ScrollReveal className="relative min-h-[510px] overflow-hidden rounded-[1.5rem] bg-[#122541] p-7 text-white sm:p-9">
             <div className="relative z-10 max-w-[14rem]">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-lime-300">Professional focus</p>
-              <h3 className="mt-3 text-3xl font-semibold leading-[1.04] tracking-[-0.045em] text-white">Clear thinking. Reliable delivery.</h3>
-              <p className="mt-4 text-sm leading-6 text-slate-300">From ambitious ideas to practical systems that your team can use with confidence.</p>
+              <p className="text-xs font-bold uppercase tracking-[0.17em] text-[#b8ed61]">Independent specialist</p>
+              <h3 className="mt-4 text-3xl font-semibold leading-[1.02] tracking-[-0.045em]">Building systems people can trust.</h3>
+              <p className="mt-5 text-sm leading-6 text-slate-300">Thoughtful automation, clear communication, and a focus on results that last.</p>
             </div>
+            <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/25 to-transparent" />
             <img
               src="/uploads/formal-suit-cutout.png"
               alt="Harold Madjos in a formal suit"
-              className="image-reveal absolute -bottom-10 right-[-11%] h-[88%] w-auto max-w-none object-contain"
+              className="absolute bottom-[-3%] right-[-10%] h-[84%] w-auto max-w-none object-contain"
             />
-          </article>
+          </ScrollReveal>
         </div>
       </div>
     </section>

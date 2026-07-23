@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #080d18;
+  --background: #0a0a0a;
   --foreground: #e8eef2;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -35,7 +35,7 @@ html, body {
 }
 
 body {
-  background: #080d18;
+  background: #0a0a0a;
   min-height: 100vh;
 }
 
@@ -46,16 +46,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #080d18;
+  background: #0a0a0a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #22d3ee;
+  background: #d7ff4f;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a3e635;
+  background: #f5f3ed;
 }
 
 .hero-grid {
@@ -65,30 +65,33 @@ body {
 }
 
 @layer components {
-  .section-label { @apply text-xs font-bold uppercase tracking-[0.18em] text-cyan-300; }
-  .section-title { @apply max-w-3xl text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-white sm:text-5xl; }
+  .section-label { @apply text-xs font-bold uppercase tracking-[0.18em] text-[#d7ff4f]; }
+  .section-title { @apply max-w-4xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-[#f5f3ed] sm:text-6xl; }
   .section-copy { @apply mt-5 max-w-2xl text-base leading-7 text-slate-400; }
-  .project-card { @apply rounded-2xl border border-white/10 bg-[#0b1120] p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-200/30 hover:bg-[#0e1728] sm:p-8; }
-  .tech-pill { @apply rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs font-medium text-slate-300; }
-  .skill-pill { @apply rounded-md bg-white/[0.05] px-2.5 py-1.5 text-xs leading-relaxed text-slate-300; }
-  .icon-link { @apply grid h-9 w-9 place-items-center rounded-full border border-white/10 text-slate-400 transition hover:border-lime-300 hover:bg-lime-300 hover:text-slate-950; }
-  .nav-link { @apply transition hover:text-cyan-200; }
-  .footer-link { @apply inline-flex items-center gap-1.5 transition hover:text-cyan-200; }
+  .project-card { @apply rounded-none border border-white/15 bg-[#111111] p-6 transition duration-300 hover:-translate-y-1 hover:border-[#d7ff4f] hover:bg-[#171717] sm:p-8; }
+  .tech-pill { @apply border border-white/15 bg-transparent px-3 py-1.5 text-xs font-medium text-slate-300; }
+  .skill-pill { @apply border-b border-white/10 px-0 py-1.5 text-xs leading-relaxed text-slate-300; }
+  .icon-link { @apply grid h-9 w-9 place-items-center border border-white/15 text-slate-400 transition hover:border-[#d7ff4f] hover:bg-[#d7ff4f] hover:text-[#0a0a0a]; }
+  .nav-link { @apply transition hover:text-[#d7ff4f]; }
+  .footer-link { @apply inline-flex items-center gap-1.5 transition hover:text-[#d7ff4f]; }
 }
 
-.image-reveal {
-  animation: image-reveal linear both;
-  animation-timeline: view();
-  animation-range: entry 0% cover 88%;
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(52px) scale(0.96);
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 
-@keyframes image-reveal {
-  0% { opacity: 0; transform: translateY(48px) scale(0.94); }
-  35% { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 1; transform: translateY(-20px) scale(1.035); }
+.scroll-reveal.from-top {
+  transform: translateY(-52px) scale(0.96);
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .image-reveal { animation: none; }
+  .scroll-reveal { opacity: 1; transform: none; transition: none; }
 }
