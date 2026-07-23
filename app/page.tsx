@@ -8,6 +8,7 @@ import { profileStorage } from '@/lib/storage';
 import ExperienceSection from '@/components/ExperienceSection';
 import ProfileHeader from '@/components/ProfileHeader';
 import ProjectsSection from '@/components/ProjectsSection';
+import PortfolioMoments from '@/components/PortfolioMoments';
 import SkillsSection from '@/components/SkillsSection';
 
 export default function Home() {
@@ -48,6 +49,7 @@ export default function Home() {
       <ProjectsSection projects={profile.projects} />
       <SkillsSection skills={profile.skills} />
       <ExperienceSection experiences={profile.experiences} />
+      <PortfolioMoments />
 
       {certifications.length > 0 && <section id="credentials" className="border-y border-white/[0.08] bg-white/[0.018] px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto max-w-7xl"><div className="mb-12 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"><p className="section-label">04 / Credentials</p><div><h2 className="section-title">Learning built into the practice.</h2><p className="section-copy">Formal education and hands-on development that support thoughtful delivery.</p></div></div><div className="grid gap-4 md:grid-cols-2">{certifications.map((certification) => <article key={`${certification.name}-${certification.date}`} className="rounded-2xl border border-white/10 bg-[#0b1120] p-6"><Award size={22} className="text-lime-300" /><h3 className="mt-8 text-xl font-semibold tracking-[-0.025em] text-white">{certification.name}</h3><p className="mt-2 text-sm text-cyan-200">{certification.issuer}</p><p className="mt-5 font-mono text-xs uppercase tracking-[0.14em] text-slate-500">{certification.date}</p></article>)}</div></div></section>}
 
