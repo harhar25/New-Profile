@@ -1,6 +1,11 @@
 import { ProfileData, defaultProfileData } from './profileData';
 
 const PROFILE_KEY = 'userProfileData';
+const PREVIOUS_DEFAULT_AVATARS = [
+  '/uploads/avatar.jpg',
+  '/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%286%29%202%20rr%202.jpg',
+];
+const CURRENT_DEFAULT_AVATAR = '/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%2813%29%202%20rr%202.jpg';
 
 export const profileStorage = {
   getProfile: (): ProfileData => {
@@ -9,7 +14,19 @@ export const profileStorage = {
     }
     try {
       const stored = localStorage.getItem(PROFILE_KEY);
-      return stored ? JSON.parse(stored) : defaultProfileData;
+      if (!stored) return defaultProfileData;
+
+      const profile = JSON.parse(stored) as ProfileData;
+      if (PREVIOUS_DEFAULT_AVATARS.includes(profile.personalInfo.avatar ?? '')) {
+        const updatedProfile = {
+          ...profile,
+          personalInfo: { ...profile.personalInfo, avatar: CURRENT_DEFAULT_AVATAR },
+        };
+        profileStorage.saveProfile(updatedProfile);
+        return updatedProfile;
+      }
+
+      return profile;
     } catch {
       return defaultProfileData;
     }
