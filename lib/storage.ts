@@ -3,9 +3,9 @@ import { ProfileData, defaultProfileData } from './profileData';
 const PROFILE_KEY = 'userProfileData';
 const PREVIOUS_DEFAULT_AVATARS = [
   '/uploads/avatar.jpg',
-  '/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%286%29%202%20rr%202.jpg',
+  '/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%2813%29%202%20rr%202.jpg',
 ];
-const CURRENT_DEFAULT_AVATAR = '/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%2813%29%202%20rr%202.jpg';
+const CURRENT_DEFAULT_AVATAR = '/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%286%29%202%20rr%202.jpg';
 const PREVIOUS_DEFAULT_BIO = 'Graduate of BS in Computer Science at ACLC College of Butuan. I build CRM automations, AI-powered workflows, dashboards, and SEO systems that connect people, data, and business growth with reliable execution.';
 const CURRENT_DEFAULT_BIO = 'I specialize in building GoHighLevel (GHL) automations, AI-powered workflows, analytics dashboards, and SEO systems that streamline operations, connect data, and drive business growth. Backed by a Bachelor of Science in Computer Science from ACLC College of Butuan, I combine software engineering, system design, databases, and AI to deliver scalable, reliable solutions.';
 

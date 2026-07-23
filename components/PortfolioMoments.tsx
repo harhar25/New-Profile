@@ -33,9 +33,9 @@ export default function PortfolioMoments() {
             </div>
             <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/25 to-transparent" />
             <img
-              src="/uploads/formal-suit-cutout.png"
-              alt="Harold Madjos in a formal suit"
-              className="absolute bottom-[-3%] right-[-10%] h-[84%] w-auto max-w-none object-contain"
+              src="/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%2813%29%202%20rr%202.jpg"
+              alt="Harold Madjos in formal attire"
+              className="absolute inset-x-0 bottom-0 h-[72%] w-full object-cover object-top"
             />
           </ScrollReveal>
         </div>
