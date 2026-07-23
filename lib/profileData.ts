@@ -55,7 +55,7 @@ export const defaultProfileData: ProfileData = {
   personalInfo: {
     fullName: 'Harold Jey N. Madjos',
     title: 'BS in Computer Science | GHL Automation & AI Systems Specialist',
-    bio: 'Graduate of BS in Computer Science at ACLC College of Butuan. I build CRM automations, AI-powered workflows, dashboards, and SEO systems that connect people, data, and business growth with reliable execution.',
+    bio: 'I specialize in building GoHighLevel (GHL) automations, AI-powered workflows, analytics dashboards, and SEO systems that streamline operations, connect data, and drive business growth. Backed by a Bachelor of Science in Computer Science from ACLC College of Butuan, I combine software engineering, system design, databases, and AI to deliver scalable, reliable solutions.',
     email: 'haroldjeymadjos@gmail.com',
     phone: '09518422898',
     location: 'Butuan City, Philippines',
