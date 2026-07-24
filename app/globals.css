@@ -95,3 +95,25 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .scroll-reveal { opacity: 1; transform: none; transition: none; }
 }
+
+.fan-reveal {
+  opacity: 0;
+  transform: translate3d(var(--fan-offset), 72px, 0) rotate(var(--fan-rotation));
+  transform-origin: 50% 115%;
+  transition: opacity 650ms ease, transform 780ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.fan-reveal.from-top {
+  transform: translate3d(var(--fan-offset), -72px, 0) rotate(var(--fan-reverse-rotation));
+  transform-origin: 50% -15%;
+}
+
+.fan-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fan-reveal { opacity: 1; transform: none; transition: none; }
+}
