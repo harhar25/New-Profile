@@ -12,6 +12,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
     (groups[skill.category] ??= []).push(skill);
     return groups;
   }, {} as Record<string, Skill[]>);
+  const skillGroups = Object.entries(groupedSkills);
 
   return (
     <section id="expertise" className="border-y border-white/[0.08] bg-white/[0.018] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
@@ -23,8 +24,8 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
           <p className="mt-5 hidden text-xs font-semibold uppercase tracking-[0.16em] text-[#d7ff4f] lg:block">Hover a card to bring it forward</p>
         </div>
         <div className="skill-stack">
-          {Object.entries(groupedSkills).map(([category, categorySkills], index) => (
-            <FanReveal key={category} index={index}>
+          {skillGroups.map(([category, categorySkills], index) => (
+            <FanReveal key={category} index={index} total={skillGroups.length}>
               <article className="stack-card">
                 <p className="text-lg font-semibold tracking-[-0.025em] text-white">{category}</p>
                 <div className="mt-5 flex flex-wrap gap-2">

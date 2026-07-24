@@ -135,8 +135,8 @@ body {
     position: relative;
     border: 0;
     background: transparent;
-    min-height: 640px;
-    max-width: 1120px;
+    min-height: 560px;
+    max-width: 900px;
     margin: 0 auto;
     perspective: 1500px;
   }
@@ -145,7 +145,7 @@ body {
     position: absolute;
     bottom: 0;
     left: 50%;
-    width: min(32vw, 350px);
+    width: min(27vw, 310px);
     opacity: 0;
     transform: translateX(-50%) translateX(var(--fan-offset)) translateY(190px) rotate(calc(var(--fan-angle) + 240deg)) scale(0.55);
     transform-origin: 50% 115%;
@@ -154,8 +154,8 @@ body {
   }
 
   .stack-card {
-    min-height: 370px;
-    max-height: 430px;
+    min-height: 330px;
+    max-height: 390px;
     overflow: auto;
     border: 1px solid rgba(215, 255, 79, 0.38);
     box-shadow: 0 22px 60px rgba(0, 0, 0, 0.4);
