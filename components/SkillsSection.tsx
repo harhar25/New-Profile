@@ -20,6 +20,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
           <p className="section-label">02 / Capabilities</p>
           <h2 className="section-title mt-5">The toolkit behind reliable growth systems.</h2>
           <p className="section-copy">Strategy is only useful when the system can carry it. These are the capabilities I bring from setup through optimization.</p>
+          <p className="mt-5 hidden text-xs font-semibold uppercase tracking-[0.16em] text-[#d7ff4f] lg:block">Hover a card to bring it forward</p>
         </div>
         <div className="skill-stack">
           {Object.entries(groupedSkills).map(([category, categorySkills], index) => (

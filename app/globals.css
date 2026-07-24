@@ -132,36 +132,38 @@ body {
 @media (min-width: 1024px) {
   .skill-stack {
     display: block;
+    position: relative;
     border: 0;
     background: transparent;
-    max-width: 900px;
+    min-height: 640px;
+    max-width: 1120px;
     margin: 0 auto;
-    padding-bottom: 5rem;
+    perspective: 1500px;
   }
 
   .stack-reveal {
-    position: sticky;
-    top: var(--stack-top);
-    margin-bottom: 6rem;
-    opacity: 1;
-    transform: none;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: min(32vw, 350px);
+    opacity: 0;
+    transform: translateX(-50%) translateX(var(--fan-offset)) translateY(190px) rotate(calc(var(--fan-angle) + 240deg)) scale(0.55);
+    transform-origin: 50% 115%;
     transition: none;
+    will-change: transform, opacity;
   }
 
   .stack-card {
-    min-height: 290px;
-    max-height: 390px;
+    min-height: 370px;
+    max-height: 430px;
     overflow: auto;
     border: 1px solid rgba(215, 255, 79, 0.38);
     box-shadow: 0 22px 60px rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    transform: translateY(86px) scale(0.94) rotateX(7deg);
-    transform-origin: 50% 100%;
   }
 
-  .stack-reveal.is-visible .stack-card {
+  .stack-reveal.is-visible {
     opacity: 1;
-    transform: translateY(0) scale(1) rotateX(0deg);
+    animation: card-fan-spring 860ms var(--fan-delay) cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .stack-reveal:hover {
@@ -169,12 +171,19 @@ body {
   }
 
   .stack-reveal:hover .stack-card {
-    transform: translateY(-18px) scale(1.015) rotateX(0deg);
+    transform: translateY(-42px) scale(1.035);
   }
 }
 
+@keyframes card-fan-spring {
+  0% { opacity: 0; transform: translateX(-50%) translateX(var(--fan-start-offset)) translateY(230px) rotate(calc(var(--fan-angle) + 360deg)) scale(0.48); }
+  68% { opacity: 1; transform: translateX(-50%) translateX(var(--fan-offset)) translateY(-12px) rotate(var(--fan-overshoot)) scale(1.025); }
+  84% { opacity: 1; transform: translateX(-50%) translateX(var(--fan-offset)) translateY(5px) rotate(calc(var(--fan-angle) - 2deg)) scale(0.99); }
+  100% { opacity: 1; transform: translateX(-50%) translateX(var(--fan-offset)) translateY(0) rotate(var(--fan-angle)) scale(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .stack-reveal, .stack-reveal.is-visible { position: static; width: auto; opacity: 1; transform: none; }
+  .stack-reveal, .stack-reveal.is-visible { position: static; width: auto; opacity: 1; transform: none; animation: none; }
   .skill-stack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.15); }
   .stack-card { min-height: 0; max-height: none; overflow: visible; border: 0; box-shadow: none; opacity: 1; transform: none; transition: none; }
 }

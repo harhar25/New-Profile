@@ -10,6 +10,10 @@ interface FanRevealProps {
 export default function FanReveal({ children, index }: FanRevealProps) {
   const elementRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const fanAngles = [-24, -18, -13, -8, -3, 3, 8, 13, 18, 24];
+  const fanOffsets = [-128, -98, -70, -42, -14, 14, 42, 70, 98, 128];
+  const fanAngle = fanAngles[index % fanAngles.length];
+  const fanOffset = fanOffsets[index % fanOffsets.length];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,7 +26,11 @@ export default function FanReveal({ children, index }: FanRevealProps) {
   }, []);
 
   const style = {
-    '--stack-top': `${92 + index * 9}px`,
+    '--fan-angle': `${fanAngle}deg`,
+    '--fan-overshoot': `${fanAngle * 1.2}deg`,
+    '--fan-offset': `${fanOffset}px`,
+    '--fan-start-offset': `${fanOffset * 1.85}px`,
+    '--fan-delay': `${index * 70}ms`,
     zIndex: index + 1,
   } as CSSProperties;
 
