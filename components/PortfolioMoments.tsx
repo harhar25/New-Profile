@@ -25,20 +25,25 @@ export default function PortfolioMoments() {
             </figcaption>
           </ScrollReveal>
 
-          <ScrollReveal className="relative min-h-[510px] overflow-hidden rounded-[1.5rem] bg-[#122541] p-7 text-white sm:p-9">
-            <div className="relative z-10 max-w-[14rem]">
+          <ScrollReveal className="relative min-h-[530px] overflow-hidden rounded-[1.5rem] bg-[#10213a] p-7 text-white sm:p-9">
+            <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(184,237,97,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(184,237,97,0.18)_1px,transparent_1px)] [background-size:42px_42px]" />
+            <div className="absolute -right-16 top-24 h-64 w-64 rounded-full border border-[#b8ed61]/30" />
+            <div className="absolute -right-4 top-36 h-48 w-48 rounded-full border border-[#b8ed61]/20" />
+            <div className="relative z-10 max-w-[15rem]">
               <p className="text-xs font-bold uppercase tracking-[0.17em] text-[#b8ed61]">Independent specialist</p>
-              <h3 className="mt-4 text-3xl font-semibold leading-[1.02] tracking-[-0.045em]">Building systems people can trust.</h3>
+              <h3 className="mt-4 text-3xl font-semibold leading-[1.02] tracking-[-0.045em]">Systems thinking, grounded in delivery.</h3>
               <p className="mt-5 text-sm leading-6 text-slate-300">Thoughtful automation, clear communication, and a focus on results that last.</p>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/25 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 flex h-[62%] items-end justify-center px-5 pt-6">
+            <div className="absolute inset-x-7 bottom-8 top-[43%] border border-[#b8ed61]/30" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#071221] via-[#071221]/60 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 flex h-[68%] items-end justify-center px-3">
               <img
-                src="/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%2813%29%202%20rr%202.jpg"
+                src="/uploads/harold-portrait-cutout-v2.png"
                 alt="Harold Madjos in formal attire"
-                className="h-full w-full object-contain object-bottom"
+                className="relative z-10 h-full w-auto max-w-[115%] object-contain object-bottom drop-shadow-[0_24px_30px_rgba(0,0,0,0.45)]"
               />
             </div>
+            <p className="absolute bottom-7 left-8 z-20 text-[10px] font-bold uppercase tracking-[0.16em] text-[#b8ed61]">Automation systems / 2026</p>
           </ScrollReveal>
         </div>
       </div>
