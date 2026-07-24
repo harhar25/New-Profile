@@ -32,11 +32,13 @@ export default function PortfolioMoments() {
               <p className="mt-5 text-sm leading-6 text-slate-300">Thoughtful automation, clear communication, and a focus on results that last.</p>
             </div>
             <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/25 to-transparent" />
-            <img
-              src="/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%2813%29%202%20rr%202.jpg"
-              alt="Harold Madjos in formal attire"
-              className="absolute inset-x-0 bottom-0 h-[72%] w-full object-cover object-top"
-            />
+            <div className="absolute inset-x-0 bottom-0 flex h-[62%] items-end justify-center px-5 pt-6">
+              <img
+                src="/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%2813%29%202%20rr%202.jpg"
+                alt="Harold Madjos in formal attire"
+                className="h-full w-full object-contain object-bottom"
+              />
+            </div>
           </ScrollReveal>
         </div>
       </div>

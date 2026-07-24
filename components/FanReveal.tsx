@@ -7,8 +7,8 @@ interface FanRevealProps {
   index: number;
 }
 
-const rotations = [-9, 7, -5, 8, -7, 5, -8, 6, -4, 7];
-const offsets = [-56, 44, -30, 54, -46, 34, -52, 40, -28, 46];
+const fanAngles = [-42, -32, -22, -12, -4, 4, 12, 22, 32, 42];
+const fanOffsets = [-150, -115, -78, -38, -10, 10, 38, 78, 115, 150];
 
 export default function FanReveal({ children, index }: FanRevealProps) {
   const elementRef = useRef<HTMLDivElement>(null);
@@ -16,8 +16,8 @@ export default function FanReveal({ children, index }: FanRevealProps) {
   const isScrollingUp = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
   const [enteringFromTop, setEnteringFromTop] = useState(false);
-  const rotation = rotations[index % rotations.length];
-  const offset = offsets[index % offsets.length];
+  const angle = fanAngles[index % fanAngles.length];
+  const offset = fanOffsets[index % fanOffsets.length];
 
   useEffect(() => {
     const updateScrollPosition = () => {
@@ -29,7 +29,7 @@ export default function FanReveal({ children, index }: FanRevealProps) {
         setEnteringFromTop(isScrollingUp.current);
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     );
     const element = elementRef.current;
     window.addEventListener('scroll', updateScrollPosition, { passive: true });
@@ -41,10 +41,15 @@ export default function FanReveal({ children, index }: FanRevealProps) {
   }, []);
 
   const style = {
-    '--fan-rotation': `${rotation}deg`,
-    '--fan-reverse-rotation': `${-rotation}deg`,
+    '--fan-angle': `${angle}deg`,
+    '--fan-overshoot': `${angle * 1.18}deg`,
     '--fan-offset': `${offset}px`,
+    '--fan-start-offset': `${offset * 2.2}px`,
+    '--fan-settle': `${angle * 0.9}deg`,
+    '--fan-spin': enteringFromTop ? '-360deg' : '360deg',
+    '--fan-delay': `${index * 72}ms`,
+    zIndex: index + 1,
   } as CSSProperties;
 
-  return <div ref={elementRef} style={style} className={`fan-reveal ${isVisible ? 'is-visible' : ''} ${enteringFromTop ? 'from-top' : ''}`}>{children}</div>;
+  return <div ref={elementRef} style={style} className={`fan-reveal ${isVisible ? 'is-visible' : ''}`}>{children}</div>;
 }
