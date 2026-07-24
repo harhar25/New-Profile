@@ -96,92 +96,85 @@ body {
   .scroll-reveal { opacity: 1; transform: none; transition: none; }
 }
 
-.fan-deck {
+.skill-stack {
   display: grid;
   gap: 1px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.15);
 }
 
-.fan-card {
+.stack-card {
   height: 100%;
   background: #111111;
   padding: 1.5rem;
-  transition: background-color 250ms ease, transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 250ms ease, transform 550ms cubic-bezier(0.16, 1, 0.3, 1), opacity 550ms ease;
 }
 
-.fan-card:hover {
+.stack-card:hover {
   background: #191919;
 }
 
-.fan-reveal {
+.stack-reveal {
   opacity: 0;
   transform: translateY(44px) scale(0.96);
   transition: opacity 550ms ease, transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fan-reveal.is-visible {
+.stack-reveal.is-visible {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 
 @media (min-width: 640px) {
-  .fan-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skill-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1024px) {
-  .fan-deck {
+  .skill-stack {
     display: block;
-    position: relative;
-    min-height: 690px;
     border: 0;
     background: transparent;
-    perspective: 1800px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
   }
 
-  .fan-reveal {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: min(31vw, 350px);
-    opacity: 0;
-    transform: translateX(-50%) translateX(var(--fan-offset)) translateY(220px) rotate(calc(var(--fan-angle) + var(--fan-spin))) scale(0.45);
-    transform-origin: 50% 115%;
-    transition: none;
-    will-change: transform, opacity;
-  }
-
-  .fan-reveal.is-visible {
+  .stack-reveal {
+    position: sticky;
+    top: var(--stack-top);
+    margin-bottom: 6rem;
     opacity: 1;
-    animation: fan-spiral-spring 980ms var(--fan-delay) cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform: none;
+    transition: none;
   }
 
-  .fan-card {
-    min-height: 390px;
-    max-height: 440px;
+  .stack-card {
+    min-height: 290px;
+    max-height: 390px;
     overflow: auto;
-    border: 1px solid rgba(215, 255, 79, 0.35);
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(215, 255, 79, 0.38);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(86px) scale(0.94) rotateX(7deg);
+    transform-origin: 50% 100%;
   }
 
-  .fan-reveal:hover {
+  .stack-reveal.is-visible .stack-card {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+  }
+
+  .stack-reveal:hover {
     z-index: 30 !important;
   }
 
-  .fan-reveal:hover .fan-card {
-    transform: translateY(-80px) scale(1.04);
+  .stack-reveal:hover .stack-card {
+    transform: translateY(-18px) scale(1.015) rotateX(0deg);
   }
 }
 
-@keyframes fan-spiral-spring {
-  0% { opacity: 0; transform: translateX(-50%) translateX(var(--fan-start-offset)) translateY(260px) rotate(calc(var(--fan-angle) + var(--fan-spin))) scale(0.4); }
-  64% { opacity: 1; transform: translateX(-50%) translateX(var(--fan-offset)) translateY(-18px) rotate(var(--fan-overshoot)) scale(1.03); }
-  82% { opacity: 1; transform: translateX(-50%) translateX(var(--fan-offset)) translateY(8px) rotate(var(--fan-settle)) scale(0.99); }
-  100% { opacity: 1; transform: translateX(-50%) translateX(var(--fan-offset)) translateY(0) rotate(var(--fan-angle)) scale(1); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .fan-reveal, .fan-reveal.is-visible { position: static; width: auto; opacity: 1; transform: none; animation: none; }
-  .fan-deck { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.15); min-height: 0; }
-  .fan-card { min-height: 0; max-height: none; overflow: visible; border: 0; box-shadow: none; }
+  .stack-reveal, .stack-reveal.is-visible { position: static; width: auto; opacity: 1; transform: none; }
+  .skill-stack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.15); }
+  .stack-card { min-height: 0; max-height: none; overflow: visible; border: 0; box-shadow: none; opacity: 1; transform: none; transition: none; }
 }

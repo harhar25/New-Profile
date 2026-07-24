@@ -21,10 +21,10 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
           <h2 className="section-title mt-5">The toolkit behind reliable growth systems.</h2>
           <p className="section-copy">Strategy is only useful when the system can carry it. These are the capabilities I bring from setup through optimization.</p>
         </div>
-        <div className="fan-deck">
+        <div className="skill-stack">
           {Object.entries(groupedSkills).map(([category, categorySkills], index) => (
             <FanReveal key={category} index={index}>
-              <article className="fan-card">
+              <article className="stack-card">
                 <p className="text-lg font-semibold tracking-[-0.025em] text-white">{category}</p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {categorySkills.map((skill) => <span key={skill.id} className="skill-pill" title={skill.proficiency}>{skill.name}</span>)}
