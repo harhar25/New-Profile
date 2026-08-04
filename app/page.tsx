@@ -72,7 +72,7 @@ export default function Home() {
           <p className="text-xs font-bold uppercase tracking-[0.18em]">Make work move</p>
           <div className="mt-7 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <h2 className="max-w-4xl text-5xl font-semibold leading-[0.91] tracking-[-0.065em] sm:text-7xl">Ready to automate what is holding your team back?</h2>
-            <a href={`mailto:${personalInfo.email}`} className="inline-flex w-fit items-center gap-2 border border-[#0a0a0a] px-5 py-3 text-sm font-bold transition hover:bg-[#0a0a0a] hover:text-[#d7ff4f]">Start a conversation <ArrowUpRight size={17} /></a>
+            <a href="https://form.jotform.com/haroldjeymadjos/start-a-conversation" target="_blank" rel="noopener noreferrer" className="inline-flex w-fit items-center gap-2 border border-[#0a0a0a] px-5 py-3 text-sm font-bold transition hover:bg-[#0a0a0a] hover:text-[#d7ff4f]">Start a conversation <ArrowUpRight size={17} /></a>
           </div>
           <div className="mt-20 flex flex-col gap-4 border-t border-black/20 py-7 text-sm sm:flex-row sm:items-center sm:justify-between"><p>Copyright {new Date().getFullYear()} {personalInfo.fullName}</p><div className="flex gap-4">{socialLinks.linkedin && <a className="footer-link" href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={16} /> LinkedIn</a>}{socialLinks.github && <a className="footer-link" href={socialLinks.github} target="_blank" rel="noopener noreferrer"><Code size={16} /> GitHub</a>}<a className="footer-link" href={`mailto:${personalInfo.email}`}><Mail size={16} /> Email</a></div></div>
         </div>
