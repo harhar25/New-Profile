@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Professional Web Profile | BS CS & GHL Expert",
-  description: "Professional web profile showcasing expertise in GoHighLevel automation, WordPress development, AI tools, and integration platforms.",
+  title: "Harold Madjos | Automation & AI Systems Specialist",
+  description: "Portfolio of Harold Madjos, an automation and AI systems specialist building GoHighLevel workflows, integrations, dashboards, and growth systems.",
   keywords: ["GHL Expert", "Automation", "WordPress", "Web Development", "Integration"],
 };
 
@@ -28,7 +28,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }
