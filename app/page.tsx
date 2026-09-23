@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, BriefcaseBusiness, Code, LogIn, Mail } from 'lucide-react';
+import { ArrowUpRight, BriefcaseBusiness, Code, LogIn, Mail, Menu, X } from 'lucide-react';
 import { defaultProfileData, type ProfileData } from '@/lib/profileData';
 import { profileStorage } from '@/lib/storage';
 import ExperienceSection from '@/components/ExperienceSection';
@@ -16,6 +16,8 @@ const conversationUrl = 'https://form.jotform.com/haroldjeymadjos/start-a-conver
 export default function Home() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [navScrolled, setNavScrolled] = useState(false);
 
   useEffect(() => {
     const profileTimer = window.setTimeout(() => setProfile(profileStorage.getProfile()), 0);
@@ -25,41 +27,48 @@ export default function Home() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.shiftKey && event.key.toLowerCase() === 'h') setShowAdmin((visible) => !visible);
+      if (event.key === 'Escape') setMenuOpen(false);
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setNavScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const { personalInfo, socialLinks, certifications } = profile;
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050505] text-[#f1f0eb]">
-      <nav className="fixed inset-x-0 top-0 z-50 overflow-hidden border-b border-white/10 bg-[#050505]/75 backdrop-blur-xl">
-        <div className="site-nav-inner flex h-[72px] min-w-0 items-center">
-          <a href="#about" className="flex items-center gap-3 text-white">
-            <span className="grid h-9 w-9 place-items-center rounded-full border border-white/40 text-[10px] font-bold">HM</span>
-            <span className="hidden text-[10px] font-bold uppercase tracking-[0.13em] text-white/70 sm:block">Harold Madjos</span>
-          </a>
-
-          <div className="hidden items-center gap-7 text-[9px] font-bold uppercase tracking-[0.13em] text-white/45 md:flex">
-            <a href="#chapter-one" className="nav-link">Profile</a>
-            <a href="#work" className="nav-link">Works</a>
-            <a href="#expertise" className="nav-link">Capabilities</a>
-            <a href="#experience" className="nav-link">Experience</a>
-          </div>
-
-          <a
-            href={conversationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-contact ml-auto inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-white/25 px-4 py-2.5 text-[9px] font-bold uppercase tracking-[0.12em] transition hover:border-white hover:bg-white hover:text-black"
-          >
-            <span className="hidden sm:inline">Get in touch</span>
-            <span className="sm:hidden">Contact</span>
-            <ArrowUpRight size={13} />
-          </a>
+    <main className="luxury-site min-h-screen overflow-hidden">
+      <nav className={`site-nav fixed inset-x-0 top-0 z-50 text-white ${navScrolled || menuOpen ? 'is-scrolled' : ''}`} aria-label="Main navigation">
+        <div className="site-nav-inner relative flex h-[86px] items-center justify-between sm:h-[100px]">
+          <button type="button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} aria-controls="site-menu" className="nav-menu-button flex items-center gap-3 text-[11px] font-medium">
+            {menuOpen ? <X size={21} strokeWidth={1.4} /> : <Menu size={21} strokeWidth={1.4} />}
+            <span>{menuOpen ? 'Close' : 'Menu'}</span>
+          </button>
+          <a href="#about" onClick={() => setMenuOpen(false)} aria-label="Harold Madjos, back to top" className="brand-mark absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">HM</a>
+          <a href="#contact" onClick={() => setMenuOpen(false)} className="nav-contact inline-flex items-center gap-2 text-[11px] font-medium"><span className="hidden sm:inline">Get in touch</span><span className="sm:hidden">Contact</span><ArrowUpRight size={14} strokeWidth={1.4} /></a>
         </div>
       </nav>
+      <div id="site-menu" className={`site-menu ${menuOpen ? 'is-open' : ''}`} aria-hidden={!menuOpen}>
+        <div className="site-menu-inner">
+          <p className="eyebrow text-white/40">Explore / Harold Madjos</p>
+          {[
+            ['01', 'The introduction', '#chapter-one'],
+            ['02', 'Selected work', '#work'],
+            ['03', 'Expertise', '#expertise'],
+            ['04', 'Experience', '#experience'],
+            ['05', 'Get in touch', '#contact'],
+          ].map(([number, label, href]) => (
+            <a key={href} href={href} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="site-menu-link"><span>{number}</span>{label}<ArrowUpRight size={23} strokeWidth={1} /></a>
+          ))}
+          <p className="mt-10 text-xs text-white/40">Independent automation & AI systems specialist · Butuan City, Philippines</p>
+        </div>
+      </div>
 
       <ProfileHeader profile={profile} />
       <ProjectsSection projects={profile.projects} />
