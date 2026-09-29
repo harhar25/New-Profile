@@ -62,7 +62,9 @@ export default function Home() {
             ['02', 'Selected work', '#work'],
             ['03', 'Expertise', '#expertise'],
             ['04', 'Experience', '#experience'],
-            ['05', 'Get in touch', '#contact'],
+            ['05', 'In motion', '#story'],
+            ['06', 'Credentials', '#credentials'],
+            ['07', 'Get in touch', '#contact'],
           ].map(([number, label, href]) => (
             <a key={href} href={href} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="site-menu-link"><span>{number}</span>{label}<ArrowUpRight size={23} strokeWidth={1} /></a>
           ))}
