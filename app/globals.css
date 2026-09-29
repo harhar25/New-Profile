@@ -206,6 +206,14 @@ body {
   overflow-x: clip;
 }
 
+.scroll-orb {
+  position: fixed;
+  z-index: 8;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.68;
+}
+
 .luxury-site .page-shell { max-width: 1480px; }
 .luxury-site .eyebrow,
 .luxury-site .chapter-label {

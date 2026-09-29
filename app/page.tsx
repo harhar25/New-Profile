@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ArrowUpRight, BriefcaseBusiness, Code, LogIn, Mail, Menu, X } from 'lucide-react';
 import { defaultProfileData, type ProfileData } from '@/lib/profileData';
@@ -11,6 +12,8 @@ import ProfileHeader from '@/components/ProfileHeader';
 import ProjectsSection from '@/components/ProjectsSection';
 import SkillsSection from '@/components/SkillsSection';
 import WorkflowPoster from '@/components/WorkflowPoster';
+
+const ScrollOrb = dynamic(() => import('@/components/ScrollOrb'), { ssr: false });
 
 const conversationUrl = 'https://form.jotform.com/haroldjeymadjos/start-a-conversation';
 
@@ -45,6 +48,7 @@ export default function Home() {
 
   return (
     <main className="luxury-site min-h-screen overflow-hidden">
+      <ScrollOrb />
       <nav className={`site-nav fixed inset-x-0 top-0 z-50 text-white ${navScrolled || menuOpen ? 'is-scrolled' : ''}`} aria-label="Main navigation">
         <div className="site-nav-inner relative flex h-[86px] items-center justify-between sm:h-[100px]">
           <button type="button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} aria-controls="site-menu" className="nav-menu-button flex items-center gap-3 text-[11px] font-medium">
