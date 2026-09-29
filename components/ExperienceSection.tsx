@@ -13,7 +13,7 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
       <div className="page-shell">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-2">
-            <p className="chapter-label text-white/40">Chapter IV / Experience</p>
+            <p className="chapter-label text-white/40">Chapter V / Experience</p>
           </div>
           <div className="lg:col-span-7">
             <h2 className="editorial-heading max-w-[10ch] font-light uppercase">

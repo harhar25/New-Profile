@@ -51,7 +51,7 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
         </div>
         <div className="privy-hero-bottom">
           <a href="#chapter-one" className="hero-scroll-link"><span className="circle-arrow"><ArrowDown size={17} strokeWidth={1.2} /></span><span>Scroll to explore</span></a>
-          <span className="hero-index">01 / 07 &nbsp;·&nbsp; Butuan City, Philippines</span>
+          <span className="hero-index">01 / 08 &nbsp;·&nbsp; Butuan City, Philippines</span>
         </div>
         <a href="#work" className="hero-feature-card" aria-label="Explore selected work">
           <Image src="/uploads/haroldExhibit.jpg" alt="" fill sizes="220px" className="object-cover object-center" />

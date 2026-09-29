@@ -75,7 +75,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
       <div className="page-shell">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-2">
-            <p className="chapter-label text-white/40">Chapter II / Works</p>
+            <p className="chapter-label text-white/40">Chapter III / Works</p>
           </div>
           <div className="lg:col-span-7">
             <h2 className="editorial-heading max-w-[10ch] font-light uppercase">

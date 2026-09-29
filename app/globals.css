@@ -25,7 +25,7 @@ html {
 html,
 body {
   min-height: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
@@ -203,6 +203,7 @@ body {
 .luxury-site {
   background: #181715;
   color: #f6f2ec;
+  overflow-x: clip;
 }
 
 .luxury-site .page-shell { max-width: 1480px; }
@@ -247,6 +248,172 @@ body {
   background-image: linear-gradient(rgba(232,226,216,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,216,.06) 1px,transparent 1px);
 }
 .luxury-site .group:hover .project-surface { box-shadow: inset 0 0 0 1px rgba(189,161,127,.6); }
+
+.workflow-poster-track {
+  position: relative;
+  background: #e8e2d8;
+  color: #f6f2ec;
+}
+.workflow-poster-pin {
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  height: 100svh;
+  padding: clamp(1rem,4vmin,2.5rem);
+}
+.workflow-poster-card {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #171613;
+  box-shadow: 0 24px 80px rgba(80,50,50,.12);
+}
+.workflow-poster-visual {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 76% 38%,#57473e 0%,#292421 44%,#121210 78%);
+}
+.workflow-poster-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(246,242,236,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(246,242,236,.06) 1px,transparent 1px);
+  background-size: clamp(36px,5vw,72px) clamp(36px,5vw,72px);
+  mask-image: linear-gradient(to bottom,black,transparent 92%);
+}
+.workflow-poster-portrait {
+  z-index: 1;
+  object-fit: contain;
+  object-position: right bottom;
+  opacity: .76;
+  filter: grayscale(1) sepia(.22) contrast(1.08);
+  transform: translateY(var(--poster-portrait-offset,0));
+  transition: transform .2s linear;
+}
+.workflow-poster-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg,rgba(18,18,16,.48),transparent 78%),
+    linear-gradient(0deg,rgba(18,18,16,.88),transparent 40%,rgba(18,18,16,.2));
+}
+.workflow-poster-kicker,
+.workflow-poster-location {
+  position: absolute;
+  z-index: 3;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.workflow-poster-kicker {
+  top: clamp(1.5rem,5vw,4rem);
+  left: clamp(1.5rem,5vw,5rem);
+  color: rgba(246,242,236,.7);
+}
+.workflow-poster-title {
+  position: absolute;
+  z-index: 3;
+  top: 15%;
+  left: 4%;
+  margin: 0;
+  font-size: clamp(5rem,15vw,16rem);
+  font-weight: 300;
+  line-height: .78;
+  letter-spacing: -.1em;
+  white-space: nowrap;
+}
+.workflow-poster-title span {
+  display: inline-block;
+  transition: opacity .18s ease,transform .18s ease;
+  will-change: opacity,transform;
+}
+.workflow-poster-location {
+  right: clamp(1.5rem,5vw,5rem);
+  bottom: clamp(1.5rem,4vw,3.5rem);
+  color: rgba(246,242,236,.62);
+}
+.workflow-poster-copy-viewport {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  will-change: transform;
+  transition: transform .18s linear;
+}
+.workflow-poster-copy {
+  position: relative;
+  display: flex;
+  min-height: 38svh;
+  flex-direction: column;
+  padding: clamp(1.25rem,4.5vw,3.5rem);
+  background: linear-gradient(0deg,rgba(24,23,21,.98),rgba(24,23,21,.87) 70%,rgba(24,23,21,0));
+}
+.workflow-poster-keywords,
+.workflow-poster-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: rgba(246,242,236,.62);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.workflow-poster-copy h3 {
+  max-width: 14ch;
+  margin-top: clamp(1.5rem,3vw,2.5rem);
+  font-size: clamp(2.1rem,5vw,5.5rem);
+  font-weight: 300;
+  line-height: .94;
+  letter-spacing: -.065em;
+}
+.workflow-poster-copy > p:not(.workflow-poster-subheadline) {
+  max-width: 610px;
+  margin-top: 1.2rem;
+  color: rgba(246,242,236,.72);
+  font-size: clamp(.8rem,1.05vw,1rem);
+  line-height: 1.7;
+}
+.workflow-poster-copy .workflow-poster-subheadline {
+  margin-top: 1.1rem;
+  color: #c5a987;
+  font-size: clamp(1rem,1.7vw,1.35rem);
+}
+.workflow-poster-footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  font-size: 8px;
+  letter-spacing: .1em;
+}
+.workflow-poster-track.is-static {
+  height: auto !important;
+  padding: 1rem 0 2rem;
+}
+.workflow-poster-track.is-static .workflow-poster-pin {
+  position: relative;
+  height: auto;
+}
+.workflow-poster-track.is-static .workflow-poster-card {
+  min-height: 720px;
+}
+.workflow-poster-track.is-static .workflow-poster-copy-viewport {
+  transform: none !important;
+}
 
 .site-nav { transition: background .5s ease, border-color .5s ease; border-bottom: 1px solid transparent; }
 .site-nav.is-scrolled { background: rgba(24,23,21,.94); border-color: rgba(255,255,255,.12); backdrop-filter: blur(18px); }
@@ -455,6 +622,20 @@ body {
   .intro-bio { margin-top: 2rem; }
   .intro-stats { gap: .35rem; }
   .intro-stats dt { font-size: 8px; }
+  .workflow-poster-pin { padding: .75rem; }
+  .workflow-poster-card { min-height: 590px; border-radius: 8px; }
+  .workflow-poster-kicker { top: 1.5rem; left: 1.25rem; }
+  .workflow-poster-title { top: 22%; left: 5%; font-size: clamp(4.3rem,19vw,8rem); }
+  .workflow-poster-portrait { right: -19%; width: 115%; opacity: .66; }
+  .workflow-poster-location { right: 1.25rem; bottom: 1.3rem; font-size: 8px; }
+  .workflow-poster-copy { min-height: 48svh; padding: 1.25rem; }
+  .workflow-poster-keywords,
+  .workflow-poster-footer { gap: .5rem; font-size: 7px; letter-spacing: .1em; }
+  .workflow-poster-copy h3 { max-width: 12ch; margin-top: 1.5rem; font-size: clamp(2rem,9vw,3.5rem); }
+  .workflow-poster-copy > p:not(.workflow-poster-subheadline) { max-width: 32ch; font-size: .8rem; }
+  .workflow-poster-copy .workflow-poster-subheadline { font-size: 1rem; }
+  .workflow-poster-footer { padding-top: 1.5rem; }
+  .workflow-poster-track.is-static .workflow-poster-card { min-height: 710px; }
   .luxury-site #story.gallery-chapter { min-height: 700px; height: 100svh; }
   .gallery-heading { padding: 6rem 1rem 11rem; }
   .gallery-heading > .eyebrow { max-width: 250px; line-height: 1.7; margin-bottom: 1.5rem; }

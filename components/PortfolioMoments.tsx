@@ -10,7 +10,7 @@ const galleryImages: GalleryImage[] = [
     alt: 'Harold Madjos at the ACLC College of Butuan Project Exhibit 2025',
   },
   {
-    src: '/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%286%29%202%20rr%202.jpg',
+    src: '/uploads/harold-graduation-portrait-1.jpg',
     alt: 'Graduation portrait of Harold Madjos',
   },
   {
@@ -22,7 +22,7 @@ const galleryImages: GalleryImage[] = [
     alt: 'Formal portrait of Harold Madjos',
   },
   {
-    src: '/uploads/MADJOS%2C%20HAROLD%20JEY%20N%20BSCS%20%2813%29%202%20rr%202.jpg',
+    src: '/uploads/harold-graduation-portrait-2.jpg',
     alt: 'Studio portrait of Harold Madjos in formal Filipino attire',
   },
 ];
@@ -45,7 +45,7 @@ export default function PortfolioMoments() {
 
       <div className="gallery-vignette" aria-hidden="true" />
       <div className="gallery-heading pointer-events-none">
-        <p className="eyebrow">05 &nbsp;/&nbsp; Beyond the systems</p>
+        <p className="eyebrow">06 &nbsp;/&nbsp; Beyond the systems</p>
         <h2 id="gallery-title">
           <span className="script-word">Selected</span>
           <span>Moments in motion</span>

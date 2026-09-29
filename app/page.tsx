@@ -10,6 +10,7 @@ import PortfolioMoments from '@/components/PortfolioMoments';
 import ProfileHeader from '@/components/ProfileHeader';
 import ProjectsSection from '@/components/ProjectsSection';
 import SkillsSection from '@/components/SkillsSection';
+import WorkflowPoster from '@/components/WorkflowPoster';
 
 const conversationUrl = 'https://form.jotform.com/haroldjeymadjos/start-a-conversation';
 
@@ -59,12 +60,13 @@ export default function Home() {
           <p className="eyebrow text-white/40">Explore / Harold Madjos</p>
           {[
             ['01', 'The introduction', '#chapter-one'],
-            ['02', 'Selected work', '#work'],
-            ['03', 'Expertise', '#expertise'],
-            ['04', 'Experience', '#experience'],
-            ['05', 'In motion', '#story'],
-            ['06', 'Credentials', '#credentials'],
-            ['07', 'Get in touch', '#contact'],
+            ['02', 'The approach', '#approach'],
+            ['03', 'Selected work', '#work'],
+            ['04', 'Expertise', '#expertise'],
+            ['05', 'Experience', '#experience'],
+            ['06', 'In motion', '#story'],
+            ['07', 'Credentials', '#credentials'],
+            ['08', 'Get in touch', '#contact'],
           ].map(([number, label, href]) => (
             <a key={href} href={href} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="site-menu-link"><span>{number}</span>{label}<ArrowUpRight size={23} strokeWidth={1} /></a>
           ))}
@@ -73,6 +75,11 @@ export default function Home() {
       </div>
 
       <ProfileHeader profile={profile} />
+      <WorkflowPoster
+        fullName={personalInfo.fullName}
+        location={personalInfo.location}
+        title={personalInfo.title}
+      />
       <ProjectsSection projects={profile.projects} />
       <SkillsSection skills={profile.skills} />
       <ExperienceSection experiences={profile.experiences} />
@@ -83,7 +90,7 @@ export default function Home() {
           <div className="page-shell">
             <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
               <div className="lg:col-span-2">
-                <p className="chapter-label text-white/40">Chapter VI / Credentials</p>
+                <p className="chapter-label text-white/40">Chapter VII / Credentials</p>
               </div>
               <div className="lg:col-span-7">
                 <h2 className="editorial-heading max-w-[9ch] font-light uppercase">
@@ -115,7 +122,7 @@ export default function Home() {
 
       <footer id="contact" className="bg-[#eceae4] px-5 pb-8 pt-24 text-[#0a0a0a] sm:px-8 lg:px-12 lg:pt-36">
         <div className="page-shell">
-          <p className="chapter-label text-black/45">Chapter VII / Contact</p>
+          <p className="chapter-label text-black/45">Chapter VIII / Contact</p>
           <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:items-end">
             <h2 className="editorial-heading max-w-[11ch] font-light uppercase lg:col-span-9">
               Better systems
