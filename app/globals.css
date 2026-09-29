@@ -419,7 +419,48 @@ body {
 .site-nav.is-scrolled { background: rgba(24,23,21,.94); border-color: rgba(255,255,255,.12); backdrop-filter: blur(18px); }
 .site-nav-inner { width: min(calc(100% - 3.5rem), 1480px); }
 .nav-menu-button, .nav-contact { transition: opacity .25s ease; }
-.nav-menu-button:hover, .nav-contact:hover { opacity: .58; }
+.nav-contact:hover { opacity: .58; }
+.nav-menu-button {
+  width: 46px;
+  height: 46px;
+  justify-content: flex-start;
+  gap: 0;
+  overflow: hidden;
+  padding: 0 12px;
+  border: 1px solid rgba(24,23,21,.12);
+  border-radius: 999px;
+  background: rgba(246,242,236,.96);
+  color: #181715;
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+  white-space: nowrap;
+  transition: width .38s cubic-bezier(.2,.8,.2,1),background-color .25s ease,box-shadow .25s ease,transform .25s ease;
+}
+.nav-menu-button svg { flex: 0 0 auto; }
+.nav-menu-button span {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width .3s ease,opacity .2s ease,margin-left .3s ease;
+}
+.nav-menu-button:hover,
+.nav-menu-button:focus-visible,
+.nav-menu-button[aria-expanded="true"] {
+  width: 104px;
+  background: #f6f2ec;
+  box-shadow: 0 7px 22px rgba(0,0,0,.2);
+}
+.nav-menu-button:hover span,
+.nav-menu-button:focus-visible span,
+.nav-menu-button[aria-expanded="true"] span {
+  max-width: 52px;
+  margin-left: .7rem;
+  opacity: 1;
+}
+.nav-menu-button:focus-visible {
+  outline: 2px solid #b89b78;
+  outline-offset: 3px;
+}
+.nav-menu-button:active { transform: scale(.96); }
 .brand-mark {
   display: grid;
   place-items: center;
@@ -648,7 +689,7 @@ body {
   .gallery-static { grid-template-columns: repeat(2,1fr); gap: 1rem; padding: 4rem 1rem 8rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .privy-hero-portrait,.privy-hero-content,.hero-feature-card,.hero-feature-card img,.site-menu,.site-menu-link { transition: none; transform: none; }
+  .privy-hero-portrait,.privy-hero-content,.hero-feature-card,.hero-feature-card img,.site-menu,.site-menu-link,.nav-menu-button,.nav-menu-button span { transition: none; transform: none; }
   .privy-hero-portrait { transform: none; }
   .privy-hero-content { opacity: 1; }
   .gallery-static.is-loading { animation: none; }
