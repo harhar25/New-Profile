@@ -211,7 +211,41 @@ body {
   z-index: 8;
   inset: 0;
   pointer-events: none;
-  opacity: 0.68;
+  opacity: 0.94;
+}
+
+.scroll-orb canvas { display: block; pointer-events: none; }
+.flight-controls {
+  position: fixed;
+  z-index: 35;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgba(220, 200, 173, .25);
+  border-radius: 999px;
+  background: rgba(24, 23, 21, .86);
+  color: #eee3d3;
+  backdrop-filter: blur(12px);
+}
+.flight-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.flight-controls button:hover { background: rgba(220, 200, 173, .14); }
+.flight-controls button:focus-visible { outline: 2px solid #e8c593; outline-offset: 3px; }
+@media (max-width: 699px) {
+  .flight-controls { left: 10px; bottom: max(10px, env(safe-area-inset-bottom)); }
+  .flight-controls button { min-height: 38px; padding-inline: 10px; }
 }
 
 .luxury-site .page-shell { max-width: 1480px; }
