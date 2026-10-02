@@ -1,0 +1,44 @@
+.chat { width: 100%; margin-top: 25px; overflow: hidden; border: 1px solid #e7d3b52a; border-radius: 16px; background: #22201d; text-align: left; pointer-events: auto; }
+.header { display: flex; align-items: center; gap: 11px; padding: 16px 18px; border-bottom: 1px solid #e7d3b514; background: #ffffff03; }
+.botIcon { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid #d7be982b; border-radius: 50%; color: #d7be98; background: #d7be980c; }
+.header strong { display: block; color: #eee5d7; font-size: 13px; font-weight: 500; }
+.header div > span { display: block; margin-top: 3px; color: #9d9487; font-size: 9px; line-height: 1.4; }
+.reset { display: grid; width: 32px; height: 32px; margin-left: auto; place-items: center; border-radius: 50%; color: #c6b49c; }
+.reset:hover { background: #ffffff0b; }
+.reset:disabled { opacity: .25; cursor: default; }
+.log { display: flex; flex-direction: column; gap: 17px; height: 245px; padding: 20px 18px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #9d826051 transparent; }
+.message { max-width: 96%; font-size: 12px; line-height: 1.8; }
+.message p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.speaker { display: block; margin-bottom: 5px; color: #958979; font-size: 8px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.assistant { align-self: flex-start; color: #ded8ce; }
+.user { align-self: flex-end; padding: 10px 14px; border: 1px solid #d0b58e19; border-radius: 12px 12px 2px 12px; background: #bda17f13; color: #f0e2cd; }
+.sources { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.sources span { max-width: 100%; padding: 2px 7px; border: 1px solid #e0c9a722; border-radius: 5px; color: #b4a491; font-size: 8px; overflow-wrap: anywhere; }
+.starters { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 18px 15px; }
+.starters button { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 5px 9px; border: 1px solid #d7be982b; border-radius: 7px; color: #c4b298; font-size: 9px; text-align: left; transition: background .2s; }
+.starters button:hover { background: #d7be9812; }
+.composer { display: flex; align-items: flex-end; gap: 9px; margin: 0 12px; padding: 10px 9px 10px 13px; border: 1px solid #d4bd9d30; border-radius: 10px; background: #171613; }
+.composer:focus-within { border-color: #c7a6799c; }
+.composer textarea { flex: 1; width: 100%; min-width: 0; max-height: 100px; resize: none; border: 0; outline: 0; background: transparent; color: #eee4d5; font-size: 12px; line-height: 1.6; }
+.composer textarea::placeholder { color: #8f8270; }
+.send { display: grid; flex: 0 0 34px; width: 34px; height: 34px; place-items: center; border-radius: 8px; background: #d3b58c; color: #211d17; transition: background .2s; }
+.send:hover { background: #e6ceaa; }
+.send:disabled { opacity: .3; cursor: default; }
+.footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 9px; padding: 12px 16px 14px; font-size: 8px; color: #998d7c; line-height: 1.5; }
+.footer button { display: inline-flex; align-items: center; gap: 4px; min-height: 28px; color: #d4bda0; }
+.thinking { display: flex; gap: 4px; padding: 6px 0; }
+.thinking > span:not(:last-child) { width: 4px; height: 4px; border-radius: 50%; background: #c9b18e; animation: pulse 1s ease-in-out infinite; }
+.thinking > span:nth-child(2) { animation-delay: .15s; }
+.thinking > span:nth-child(3) { animation-delay: .3s; }
+.error { padding: 10px 12px; border: 1px solid #ccab7833; border-radius: 8px; color: #dcc8aa; font-size: 11px; line-height: 1.7; }
+.error button { margin-top: 6px; text-decoration: underline; text-underline-offset: 3px; }
+.chat button:focus-visible, .log:focus-visible { outline: 2px solid #d7be98; outline-offset: 3px; }
+@keyframes pulse { 50% { opacity: .25; transform: translateY(-3px); } }
+@media (max-width: 800px) {
+  .chat { margin-top: 20px; }
+  .log { height: 220px; }
+  .composer textarea { font-size: 16px; }
+  .header, .log { padding-inline: 14px; }
+  .starters { padding-inline: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .thinking > span:not(:last-child) { animation: none; } }

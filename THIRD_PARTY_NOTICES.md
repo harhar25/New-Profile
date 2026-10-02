@@ -1,5 +1,15 @@
 # Third-party notices
 
+## Spline robot scene
+
+The interactive robot embeds the publicly hosted Spline scene featured in Serafim's Spline Scene demo:
+
+https://21st.dev/community/components/serafim/splite
+
+Scene: https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode
+
+The scene is loaded from its original host using `@splinetool/react-spline` and `@splinetool/runtime`. It is not bundled as an original portfolio asset. Replace the scene URL in `components/RobotShowcase.tsx` to use a custom Spline export.
+
 ## Vuesic InfiniteGallery
 
 The 3D gallery in `components/ui/3d-gallery-photography.tsx` is adapted from the Vuesic InfiniteGallery project:

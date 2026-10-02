@@ -203,7 +203,7 @@ body {
 .luxury-site {
   background: #181715;
   color: #f6f2ec;
-  overflow-x: clip;
+  overflow: clip;
 }
 
 .scroll-orb {

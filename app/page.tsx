@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ArrowUpRight, BriefcaseBusiness, Code, LogIn, Mail, Menu, X } from 'lucide-react';
@@ -12,16 +12,24 @@ import ProfileHeader from '@/components/ProfileHeader';
 import ProjectsSection from '@/components/ProjectsSection';
 import SkillsSection from '@/components/SkillsSection';
 import WorkflowPoster from '@/components/WorkflowPoster';
+import RobotShowcase from '@/components/RobotShowcase';
 
 const ScrollOrb = dynamic(() => import('@/components/ScrollOrb'), { ssr: false });
-
-const conversationUrl = 'https://form.jotform.com/haroldjeymadjos/start-a-conversation';
+const ContactDialog = dynamic(() => import('@/components/ContactDialog'), { ssr: false });
 
 export default function Home() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfileData);
   const [showAdmin, setShowAdmin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [navScrolled, setNavScrolled] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const contactTrigger = useRef<HTMLButtonElement>(null);
+
+  function openContact() {
+    if (menuOpen) contactTrigger.current?.focus({ preventScroll: true });
+    setMenuOpen(false);
+    setContactOpen(true);
+  }
 
   useEffect(() => {
     const profileTimer = window.setTimeout(() => setProfile(profileStorage.getProfile()), 0);
@@ -47,8 +55,8 @@ export default function Home() {
   const { personalInfo, socialLinks, certifications } = profile;
 
   return (
-    <main className="luxury-site min-h-screen overflow-hidden">
-      <ScrollOrb />
+    <main className="luxury-site min-h-screen">
+      <ScrollOrb suspended={contactOpen} />
       <nav className={`site-nav fixed inset-x-0 top-0 z-50 text-white ${navScrolled || menuOpen ? 'is-scrolled' : ''}`} aria-label="Main navigation">
         <div className="site-nav-inner relative flex h-[86px] items-center justify-between sm:h-[100px]">
           <button type="button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} aria-controls="site-menu" className="nav-menu-button flex items-center gap-3 text-[11px] font-medium">
@@ -56,7 +64,7 @@ export default function Home() {
             <span>{menuOpen ? 'Close' : 'Menu'}</span>
           </button>
           <a href="#about" onClick={() => setMenuOpen(false)} aria-label="Harold Madjos, back to top" className="brand-mark absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">HM</a>
-          <a href="#contact" onClick={() => setMenuOpen(false)} className="nav-contact inline-flex items-center gap-2 text-[11px] font-medium"><span className="hidden sm:inline">Get in touch</span><span className="sm:hidden">Contact</span><ArrowUpRight size={14} strokeWidth={1.4} /></a>
+          <button ref={contactTrigger} type="button" onClick={openContact} aria-haspopup="dialog" className="nav-contact inline-flex items-center gap-2 text-[11px] font-medium"><span className="hidden sm:inline">Get in touch</span><span className="sm:hidden">Contact</span><ArrowUpRight size={14} strokeWidth={1.4} /></button>
         </div>
       </nav>
       <div id="site-menu" className={`site-menu ${menuOpen ? 'is-open' : ''}`} aria-hidden={!menuOpen}>
@@ -72,7 +80,10 @@ export default function Home() {
             ['07', 'Credentials', '#credentials'],
             ['08', 'Get in touch', '#contact'],
           ].map(([number, label, href]) => (
-            <a key={href} href={href} tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} className="site-menu-link"><span>{number}</span>{label}<ArrowUpRight size={23} strokeWidth={1} /></a>
+            <a key={href} href={href} tabIndex={menuOpen ? 0 : -1} aria-haspopup={href === '#contact' ? 'dialog' : undefined} onClick={(event) => {
+              if (href === '#contact') { event.preventDefault(); openContact(); }
+              else setMenuOpen(false);
+            }} className="site-menu-link"><span>{number}</span>{label}<ArrowUpRight size={23} strokeWidth={1} /></a>
           ))}
           <p className="mt-10 text-xs text-white/40">Independent automation & AI systems specialist · Butuan City, Philippines</p>
         </div>
@@ -84,6 +95,7 @@ export default function Home() {
         location={personalInfo.location}
         title={personalInfo.title}
       />
+      <RobotShowcase suspended={contactOpen} onContact={openContact} />
       <ProjectsSection projects={profile.projects} />
       <SkillsSection skills={profile.skills} />
       <ExperienceSection experiences={profile.experiences} />
@@ -135,15 +147,15 @@ export default function Home() {
             </h2>
             <div className="lg:col-span-3 lg:pb-3">
               <p className="text-sm leading-6 text-black/50">Have a workflow that feels harder than it should? Let&apos;s shape a clearer way forward.</p>
-              <a
-                href={conversationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={openContact}
+                aria-haspopup="dialog"
                 className="mt-7 inline-flex items-center gap-3 rounded-full bg-black px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#d7ff4f] hover:text-black"
               >
                 Start a conversation
                 <ArrowUpRight size={14} />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -176,6 +188,8 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {contactOpen && <ContactDialog open={contactOpen} onClose={() => setContactOpen(false)} email={personalInfo.email} fullName={personalInfo.fullName} />}
 
       {showAdmin && (
         <Link href="/admin" className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.12em] text-white shadow-xl transition hover:border-white">

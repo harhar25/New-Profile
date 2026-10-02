@@ -224,12 +224,12 @@ function FlightScene({ paused, reducedMotion }: { paused: boolean; reducedMotion
   );
 }
 
-export default function ScrollOrb() {
+export default function ScrollOrb({ suspended = false }: { suspended?: boolean }) {
   const reducedMotion = useSyncExternalStore(subscribeMotion, () => window.matchMedia(mediaQuery).matches, () => true);
   const pageVisible = useSyncExternalStore(subscribeVisibility, () => !document.hidden, () => true);
   const [paused, setPaused] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const stopped = paused || !pageVisible;
+  const stopped = paused || !pageVisible || suspended;
 
   return (
     <>
