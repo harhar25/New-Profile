@@ -21,7 +21,7 @@ export default function HomeSections() {
       <PortfolioLinksSection />
       <RobotShowcase suspended={contactOpen || menuOpen} onContact={openContact} />
       <ExperienceSection experiences={profile.experiences} />
-      <PortfolioMoments />
+      <PortfolioMoments suspended={contactOpen || menuOpen} />
       <CredentialsSection certifications={profile.certifications} />
     </>
   );

@@ -1,0 +1,30 @@
+.stream { position: absolute; inset: 0; container-type: inline-size; overflow: hidden; pointer-events: none; }
+.perspective { position: absolute; inset: 0; perspective: 30cqw; perspective-origin: 50% 55%; }
+.rails { position: absolute; inset: 0; transform-style: preserve-3d; }
+.card {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  width: 18cqw;
+  height: 25cqw;
+  margin-left: -9cqw;
+  margin-top: -12.5cqw;
+  overflow: hidden;
+  border: 1px solid #d8c3a333;
+  border-radius: .4cqw;
+  background: #36322d;
+  backface-visibility: hidden;
+  animation-duration: 24s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+.stream[data-running='true'] .card { animation-play-state: running; }
+.image { object-fit: cover; filter: saturate(.65) sepia(.12); }
+@media (max-width: 640px) {
+  /* A wider virtual stage keeps the photos legible on narrow screens. */
+  .stream { left: -45%; right: -45%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stream[data-running='true'] .card { animation-play-state: paused; }
+}

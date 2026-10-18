@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { Pause, Play } from 'lucide-react';
-import InfiniteGallery, { type GalleryImage } from '@/components/ui/3d-gallery-photography';
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { ArrowUpRight, Pause, Play } from 'lucide-react';
+import ImageStream, { type StreamImage } from '@/components/ui/ImageStream';
+import styles from './PortfolioMoments.module.css';
 
-const galleryImages: GalleryImage[] = [
+const galleryImages: StreamImage[] = [
   {
     src: '/uploads/haroldExhibit.jpg',
     alt: 'Harold Madjos at the ACLC College of Butuan Project Exhibit 2025',
@@ -27,41 +29,56 @@ const galleryImages: GalleryImage[] = [
   },
 ];
 
-export default function PortfolioMoments() {
+export default function PortfolioMoments({ suspended = false }: { suspended?: boolean }) {
+  const section = useRef<HTMLElement>(null);
   const [paused, setPaused] = useState(false);
+  const [active, setActive] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(true);
+
+  useEffect(() => {
+    const element = section.current;
+    if (!element) return;
+    let inView = false;
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => {
+      setReducedMotion(preference.matches);
+      setActive(inView && !document.hidden);
+    };
+    const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; update(); });
+    observer.observe(element);
+    preference.addEventListener('change', update);
+    document.addEventListener('visibilitychange', update);
+    update();
+    return () => {
+      observer.disconnect();
+      preference.removeEventListener('change', update);
+      document.removeEventListener('visibilitychange', update);
+    };
+  }, []);
 
   return (
-    <section id="story" className="gallery-chapter" aria-labelledby="gallery-title">
-      <InfiniteGallery
-        images={galleryImages}
-        speed={1.2}
-        zSpacing={3}
-        visibleCount={10}
-        falloff={{ near: 0.8, far: 14 }}
-        paused={paused}
-        describedBy="gallery-instructions"
-        className="gallery-canvas"
-      />
-
-      <div className="gallery-vignette" aria-hidden="true" />
-      <div className="gallery-heading pointer-events-none">
-        <p className="eyebrow">06 &nbsp;/&nbsp; Beyond the systems</p>
+    <section id="story" ref={section} className={styles.section} aria-labelledby="gallery-title">
+      <ImageStream images={galleryImages} running={active && !paused && !reducedMotion && !suspended} />
+      <div className={styles.vignette} aria-hidden="true" />
+      <div className={styles.heading}>
+        <p className={styles.eyebrow}>06 &nbsp;/&nbsp; Beyond the systems</p>
         <h2 id="gallery-title">
-          <span className="script-word">Selected</span>
-          <span>Moments in motion</span>
+          Moments that <em>shape the work.</em>
         </h2>
-        <p>Curiosity, craft, and the people behind every system.</p>
+        <p className={styles.description}>Behind every workflow is a person who keeps learning.<br />A few frames from my journey.</p>
       </div>
-
-      <div className="gallery-meta">
-        <p id="gallery-instructions">
-          Use the mouse wheel, arrow keys, or touch to navigate
-          <span>Autoplay resumes after 3 seconds of inactivity</span>
+      <div className={styles.footer}>
+        <p className={styles.caption}>
+          <span>Harold Madjos / Selected moments</span>
+          From the project exhibit to graduation.<br />Curiosity, craft, and a little perspective.
         </p>
-        <button type="button" className="gallery-pause" onClick={() => setPaused((value) => !value)} aria-pressed={paused}>
-          {paused ? <Play size={14} strokeWidth={1.5} /> : <Pause size={14} strokeWidth={1.5} />}
-          {paused ? 'Play gallery' : 'Pause gallery'}
-        </button>
+        <div className={styles.controls}>
+          <Link href="/projects" className={styles.link}>See what I build <ArrowUpRight size={14} /></Link>
+          <button type="button" className={styles.pause} onClick={() => setPaused((value) => !value)} aria-pressed={paused} disabled={reducedMotion}>
+            {paused || reducedMotion ? <Play size={14} strokeWidth={1.5} /> : <Pause size={14} strokeWidth={1.5} />}
+            {reducedMotion ? 'Still gallery' : paused ? 'Play gallery' : 'Pause gallery'}
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -275,12 +275,10 @@ body {
 .luxury-site #experience,
 .luxury-site #credentials { background: #181715; color: #f6f2ec; }
 .luxury-site #expertise,
-.luxury-site #story,
 .luxury-site #contact { background: #e8e2d8; color: #181715; }
 .luxury-site #work,
 .luxury-site #expertise,
 .luxury-site #experience,
-.luxury-site #story,
 .luxury-site #credentials { padding-top: clamp(8rem, 16vw, 16rem); padding-bottom: clamp(8rem, 16vw, 16rem); }
 .luxury-site .project-surface {
   background: radial-gradient(circle at 65% 35%, #5a5148 0%, #302b27 25%, #171613 74%);
