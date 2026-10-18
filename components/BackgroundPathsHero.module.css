@@ -11,10 +11,11 @@
   color: #18181b;
   padding: 140px 24px 32px;
 }
-.background { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .43; }
-.paths { position: absolute; inset: 0; width: 100%; height: 100%; color: #18181b; }
-.path { stroke-dasharray: .3 1; animation: flowing-path var(--duration) linear var(--delay) infinite; }
-.hero[data-running="false"] .path { animation-play-state: paused; }
+.background { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: #fafafa; }
+.paths { position: absolute; inset: 0; width: 100%; height: 100%; color: #71717a; animation: background-drift 24s ease-in-out infinite alternate; }
+.paths:nth-child(2) { animation-direction: alternate-reverse; }
+.path { stroke-linecap: round; }
+.hero[data-running="false"] .paths { animation-play-state: paused; }
 .content { position: relative; z-index: 1; width: 100%; max-width: 1100px; text-align: center; animation: content-reveal 1.8s ease backwards; }
 .eyebrow { margin-bottom: 26px; color: #71717a; font-size: 10px; font-weight: 500; letter-spacing: .21em; text-transform: uppercase; }
 .title { display: flex; flex-wrap: wrap; justify-content: center; column-gap: .25em; font-size: clamp(3.5rem, 8.1vw, 7.75rem); font-weight: 650; letter-spacing: -.075em; line-height: 1.08; }
@@ -25,7 +26,7 @@
 }
 .description { margin: 30px auto 0; color: #71717a; font-size: clamp(.9rem, 1.25vw, 1.1rem); line-height: 1.85; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 22px 28px; margin-top: 37px; }
-.buttonFrame { display: inline-block; padding: 1px; border-radius: 18px; background: linear-gradient(to bottom, #0002, #fff6); box-shadow: 0 6px 24px #0000000c; backdrop-filter: blur(12px); transition: box-shadow .3s; }
+.buttonFrame { display: inline-block; padding: 1px; border-radius: 18px; background: linear-gradient(to bottom, #0002, #fff6); box-shadow: 0 6px 24px #0000000c; transition: box-shadow .3s; }
 .primary { display: flex; align-items: center; justify-content: center; gap: 22px; min-height: 62px; padding: 17px 28px; border: 1px solid #0000000d; border-radius: 17px; background: #ffffffef; color: #18181b; font-size: 14px; font-weight: 600; transition: transform .3s, background .3s; }
 .buttonFrame:hover { box-shadow: 0 12px 30px #00000013; }
 .primary:hover { transform: translateY(-2px); background: #fff; }
@@ -38,15 +39,15 @@
 .motionButton { text-transform: inherit; letter-spacing: inherit; padding: 7px 10px; border: 1px solid #00000012; border-radius: 999px; background: #ffffffaa; }
 .motionButton:disabled { opacity: .55; cursor: default; }
 .hero a:focus-visible, .motionButton:focus-visible { outline: 2px solid #18181b; outline-offset: 5px; }
-@keyframes flowing-path {
-  0%, 100% { stroke-dasharray: .3 1; stroke-dashoffset: 0; opacity: .3; }
-  50% { stroke-dasharray: 1 1; stroke-dashoffset: -1; opacity: .6; }
+@keyframes background-drift {
+  from { transform: translateY(-8px); }
+  to { transform: translateY(8px); }
 }
 @keyframes letter-reveal { from { transform: translateY(100px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes content-reveal { from { opacity: 0; } to { opacity: 1; } }
 @media (max-width: 639px) {
   .hero { padding: 112px 20px max(24px, env(safe-area-inset-bottom)); gap: 28px; }
-  .background { opacity: .29; }
+  .paths { opacity: .7; }
   .paths { width: 180%; max-width: none; left: -40%; }
   .title { flex-direction: column; font-size: clamp(3.5rem, 17vw, 5.8rem); line-height: 1.04; }
   .eyebrow { max-width: 230px; margin: 0 auto 25px; line-height: 1.8; font-size: 9px; }
@@ -78,7 +79,6 @@
   .actions { margin-top: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .path, .content, .letter { animation: none; }
-  .path { stroke-dasharray: none; opacity: .4; }
+  .paths, .content, .letter { animation: none; }
   .primary, .primary svg, .secondary span, .buttonFrame { transition: none; }
 }

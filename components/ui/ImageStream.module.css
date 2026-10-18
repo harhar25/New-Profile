@@ -5,10 +5,10 @@
   position: absolute;
   top: 55%;
   left: 50%;
-  width: 18cqw;
-  height: 25cqw;
-  margin-left: -9cqw;
-  margin-top: -12.5cqw;
+  width: 32cqw;
+  height: 20cqw;
+  margin-left: -16cqw;
+  margin-top: -10cqw;
   overflow: hidden;
   border: 1px solid #d8c3a333;
   border-radius: .4cqw;
@@ -20,7 +20,7 @@
   animation-play-state: paused;
 }
 .stream[data-running='true'] .card { animation-play-state: running; }
-.image { object-fit: cover; filter: saturate(.65) sepia(.12); }
+.image { object-fit: contain; }
 @media (max-width: 640px) {
   /* A wider virtual stage keeps the photos legible on narrow screens. */
   .stream { left: -45%; right: -45%; }

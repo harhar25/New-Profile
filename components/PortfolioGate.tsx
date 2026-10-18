@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import styles from './PortfolioGate.module.css';
 
 const VIDEO = 'https://cdn.21st.dev/assets/mirror/21/21a77eac28eacbb7e142016eefeaa0b4a766619e51113629a3bc6df6af066c0f.mp4';
@@ -13,13 +13,15 @@ export default function PortfolioGate({ children }: { children: ReactNode }) {
   const video = useRef<HTMLVideoElement>(null);
   const content = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Direct section links and return visits within this tab go straight to the work.
     let seen = false;
     try { seen = sessionStorage.getItem('portfolio-entered') === 'true'; } catch {}
     if (window.location.hash || seen) {
-      const timer = window.setTimeout(() => setEntered(true), 0);
-      return () => window.clearTimeout(timer);
+      // Resolve the browser-only entry decision before paint so return visits
+      // do not flash the dark video gate over the light landing page.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEntered(true);
     }
   }, []);
 

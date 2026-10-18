@@ -9,18 +9,19 @@ import styles from './BackgroundPathsHero.module.css';
 function FloatingPaths({ position }: { position: number }) {
   return (
     <svg className={styles.paths} viewBox="0 0 696 316" fill="none" aria-hidden="true">
-      {Array.from({ length: 36 }, (_, index) => (
+      {Array.from({ length: 18 }, (_, line) => {
+        const index = line * 2;
+        return (
         <path
           key={index}
           d={`M-${380 - index * 5 * position} -${189 + index * 6}C-${380 - index * 5 * position} -${189 + index * 6} -${312 - index * 5 * position} ${216 - index * 6} ${152 - index * 5 * position} ${343 - index * 6}C${616 - index * 5 * position} ${470 - index * 6} ${684 - index * 5 * position} ${875 - index * 6} ${684 - index * 5 * position} ${875 - index * 6}`}
           stroke="currentColor"
-          strokeWidth={0.5 + index * 0.03}
-          strokeOpacity={Math.min(1, 0.1 + index * 0.03)}
-          pathLength={1}
+          strokeWidth={0.65 + line * 0.025}
+          strokeOpacity={0.12 + line * 0.008}
           className={styles.path}
-          style={{ '--duration': `${20 + (index * 7 % 11)}s`, '--delay': `${-index * 0.65}s` } as CSSProperties}
         />
-      ))}
+        );
+      })}
     </svg>
   );
 }
