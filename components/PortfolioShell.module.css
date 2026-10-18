@@ -1,0 +1,17 @@
+.shell { isolation: isolate; }
+.shell[data-tone="light"] { background: #fafafa; }
+.nav { color: #f6f2ec; }
+.lightNav { color: #18181b; }
+.lightNav .brand { border-color: #18181b60; }
+.navStart { display: flex; align-items: center; gap: 28px; }
+.routeLinks { display: flex; align-items: center; gap: 26px; font-size: 11px; font-weight: 500; }
+.routeLinks a { padding-block: 8px; border-bottom: 1px solid transparent; transition: opacity .2s, border-color .2s; }
+.routeLinks a:hover { opacity: .6; }
+.routeLinks a[aria-current="page"] { border-bottom-color: currentColor; }
+.nav a:focus-visible, .nav button:focus-visible, .menuLink:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+.menuInner { margin-block: 130px 70px; }
+.menu.menu { align-items: flex-start; transition: opacity .45s ease, transform .45s ease; }
+.menuLink { font-size: clamp(2.3rem, 4.5vw, 4rem); padding-block: .55rem; }
+.menuContact { width: 100%; text-align: left; }
+@media (max-width: 767px) { .routeLinks { display: none; } }
+@media (max-width: 639px) { .menuLink { font-size: clamp(1.8rem, 8.4vw, 2.8rem); } }
