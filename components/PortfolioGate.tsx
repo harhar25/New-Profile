@@ -137,7 +137,7 @@ export default function PortfolioGate({ children }: { children: ReactNode }) {
         <div className={styles.progress} aria-hidden="true"><div /></div>
       </div>}
       <div ref={content} tabIndex={-1} hidden={!entered} className={styles.content}>{children}</div>
-      <noscript><style>{`.${styles.gate}{display:none!important}.${styles.content}[hidden]{display:block!important}`}</style></noscript>
+      <noscript><style>{`.${styles.gate}{display:none!important}.${styles.content}[hidden]{display:block!important;visibility:visible!important}`}</style></noscript>
     </>
   );
 }

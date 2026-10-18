@@ -33,5 +33,7 @@
 .progress { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #ffffff1f; }
 .progress div { height: 100%; background: linear-gradient(90deg, #ffffff80, #fffffff2); transform: scaleX(var(--progress)); transform-origin: left; }
 .content { outline: none; }
+/* Keep layout and font metrics stable while the entrance covers the page. */
+.content[hidden] { display: block; visibility: hidden; }
 @keyframes bounce { 0%, 100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(5px); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .hint { display: none; } .video, .enter { transition: none; } }
