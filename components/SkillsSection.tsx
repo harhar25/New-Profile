@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import AutomationCallout from './AutomationCallout';
 import type { Skill } from '@/lib/profileData';
 import SystemIllustration from './SystemIllustration';
 import styles from './FeatureBlocks.module.css';
@@ -42,7 +41,7 @@ export default function SkillsSection({ skills }: { skills: Skill[] }) {
             </article>
           ))}
         </div>
-        <div className={styles.callout}><div><strong>Explore the thinking behind the toolkit.</strong><p>Connect a few nodes and run your first sample workflow.</p></div><Link href="/automation">Try an automation <ArrowUpRight size={16} /></Link></div>
+        <AutomationCallout title="Put the toolkit in motion." description="Connect a few nodes and run your first sample workflow." />
       </div>
     </section>
   );

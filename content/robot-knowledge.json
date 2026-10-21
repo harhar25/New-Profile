@@ -3,7 +3,7 @@
     {
       "id": "services-overview",
       "title": "Services and areas of focus",
-      "content": "Harold specializes in GoHighLevel CRM and workflow automation, Make.com integrations, AI-assisted operations, analytics dashboards, and local SEO systems. His portfolio includes lead routing, follow-up workflows, calendars, forms, Google Business Profile automation, reporting, and data synchronization."
+      "content": "Harold specializes in GoHighLevel CRM and workflow automation, Make.com integrations, AI-assisted operations, analytics dashboards, and local SEO systems. His portfolio includes lead routing, follow-up workflows, calendars, forms, Google Business Profile automation, reporting, and data synchronization. Published examples also include n8n lead intake and validation flows, an importable n8n editorial draft pipeline, a Zapier lead-to-spreadsheet workflow screenshot, and website builds. View /projects for the examples and /skills for the listed skill proficiency levels."
     },
     {
       "id": "starting-a-project",
@@ -18,7 +18,22 @@
     {
       "id": "about-this-guide",
       "title": "About the portfolio guide",
-      "content": "Orbit is Harold's robot portfolio guide. It helps visitors explore his background, skills, projects, and public contact information. It is an assistant, not Harold himself. Its knowledge comes from the portfolio and owner-maintained reference notes. It does not learn or permanently remember facts from visitor messages."
+      "content": "Orbit is Harold's robot portfolio guide. It helps visitors explore his background, skills, projects, public screenshot gallery, automation playground, English listening certificate, and public contact information. It is an assistant, not Harold himself. Its knowledge comes from the portfolio and owner-maintained reference notes. It does not learn or permanently remember facts from visitor messages, execute workflows, or send inquiries."
+    },
+    {
+      "id": "playground-how-to",
+      "title": "How to build, connect, and run a sample automation",
+      "content": "Open /automation and choose an n8n-, GoHighLevel-, Make-, or Zapier-inspired view. Each view loads a starter workflow. Use Add a step to add a filter, tag, email, CRM, or sheet node. Drag a node's grip to move it, or focus the grip and use arrow keys. Connect by clicking an output port and then an input port, or use the From/To form below the canvas. Click a node to edit its name and settings. Enter a sample lead and choose Run workflow. Inspect the run log and final sample data. A score filter stops its descendants when the score is below its threshold. Remove connections with their X buttons. The canvas can scroll and zoom; mobile users can swipe to find steps."
+    },
+    {
+      "id": "playground-limits",
+      "title": "Playground simulation, live integrations, and saving workflows",
+      "content": "The automation playground at /automation is an interactive browser simulation. It does not send real email, update a live CRM, add real spreadsheet rows, or connect external accounts. It needs no API keys. Email, CRM, and spreadsheet actions show previews in the run log. Edits last for the current page visit; switching tools loads a fresh starter, and reloading loses edits. The playground has no workflow import, export, or persistent save. It supports up to 16 nodes, one trigger, branching outputs, and one input per action. It rejects loops and disconnected steps. The separate AI Editorial Draft Pipeline JSON on /projects is an importable n8n demo; that download is not an export of the playground."
+    },
+    {
+      "id": "site-navigation",
+      "title": "Where to find portfolio pages, photos, and credentials",
+      "content": "The homepage is /. The introduction at /#chapter-one uses Harold's graduation portrait in a black gown with a purple hood. The English listening certificate is directly after the introduction at /#english-proficiency, with its preview and PDF view/download links. Projects and the screenshot archive are at /projects and /projects#project-gallery. Skills are at /skills. The interactive automation lab is at /automation. Meet Orbit at /#playground; this homepage robot section is different from the automation builder page. Experience is at /#experience and other credentials are at /#credentials. Use the Menu to navigate or Get in touch to contact Harold."
     }
   ]
 }

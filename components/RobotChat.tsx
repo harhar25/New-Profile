@@ -6,8 +6,8 @@ import styles from './RobotChat.module.css';
 
 type Message = { role: 'user' | 'assistant'; content: string; sources?: { id: string; title: string }[] };
 type Mode = 'ai' | 'knowledge';
-const greeting: Message = { role: 'assistant', content: "Hi, I’m Orbit. Ask me about Harold’s work, his services, or an idea you’d like to explore." };
-const starters = ['What can Harold help with?', 'Show me his projects', 'How do we get started?'];
+const greeting: Message = { role: 'assistant', content: "Hi, I’m Orbit. I can help you explore Harold’s work, screenshots, automation playground, and English listening certificate." };
+const starters = ['Show me his projects', 'How do I use the automation playground?', 'What is his English proficiency?'];
 
 export default function RobotChat({ onContact, onThinkingChange }: { onContact: () => void; onThinkingChange: (thinking: boolean) => void }) {
   const [messages, setMessages] = useState<Message[]>([greeting]);

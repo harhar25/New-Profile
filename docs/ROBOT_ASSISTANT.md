@@ -44,6 +44,10 @@ Good reference notes use descriptive titles, natural question wording, specific 
 
 Public profile details, skills, projects, experience, education, and contact links also come directly from `lib/profileData.ts`. The current admin editor stores changes in the browser, so those local edits do not automatically update the server robot. Update the source file for facts that should be published to all visitors.
 
+Orbit also reads the editorial workflow and certificate facts shared with their UI components in `lib/portfolioHighlights.ts`, the current screenshot manifest in `lib/projectScreenshots.ts`, and the playground's tool and node lists in `lib/automationPlayground.ts`. It knows the five published projects, current gallery count and navigation, the sample automation builder, and the C1 Advanced English listening certificate and PDF. These entries distinguish browser simulations from live integrations and the listening self-assessment from an official examination or a four-skill language result. The shared data keeps counts, dates, and download paths aligned with the site.
+
+`content/robot-knowledge.json` supplies the playground instructions and limits, site navigation, and other owner-maintained notes. Specific certificate, screenshot, and playground questions take priority over generic project/contact keywords; follow-up questions about live playground actions preserve their topic. The chat's starter questions highlight the current projects, playground, and English certificate.
+
 Restart development or rebuild and redeploy after editing knowledge. The JSON is bundled into the server at build time. There is deliberately no unauthenticated web endpoint for changing its knowledge.
 
 ### What “training” means here
@@ -88,5 +92,7 @@ Only `user` and `assistant` roles are accepted. The last message must be from th
 - The assistant cannot confirm current prices or availability, book a meeting, or send an inquiry. It directs visitors to Get in touch for those actions.
 
 ## Verify changes
+
+Run `npm run test:orbit` for retrieval, follow-up, certificate scope, screenshot counts, and API contract checks. The AI-mode test substitutes a local provider response; it makes no external request and uses no live API credit.
 
 With no API key, check the mode endpoint and ask about skills, projects, pricing, and an unknown topic. Follow up with “Tell me more about that.” Confirm relevant reference passages appear and unknown facts are not invented. After adding a key, repeat those checks and verify that a bad key or network interruption produces a useful retry message. Test a new knowledge entry by asking a question whose answer exists only in that entry.

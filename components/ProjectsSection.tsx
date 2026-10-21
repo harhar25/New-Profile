@@ -1,24 +1,15 @@
 'use client';
 
 import { ArrowUpRight, Download } from 'lucide-react';
-import Link from 'next/link';
+import AutomationCallout from './AutomationCallout';
 import SystemIllustration from './SystemIllustration';
 import styles from './FeatureBlocks.module.css';
 import type { Project } from '@/lib/profileData';
+import { editorialPipelineProject as n8nWorkflowProject } from '@/lib/portfolioHighlights';
 
 interface ProjectsSectionProps {
   projects: Project[];
 }
-
-const n8nWorkflowProject: Project = {
-  id: 'n8n-ai-editorial-pipeline',
-  title: 'AI Editorial Draft Pipeline',
-  description:
-    'An importable n8n workflow that validates a content brief, generates an article draft with OpenAI, and saves it to WordPress for editorial review. It never publishes automatically.',
-  technologies: ['n8n', 'OpenAI', 'WordPress', 'Webhooks', 'Human Review'],
-  link: '/downloads/n8n-ai-editorial-pipeline.json',
-  featured: true,
-};
 
 export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const otherProjects = projects.filter((project) => project.id !== n8nWorkflowProject.id);
@@ -49,10 +40,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             </article>
           ))}
         </div>
-        <div className={styles.callout}>
-          <div><strong>From a diagram to something you can try.</strong><p>Build a sample automation, connect the steps, and watch the data move.</p></div>
-          <Link href="/automation">Open the playground <ArrowUpRight size={16} /></Link>
-        </div>
+        <AutomationCallout title="From a diagram to something you can try." description="Build a sample automation, connect the steps, and watch the data move." />
         <section id="n8n-research" aria-labelledby="n8n-research-title" className="mt-28 border-t border-white/20 pt-10 lg:mt-40 lg:pt-14">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-2">

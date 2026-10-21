@@ -17,7 +17,7 @@ export default function IntroductionSection({ profile }: { profile: ProfileData 
         <div className="intro-grid">
           <ScrollReveal className="intro-photo-wrap">
             <div className="intro-photo">
-              <Image src="/uploads/harold-portrait-cutout-v2.png" alt="Portrait of Harold Madjos" fill sizes="(min-width: 900px) 42vw, 100vw" className="object-contain object-bottom" />
+              <Image src="/uploads/harold-graduation-portrait-1.jpg" alt="Graduation portrait of Harold Madjos" fill sizes="(min-width: 900px) 42vw, 100vw" className="object-cover object-top" />
               <span className="intro-photo-label">HM / 2026</span>
             </div>
           </ScrollReveal>
