@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { usePortfolio } from '@/components/PortfolioShell';
 import ProjectsSection from '@/components/ProjectsSection';
+import ProjectScreenshotGallery from '@/components/ProjectScreenshotGallery';
 import styles from '@/components/PortfolioPages.module.css';
 
 export default function ProjectsPageContent() {
@@ -38,11 +39,12 @@ export default function ProjectsPageContent() {
             <Link href="/#chapter-one" className={styles.homeLink}>
               <ArrowLeft size={14} aria-hidden="true" /> Back to the introduction
             </Link>
-            <a href="#work" className={styles.sectionLink}>Discover the work <span aria-hidden="true">↓</span></a>
+            <a href="#project-gallery" className={styles.sectionLink}>View project screenshots <span aria-hidden="true">↓</span></a>
           </div>
         </div>
       </header>
 
+      <ProjectScreenshotGallery />
       <ProjectsSection projects={profile.projects} />
     </div>
   );
