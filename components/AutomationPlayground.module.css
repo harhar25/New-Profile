@@ -46,7 +46,8 @@
 .canvasHelp > span > svg { flex-shrink: 0; }
 .canvasHelp label { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .canvasHelp select { width: 75px; margin: 0; }
-.viewport { overflow: auto; max-height: 660px; background: #18191d; overscroll-behavior-x: contain; }
+.viewport { overflow: auto; max-height: 660px; background: #18191d; overscroll-behavior-x: contain; touch-action: none; cursor: grab; }
+.viewport[data-panning='true'], .viewport[data-dragging='true'], .viewport[data-dragging='true'] button { cursor: grabbing !important; }
 .canvas { position: relative; transform-origin: top left; background-image: radial-gradient(#ffffff1e 1px, transparent 1px); background-size: 22px 22px; }
 .wires { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
 .wires path { fill: none; stroke: #65676e; stroke-width: 2; }
@@ -54,12 +55,13 @@
 .wires path[data-active='true'] { stroke: var(--accent); stroke-dasharray: 8 6; animation: flow 1s linear infinite; }
 .node { position: absolute; width: 190px; height: 88px; border: 1px solid #57585e; border-radius: 10px; background: #2b2c31; box-shadow: 0 6px 15px #0003; }
 .node[data-selected='true'] { outline: 2px solid var(--accent); outline-offset: 3px; z-index: 3; }
+.node[data-dragging='true'] { z-index: 6; outline: 2px solid var(--accent); outline-offset: 3px; box-shadow: 0 14px 30px #0006; }
 .node[data-status='success'] { border-color: #81c19a; }
 .node[data-status='running'] { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
 .node[data-status='skipped'] { opacity: .55; }
 .grip { position: absolute; top: 3px; left: 5px; padding: 4px 8px; color: #aaa7a0; cursor: grab !important; touch-action: none; z-index: 1; }
 .grip:active { cursor: grabbing !important; }
-.nodeBody { display: flex; align-items: center; gap: 10px; width: 100%; height: 100%; padding: 23px 12px 10px; text-align: left; border-radius: inherit; }
+.nodeBody { display: flex; align-items: center; gap: 10px; width: 100%; height: 100%; padding: 23px 12px 10px; text-align: left; border-radius: inherit; cursor: grab !important; touch-action: none; user-select: none; }
 .nodeIcon { flex-shrink: 0; color: var(--accent); }
 .nodeBody strong { display: block; font-size: 11px; line-height: 1.4; font-weight: 500; max-width: 125px; overflow-wrap: anywhere; }
 .nodeBody small { display: block; font-size: 8px; color: #aaa7a0; line-height: 1.4; margin-top: 6px; }

@@ -63,6 +63,8 @@ test('playground questions retrieve instructions ahead of general services', () 
   assert.equal(answer.chunks[0].id, 'playground-how-to');
   assert.match(answer.reply, /output port and then an input port/);
   assert.match(answer.reply, /Drag an output port/);
+  assert.match(answer.reply, /Drag a node card/);
+  assert.match(answer.reply, /Drag empty canvas space to pan/);
   assert.match(answer.reply, /Press Escape/);
   assert.match(answer.reply, /\/automation/);
   assert.match(answer.reply, /Run workflow/);

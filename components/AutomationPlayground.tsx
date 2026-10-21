@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Check, CircleHelp, Database, Filter, GripVertical, Mail, Play, Plus, RotateCcw, Square, Table2, Tag, Trash2, Webhook, X } from 'lucide-react';
 import { connectionError, nodeTypes, platforms, simulateWorkflow, starterWorkflow, type NodeKind, type Platform, type SampleLead, type StepResult, type WorkflowNode } from '@/lib/automationPlayground';
 import { useWorkflowConnections } from './useWorkflowConnections';
+import { useWorkflowCanvas } from './useWorkflowCanvas';
 import styles from './AutomationPlayground.module.css';
 
 const icons = { trigger: Webhook, filter: Filter, tag: Tag, email: Mail, crm: Database, sheet: Table2 };
@@ -28,15 +29,15 @@ export default function AutomationPlayground() {
   const viewport = useRef<HTMLDivElement>(null);
   const runToken = useRef(0);
   const sequence = useRef(10);
-  const drag = useRef<{ id: string; pointer: number; x: number; y: number; startX: number; startY: number } | null>(null);
   const current = nodes.find(node => node.id === selected);
   const vertical = platform === 'ghl' || platform === 'zapier';
   const connection = useWorkflowConnections({ canvas, viewport, nodes, edges, zoom, disabled: running, onConnect: connect, onNotice: setNotice });
+  const movement = useWorkflowCanvas({ canvas, viewport, zoom, disabled: running || !!connection.preview, maxX: WIDTH - NODE_WIDTH - 12, maxY: HEIGHT - NODE_HEIGHT - 12, onMove: moveNode });
   const connecting = connection.source;
   const previewSource = nodes.find(node => node.id === connection.preview?.source);
   const connectionHint = connection.preview
     ? connection.preview.error ?? (connection.preview.target ? `Release to connect to ${nodes.find(node => node.id === connection.preview?.target)?.label}.` : 'Drop onto a highlighted input. Hold near an edge to scroll. Press Escape to cancel.')
-    : 'Drag an output dot to an input to connect. Drag a grip to move a step. Click ports to connect, too.';
+    : 'Drag a card to move it. Drag empty canvas to pan. Connect an output dot to an input.';
 
   useEffect(() => () => { runToken.current++; }, []);
   useEffect(() => {
@@ -50,7 +51,7 @@ export default function AutomationPlayground() {
     runToken.current++;
     const starter = starterWorkflow(next);
     setPlatform(next); setNodes(empty ? starter.nodes.slice(0, 1) : starter.nodes); setEdges(empty ? [] : starter.edges);
-    setSelected(null); connection.clear(); drag.current = null; setFrom(''); setTo(''); setRunning(false); invalidate();
+    setSelected(null); connection.clear(); movement.clear(); setFrom(''); setTo(''); setRunning(false); invalidate();
     setNotice(empty ? 'Canvas cleared. Add a step and connect it to the trigger.' : `${platforms.find(item => item.id === next)?.name} starter loaded. Choose Disconnect all to wire the steps yourself.`);
   }
 
@@ -65,7 +66,7 @@ export default function AutomationPlayground() {
   function add(kind: NodeKind) {
     if (running) return;
     if (nodes.length >= 16) { setNotice('This playground supports up to 16 nodes. Remove a step to add another.'); return; }
-    connection.clear();
+    connection.clear(); movement.clear();
     const id = `custom-${sequence.current++}`;
     const node: WorkflowNode = { id, kind, label: nodeTypes[kind].title, value: nodeTypes[kind].defaultValue, x: 90 + (nodes.length % 4) * 245, y: 80 + Math.floor(nodes.length / 4) * 140 };
     setNodes(items => [...items, node]); setSelected(id); invalidate(); setNotice(`Added ${node.label}. Connect an output port to its input port.`);
@@ -76,26 +77,16 @@ export default function AutomationPlayground() {
   function removeNode(id: string) {
     if (running || nodes.find(node => node.id === id)?.kind === 'trigger') return;
     setNodes(items => items.filter(node => node.id !== id)); setEdges(items => items.filter(edge => edge.from !== id && edge.to !== id));
-    setSelected(null); connection.clear(); invalidate(); setNotice('Node and its connections removed.');
+    setSelected(null); connection.clear(); movement.clear(); invalidate(); setNotice('Node and its connections removed.');
   }
 
-  function startDrag(event: PointerEvent<HTMLButtonElement>, node: WorkflowNode) {
-    if (running || connection.preview || event.button !== 0 || !event.isPrimary) return;
-    event.preventDefault();
-    event.currentTarget.setPointerCapture(event.pointerId);
-    drag.current = { id: node.id, pointer: event.pointerId, x: node.x, y: node.y, startX: event.clientX, startY: event.clientY };
-  }
-  function moveDrag(event: PointerEvent<HTMLButtonElement>) {
-    const movement = drag.current;
-    if (!movement || movement.pointer !== event.pointerId) return;
-    const x = Math.min(WIDTH - NODE_WIDTH - 12, Math.max(12, movement.x + (event.clientX - movement.startX) / zoom));
-    const y = Math.min(HEIGHT - NODE_HEIGHT - 12, Math.max(12, movement.y + (event.clientY - movement.startY) / zoom));
-    setNodes(items => items.map(node => node.id === movement.id ? { ...node, x, y } : node));
+  function moveNode(id: string, x: number, y: number) {
+    setNodes(items => items.map(node => node.id === id ? { ...node, x, y } : node));
   }
 
   async function run() {
     if (running) return;
-    connection.clear();
+    connection.clear(); movement.clear();
     let steps: StepResult[];
     try { steps = simulateWorkflow(nodes, edges, input); } catch (error) { setNotice(error instanceof Error ? error.message : 'Check your connections.'); return; }
     const token = ++runToken.current;
@@ -143,8 +134,8 @@ export default function AutomationPlayground() {
             <fieldset disabled={running} className={styles.sample}><legend>Sample lead</legend><label>Name<input value={input.name} maxLength={80} onChange={event => { setInput(data => ({ ...data, name: event.target.value })); invalidate(); }} /></label><label>Email<input type="email" value={input.email} maxLength={120} onChange={event => { setInput(data => ({ ...data, email: event.target.value })); invalidate(); }} /></label><label>Lead score<input type="number" min="0" max="100" value={Number.isNaN(input.score) ? '' : input.score} onChange={event => { setInput(data => ({ ...data, score: event.target.valueAsNumber })); invalidate(); }} /></label></fieldset>
           </aside>
           <div className={styles.canvasArea}>
-            <div className={styles.canvasHelp}><span aria-live="polite"><CircleHelp size={14} /> {connectionHint}</span><label>Zoom<select aria-label="Canvas zoom" value={zoom} onChange={event => { connection.clear(); setZoom(Number(event.target.value)); }}><option value="0.65">65%</option><option value="0.8">80%</option><option value="1">100%</option><option value="1.2">120%</option></select></label></div>
-            <div ref={viewport} className={styles.viewport} tabIndex={0} role="region" aria-label="Workflow canvas. Drag output ports to input ports to connect steps. Scroll to see all nodes." onScroll={connection.refresh}>
+            <div className={styles.canvasHelp}><span aria-live="polite"><CircleHelp size={14} /> {connectionHint}</span><label>Zoom<select aria-label="Canvas zoom" value={zoom} onChange={event => { connection.clear(); movement.clear(); setZoom(Number(event.target.value)); }}><option value="0.65">65%</option><option value="0.8">80%</option><option value="1">100%</option><option value="1.2">120%</option></select></label></div>
+            <div ref={viewport} className={styles.viewport} data-panning={movement.panning} data-dragging={!!movement.dragging} tabIndex={0} role="region" aria-label="Workflow canvas. Drag cards to move steps. Drag empty space to pan. Drag output ports to input ports to connect steps." onScroll={connection.refresh} onPointerDown={movement.startPan} onPointerMove={movement.move} onPointerUp={movement.finish} onPointerCancel={movement.cancelPointer} onLostPointerCapture={movement.cancelPointer}>
               <div style={{ width: WIDTH * zoom, height: HEIGHT * zoom }}>
                 <div ref={canvas} className={styles.canvas} data-connecting={!!connecting} style={{ width: WIDTH, height: HEIGHT, transform: `scale(${zoom})` }}>
                   <svg className={styles.wires} width={WIDTH} height={HEIGHT} aria-hidden="true">{edges.map(edge => {
@@ -157,12 +148,9 @@ export default function AutomationPlayground() {
                     const Icon = icons[node.kind]; const result = results.find(item => item.id === node.id);
                     const validInput = !!connecting && connectionError(nodes, edges, connecting, node.id) === null;
                     const targetState = connection.preview?.target === node.id ? connection.preview.error ? 'invalid' : 'valid' : undefined;
-                    return <div key={node.id} className={styles.node} data-kind={node.kind} data-selected={selected === node.id} data-target={targetState} data-status={active === node.id ? 'running' : result?.status ?? 'idle'} style={{ left: node.x, top: node.y, '--step': index + 1 } as CSSProperties}>
-                      <button type="button" className={styles.grip} disabled={running} aria-label={`Move ${node.label}. Use arrow keys when focused.`} onPointerDown={event => startDrag(event, node)} onPointerMove={moveDrag} onPointerUp={() => { drag.current = null; }} onPointerCancel={() => { drag.current = null; }} onKeyDown={event => {
-                        const direction = { ArrowLeft: [-10, 0], ArrowRight: [10, 0], ArrowUp: [0, -10], ArrowDown: [0, 10] }[event.key];
-                        if (!direction) return; event.preventDefault(); setNodes(items => items.map(item => item.id === node.id ? { ...item, x: Math.max(12, Math.min(WIDTH - NODE_WIDTH - 12, item.x + direction[0])), y: Math.max(12, Math.min(HEIGHT - NODE_HEIGHT - 12, item.y + direction[1])) } : item));
-                      }}><GripVertical size={12} /></button>
-                      <button type="button" className={styles.nodeBody} onClick={() => setSelected(node.id)} aria-label={`Configure ${node.label}`}><span className={styles.nodeIcon}><Icon size={21} /></span><span><strong>{node.label}</strong><small>{active === node.id ? 'Running…' : result?.status === 'success' ? 'Completed' : result?.status === 'skipped' ? 'Skipped' : nodeTypes[node.kind].subtitle}</small></span>{result?.status === 'success' && <Check size={13} />}</button>
+                    return <div key={node.id} className={styles.node} data-workflow-node={node.id} data-kind={node.kind} data-selected={selected === node.id} data-dragging={movement.dragging === node.id} data-target={targetState} data-status={active === node.id ? 'running' : result?.status ?? 'idle'} style={{ left: node.x, top: node.y, '--step': index + 1 } as CSSProperties}>
+                      <button type="button" className={styles.grip} disabled={running} aria-label={`Move ${node.label}. Use arrow keys when focused.`} onPointerDown={event => movement.startNode(event, node)} onKeyDown={event => movement.nudge(event, node)}><GripVertical size={12} /></button>
+                      <button type="button" className={styles.nodeBody} title="Drag to move · Click to edit · Arrow keys to nudge" onPointerDown={event => movement.startNode(event, node)} onKeyDown={event => movement.nudge(event, node)} onClick={event => { if (!movement.consumeClick(event, node.id)) setSelected(node.id); }} aria-label={`Configure ${node.label}`}><span className={styles.nodeIcon}><Icon size={21} /></span><span><strong>{node.label}</strong><small>{active === node.id ? 'Running…' : result?.status === 'success' ? 'Completed' : result?.status === 'skipped' ? 'Skipped' : nodeTypes[node.kind].subtitle}</small></span>{result?.status === 'success' && <Check size={13} />}</button>
                       {node.kind !== 'trigger' && <button type="button" className={`${styles.port} ${styles.inputPort}`} data-input-node={node.id} disabled={running} aria-label={`Input: ${node.label}`} title={validInput ? `Connect to ${node.label}` : connecting ? connectionError(nodes, edges, connecting, node.id) ?? undefined : 'Drop an output wire here'} data-ready={validInput} data-target={targetState} onClick={() => connection.selectInput(node.id)} />}
                       <button type="button" className={`${styles.port} ${styles.outputPort}`} disabled={running} aria-label={`Output: ${node.label}`} title="Drag to an input port, or click to select" aria-pressed={connecting === node.id} onPointerDown={event => connection.start(event, node.id)} onPointerMove={connection.move} onPointerUp={connection.finish} onPointerCancel={connection.cancelPointer} onLostPointerCapture={connection.cancelPointer} onClick={event => connection.selectOutput(event, node)} />
                     </div>;
