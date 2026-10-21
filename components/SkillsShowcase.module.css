@@ -1,0 +1,72 @@
+.showcase { --skills-nav-offset: 100px; }
+.guide { margin-bottom: 36px; }
+.guide > p { display: flex; align-items: center; gap: 9px; margin-bottom: 18px; color: #776650; font-size: 12px; }
+.chapterLinks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.chapterLinks a { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 13px 16px; border: 1px solid #8e795c40; border-radius: 10px; color: #484036; font-size: 11px; line-height: 1.5; transition: background .2s, border-color .2s; }
+.chapterLinks a:hover { border-color: #927451; background: #f8f4ed; }
+.chapterLinks a > span { color: #967954; font-family: var(--font-geist-mono), monospace; font-size: 10px; }
+.chapterLinks a > svg { flex-shrink: 0; margin-left: auto; }
+.stack { position: relative; isolation: isolate; }
+.stack::after { content: ''; display: block; height: clamp(100px, 20svh, 200px); }
+.chapterAnchor { height: 0; scroll-margin-top: calc(var(--skills-nav-offset) + 16px); }
+.chapter + .chapterAnchor { margin-top: clamp(100px, 20svh, 200px); }
+.chapter { position: sticky; top: var(--chapter-top, calc(var(--skills-nav-offset) + 16px)); display: flex; flex-direction: column; min-height: calc(100svh - var(--skills-nav-offset) - 36px); padding: 24px; border: 1px solid #7c674b40; border-radius: 24px; background: #e2d9cc; box-shadow: 0 -8px 32px #33281812; }
+.chapter[data-skill-chapter='connections'] { background: #e8e0d5; }
+.chapter[data-skill-chapter='intelligence'] { background: #ded7cc; }
+.chapter[data-skill-chapter='delivery'] { background: #e9e2d7; }
+.chapterHeader { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; }
+.chapterNumber { flex-shrink: 0; color: #73593d; font-family: var(--font-geist-mono), monospace; font-size: 14px; }
+.chapterNumber > span { color: #9b8a75; font-size: 10px; }
+.chapterHeader h3 { font-size: clamp(23px, 2.6vw, 36px); font-weight: 400; letter-spacing: -.045em; line-height: 1.15; }
+.chapterCount { margin-left: auto; color: #7c6d5c; font-size: 10px; white-space: nowrap; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; flex: 1; }
+.cards.twoColumns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.showcase .cards .skillCard { grid-column: auto; margin: 0; border-radius: 14px; }
+.showcase .visual { min-height: 112px; padding: 18px 20px; }
+.showcase .visual > div { max-width: 350px; }
+.showcase .content { padding: 20px; }
+.content h4 { margin-top: 12px; font-size: 21px; font-weight: 500; line-height: 1.3; letter-spacing: -.035em; }
+.showcase .content > p { font-size: 12px; line-height: 1.8; }
+.showcase .skillList { margin-top: 18px; }
+.showcase .skillList li { padding-block: 8px; gap: 14px; font-size: 11px; line-height: 1.6; }
+.nextChapter { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; padding-inline: 2px; color: #7c6a53; font-size: 10px; letter-spacing: .03em; }
+.afterShowcase { position: relative; z-index: 1; }
+@media (max-width: 1000px) {
+  .chapterLinks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chapter { padding: 20px; }
+  .cards, .cards.twoColumns { grid-template-columns: 1fr; }
+  .showcase .cards .skillCard { display: grid; grid-template-columns: minmax(150px, .65fr) minmax(0, 1fr); }
+  .showcase .visual { min-height: 100%; padding: 20px; border-bottom: 0; border-right: 1px solid #24252210; }
+  .showcase .visual > div { flex-direction: column; max-width: 110px; }
+  .showcase .visual > div > div > span { width: 1px; height: 18px; }
+  .showcase .visual > div > div > span::after { right: -2px; top: auto; bottom: -1px; }
+  .showcase .visual > div > div > div { width: 110px; flex: initial; }
+}
+@media (max-width: 639px) {
+  .showcase { --skills-nav-offset: 86px; }
+  .chapter { min-height: 0; padding: 16px; border-radius: 18px; }
+  .chapterHeader { flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+  .chapterHeader h3 { flex: 1; font-size: 24px; }
+  .chapterCount { width: 100%; margin-left: 0; }
+  .chapterLinks a { gap: 8px; padding: 12px; font-size: 10px; }
+  .showcase .cards .skillCard { display: flex; }
+  .showcase .visual { min-height: 112px; padding: 16px 14px; border-right: 0; border-bottom: 1px solid #24252210; }
+  .showcase .visual > div { flex-direction: row; max-width: 350px; }
+  .showcase .visual > div > div > span { width: 14px; height: 1px; }
+  .showcase .visual > div > div > span::after { right: -1px; top: -2px; bottom: auto; }
+  .showcase .visual > div > div > div { width: auto; flex: 1; }
+  .showcase .content { padding: 18px 16px; }
+  .showcase .skillList li { gap: 12px; padding-block: 9px; font-size: 12px; }
+  .showcase .skillList small { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter { position: relative; top: auto; min-height: 0; box-shadow: none; }
+  .chapter + .chapterAnchor { margin-top: 30px; }
+  .stack::after { display: none; }
+  .chapterLinks a { transition: none; }
+}
+@media print {
+  .chapter { position: static; min-height: 0; break-inside: avoid; }
+  .chapter + .chapterAnchor { margin-top: 24px; }
+  .stack::after { display: none; }
+}

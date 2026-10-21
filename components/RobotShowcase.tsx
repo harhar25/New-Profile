@@ -63,7 +63,7 @@ export default function RobotShowcase({ scene = ROBOT_SCENE, suspended = false, 
             Meet Orbit.
           </h2>
           <p className={styles.description}>
-            Your curious guide to Harold&apos;s work. Ask a question and let&apos;s find a starting point.
+            Your curious guide to Harold&apos;s work. Share an idea, explore a workflow, or find your next step together.
           </p>
           <RobotChat onContact={onContact} onThinkingChange={setThinking} />
         </div>

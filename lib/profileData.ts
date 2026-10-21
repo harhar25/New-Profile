@@ -196,7 +196,7 @@ export const defaultProfileData: ProfileData = {
     },
   ],
   socialLinks: {
-    linkedin: 'https://www.linkedin.com/in/harold-jey-madjos-56a65635b',
+    linkedin: 'https://www.linkedin.com/in/harold-jey-madjos-56a65635b/',
     github: 'https://github.com/harhar25',
     twitter: '',
     portfolio: 'https://github.com/harhar25',

@@ -18,7 +18,7 @@
     {
       "id": "about-this-guide",
       "title": "About the portfolio guide",
-      "content": "Orbit is Harold's robot portfolio guide. It helps visitors explore his background, skills, projects, public screenshot gallery, automation playground, English listening certificate, and public contact information. It is an assistant, not Harold himself. Its knowledge comes from the portfolio and owner-maintained reference notes. It does not learn or permanently remember facts from visitor messages, execute workflows, or send inquiries."
+      "content": "Orbit is Harold's AI portfolio assistant, not Harold himself. With a working AI connection it can hold a natural conversation, reason through a visitor's workflow, explain technical ideas beyond the portfolio, and ask relevant follow-up questions. Harold-specific claims use verified portfolio notes. It offers clickable page, gallery, playground, certificate, download, social-profile, and contact-form actions. Visitors choose whether to use them; Orbit never automatically submits a form or runs an automation. It remembers recent chat and early visitor context in this browser tab for up to eight hours. New conversation clears that memory. This does not retrain a model or add visitor statements to Harold's published knowledge. If AI is unavailable, a labelled portfolio guide still offers limited grounded replies and interactions."
     },
     {
       "id": "playground-how-to",
@@ -33,7 +33,12 @@
     {
       "id": "site-navigation",
       "title": "Where to find portfolio pages, photos, and credentials",
-      "content": "The homepage is /. The introduction at /#chapter-one uses Harold's graduation portrait in a black gown with a purple hood. The English listening certificate is directly after the introduction at /#english-proficiency, with its preview and PDF view/download links. Projects and the screenshot archive are at /projects and /projects#project-gallery. Skills are at /skills. The interactive automation lab is at /automation. Meet Orbit at /#playground; this homepage robot section is different from the automation builder page. Experience is at /#experience and other credentials are at /#credentials. Use the Menu to navigate or Get in touch to contact Harold."
+      "content": "The homepage is /. The introduction at /#chapter-one uses Harold's graduation portrait in a black gown with a purple hood. The English listening certificate is directly after the introduction at /#english-proficiency, with its preview and PDF view/download links. Projects and the screenshot archive are at /projects and /projects#project-gallery. Skills are at /skills. The interactive automation lab is at /automation. Meet Orbit at /#playground; this homepage robot section is different from the automation builder page. Experience is at /#experience and other credentials are at /#credentials. Use the Menu to navigate or Get in touch to contact Harold. The Skills page has four overlapping chapters with jump links: Automation & CRM, Web & Connections, AI & Reporting, and Support & Delivery. The shared footer links to Harold's public LinkedIn and GitHub profiles. Hover or focus Email to reveal the address; on touch, tap it. Email is shown as selectable text without opening a mail app."
+    },
+    {
+      "id": "workflow-design-guidance",
+      "title": "General guidance for planning a dependable automation",
+      "content": "For a proposed workflow, first identify the event that starts it, the required input, the system of record, and the desired outcome. Map trigger, validation, duplicate detection, branching, action, and error handling. Keep credentials on the server or inside the automation platform. Test normal inputs, missing fields, repeated events, failed API calls, and safe retries with sample data before connecting live accounts. A human approval step can be useful for AI-generated drafts. These are general design suggestions, not evidence that Harold delivered a particular client outcome. Ask a visitor which tools they already use and which manual step causes the most friction."
     }
   ]
 }

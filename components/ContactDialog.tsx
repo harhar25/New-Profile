@@ -48,7 +48,7 @@ function ContactContent({ email, fullName }: Pick<ContactDialogProps, 'email' | 
         </div>
         <p className={styles.description}>A new idea, a tricky workflow, or a better way to work. Tell me what you have in mind.</p>
         <div className={styles.introFooter}>
-          <a href={`mailto:${email}`}><Mail size={14} strokeWidth={1.4} /><span>{email}</span></a>
+          <span className={styles.emailAddress}><Mail size={14} strokeWidth={1.4} aria-hidden="true" /><span>{email}</span></span>
           <button type="button" className={styles.motionButton} aria-label={paused ? 'Play contact avatar animation' : 'Pause contact avatar animation'} aria-pressed={paused} onClick={() => { resetTilt(); setPaused((value) => !value); }}>
             {paused ? <Play size={12} /> : <Pause size={12} />}
             <span>{paused ? 'Play avatar' : 'Pause avatar'}</span>

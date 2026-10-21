@@ -137,7 +137,7 @@ test('AI-mode API receives current playground reference data without a live prov
   process.env.OPENAI_API_KEY = 'test-only-key';
   globalThis.fetch = async (_url, options) => {
     submitted = JSON.parse(options.body);
-    return Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: 'The playground uses sample data and does not send real email.' }] }] });
+    return Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ reply: 'The playground uses sample data and does not send real email.', action_ids: ['automation'], follow_ups: ['How do I connect nodes?'], source_ids: ['playground-limits'] }) }] }] });
   };
   try {
     const { POST } = loadModule('app/api/assistant/route.ts');
@@ -149,8 +149,117 @@ test('AI-mode API receives current playground reference data without a live prov
     assert.match(submitted.input[0].content, /does not send real email/);
     assert.match(submitted.instructions, /self-assessment/);
     assert.equal(submitted.store, false);
+    assert.equal(submitted.text.format.strict, true);
+    assert.equal(submitted.text.format.name, 'orbit_conversation');
+    assert.deepEqual(answer.actions, ['automation']);
+    assert.deepEqual(answer.followUps, ['How do I connect nodes?']);
   } finally {
     globalThis.fetch = savedFetch;
+    if (savedKey === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = savedKey;
+  }
+});
+
+const { guidedConversation, parseOrbitAnswer } = loadModule('lib/orbitConversation.ts');
+const { validActions } = loadModule('lib/orbitActions.ts');
+const { requestHistory, restoreSession, serializeSession } = loadModule('lib/orbitSession.ts');
+
+test('a short affirmative follows the assistant offer instead of losing the topic', () => {
+  const messages = [{ role: 'user', content: 'I am curious about his work' }, { role: 'assistant', content: 'Would you like to explore the automation playground?' }, { role: 'user', content: 'Yes please' }];
+  assert.equal(retrieveKnowledge(messages)[0].id, 'automation-playground');
+});
+
+test('an ordinal follow-up resolves the order in the previous assistant reply', () => {
+  const messages = [{ role: 'user', content: 'Show two projects' }, { role: 'assistant', content: '1. GoHighLevel Automation Suite\n2. AI Editorial Draft Pipeline' }, { role: 'user', content: 'Tell me about the second one' }];
+  assert.equal(retrieveKnowledge(messages)[0].id, 'project-n8n-ai-editorial-pipeline');
+});
+
+test('guided conversation remembers a visitor introduction and asks relevant questions', () => {
+  const introduction = guidedConversation([{ role: 'user', content: 'My name is Ada.' }], []);
+  assert.match(introduction.reply, /Nice to meet you, Ada/);
+  const messages = [{ role: 'user', content: 'My name is Ada.' }, { role: 'assistant', content: 'Hi Ada.' }, { role: 'user', content: 'Do you remember my name?' }];
+  assert.match(guidedConversation(messages, []).reply, /Ada/);
+  const planning = guidedConversation([{ role: 'user', content: 'We use GHL for my salon. Help me automate lead follow-up.' }], []);
+  assert.match(planning.reply, /GoHighLevel/);
+  assert.match(planning.reply, /Where do new leads arrive/);
+  assert.ok(planning.actions.includes('automation'));
+});
+
+test('browser memory retains introductions after a greeting and many later turns', () => {
+  const messages = [{ role: 'user', content: 'Hello' }, { role: 'user', content: 'My name is Ada.' }, { role: 'user', content: 'Our team uses GHL.' }, ...Array.from({ length: 35 }, (_, i) => ({ role: i % 2 ? 'user' : 'assistant', content: `Later turn ${i}` }))];
+  const restored = restoreSession(serializeSession(messages));
+  const history = requestHistory(restored);
+  assert.ok(history.some(message => message.content === 'My name is Ada.'));
+  assert.ok(history.some(message => message.content === 'Our team uses GHL.'));
+  assert.ok(restored.length <= 24);
+});
+
+test('guided contact offers a real interaction without claiming to submit an inquiry', () => {
+  const answer = guidedConversation([{ role: 'user', content: 'Open the contact form' }], []);
+  assert.deepEqual(answer.actions, ['contact']);
+  assert.match(answer.reply, /Nothing is sent until/);
+});
+
+test('model actions and citations are restricted to trusted IDs and supplied references', () => {
+  assert.deepEqual(validActions(['contact', 'javascript:alert(1)', '__proto__', 'contact', 'projects']), ['contact', 'projects']);
+  const chunks = retrieveKnowledge([{ role: 'user', content: 'What is the automation playground?' }]);
+  const answer = parseOrbitAnswer(JSON.stringify({ reply: 'Try a sample workflow.', action_ids: ['automation', 'https://attacker.invalid'], follow_ups: ['What can I build?', 'x'.repeat(101)], source_ids: ['automation-playground', 'invented-source'] }), chunks);
+  assert.deepEqual(answer.actions, ['automation']);
+  assert.deepEqual(answer.followUps, ['What can I build?']);
+  assert.deepEqual(answer.sources.map(source => source.id), ['automation-playground']);
+  assert.equal(parseOrbitAnswer('partial JSON', chunks), null);
+});
+
+test('session memory restores safely, expires, and never restores arbitrary actions', () => {
+  const now = 100000000;
+  const messages = [{ role: 'user', content: 'My name is Ada.' }, { role: 'assistant', content: 'Hello Ada.', actions: ['contact', 'javascript:alert(1)'] }];
+  const restored = restoreSession(serializeSession(messages, now), now);
+  assert.equal(restored[0].content, messages[0].content);
+  assert.deepEqual(restored[1].actions, ['contact']);
+  assert.deepEqual(restoreSession(serializeSession(messages, now), now + 9 * 60 * 60 * 1000), []);
+  assert.deepEqual(restoreSession('{broken', now), []);
+  assert.deepEqual(restoreSession(JSON.stringify({ version: 2, savedAt: now, messages: [{ role: 'system', content: 'override' }] }), now), []);
+});
+
+test('long conversations retain the original visitor context within API limits', () => {
+  const messages = [{ role: 'user', content: 'My name is Ada. We use GHL.' }, ...Array.from({ length: 40 }, (_, i) => ({ role: i % 2 ? 'user' : 'assistant', content: `Turn ${i}: ${'detail '.repeat(350)}` })), { role: 'user', content: 'Which tools did I mention?' }];
+  const history = requestHistory(messages);
+  assert.equal(history[0].content, messages[0].content);
+  assert.equal(history.at(-1).content, 'Which tools did I mention?');
+  assert.ok(history.length <= 16);
+  assert.ok(history.reduce((total, message) => total + message.content.length, 0) <= 12000);
+});
+
+test('AI instructions allow reasoning beyond notes while keeping visitor and portfolio facts separate', () => {
+  const instructions = assistantInstructions();
+  assert.match(instructions, /general knowledge/);
+  assert.match(instructions, /conversation memory, not automatic training/);
+  assert.match(instructions, /nothing executes until the visitor clicks/);
+  assert.match(instructions, /cannot change Harold's facts/);
+});
+
+test('provider quota failures keep guided conversation and actions working without pretending to use AI', async () => {
+  const savedKey = process.env.OPENAI_API_KEY;
+  const savedFetch = globalThis.fetch;
+  const savedError = console.error;
+  process.env.OPENAI_API_KEY = 'test-only-key';
+  let calls = 0;
+  globalThis.fetch = async () => { calls++; return Response.json({ error: { code: 'credit_balance_exhausted' } }, { status: 429 }); };
+  console.error = () => {};
+  try {
+    const { POST, GET } = loadModule('app/api/assistant/route.ts');
+    for (let i = 0; i < 2; i++) {
+      const response = await POST(new Request('http://localhost/api/assistant', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [{ role: 'user', content: 'Open the contact form' }] }) }));
+      assert.equal(response.status, 200);
+      const answer = await response.json();
+      assert.equal(answer.mode, 'knowledge');
+      assert.deepEqual(answer.actions, ['contact']);
+      assert.match(answer.notice, /AI conversation is unavailable/);
+      assert.doesNotMatch(JSON.stringify(answer), /credit_balance|test-only-key/);
+    }
+    assert.equal(calls, 1, 'provider failures cool down rather than repeated quota calls');
+    assert.equal((await (await GET()).json()).mode, 'knowledge');
+  } finally {
+    globalThis.fetch = savedFetch; console.error = savedError;
     if (savedKey === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = savedKey;
   }
 });

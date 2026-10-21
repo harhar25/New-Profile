@@ -1,0 +1,18 @@
+.socials { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; width: fit-content; margin-top: 2px; }
+.socialLink { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; padding: 6px 2px; border-bottom: 1px solid transparent; background: transparent; color: inherit; font: inherit; text-decoration: none; cursor: pointer; transition: color .2s, border-color .2s; }
+.socialLink:hover, .socialLink[aria-expanded='true'] { color: #805f36; border-bottom-color: #b89b78; }
+.socialLink:focus-visible { outline: 2px solid #805f36; outline-offset: 4px; border-radius: 3px; }
+.emailReveal { display: inline-flex; }
+.emailPopup { position: absolute; z-index: 10; right: 0; bottom: calc(100% + 12px); display: grid; gap: 8px; width: max-content; max-width: min(330px, calc(100vw - 40px)); padding: 17px 20px; border: 1px solid #d5bd9b55; border-radius: 14px; background: #211e19; color: #f8f2e9; box-shadow: 0 14px 35px #211e1929; transform-origin: 85% 100%; animation: emailHello .8s ease-out both; }
+.emailPopup::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 14px; }
+.emailGreeting { display: inline-flex; align-items: center; gap: 8px; color: #d5bd9b; font-size: 11px; font-weight: 500; }
+.emailAddress { font-size: 14px; font-weight: 500; line-height: 1.6; overflow-wrap: anywhere; user-select: text; cursor: text; }
+@keyframes emailHello {
+  0% { opacity: 0; transform: translateY(10px) scale(.86) rotate(-6deg); }
+  35% { opacity: 1; transform: translateY(-7px) scale(1.04) rotate(4deg); }
+  55% { transform: translateY(1px) scale(.99) rotate(-3deg); }
+  75% { transform: translateY(-2px) scale(1.01) rotate(2deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+@media (max-width: 639px) { .emailPopup { left: 0; right: auto; transform-origin: 75% 100%; } }
+@media (prefers-reduced-motion: reduce) { .emailPopup { animation: none; } .socialLink { transition: none; } }

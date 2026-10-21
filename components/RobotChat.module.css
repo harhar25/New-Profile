@@ -12,8 +12,14 @@
 .speaker { display: block; margin-bottom: 5px; color: #958979; font-size: 8px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
 .assistant { align-self: flex-start; color: #ded8ce; }
 .user { align-self: flex-end; padding: 10px 14px; border: 1px solid #d0b58e19; border-radius: 12px 12px 2px 12px; background: #bda17f13; color: #f0e2cd; }
-.sources { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.sources { margin-top: 12px; color: #ac9b85; font-size: 9px; }
+.sources summary { cursor: pointer; min-height: 24px; }
+.sources > div { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
 .sources span { max-width: 100%; padding: 2px 7px; border: 1px solid #e0c9a722; border-radius: 5px; color: #b4a491; font-size: 8px; overflow-wrap: anywhere; }
+.actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+.actions a, .actions button { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 36px; padding: 7px 10px; border: 1px solid #cbae8766; border-radius: 7px; background: #cbae8715; color: #e8cfab; font-size: 10px; text-align: left; transition: background .2s, border-color .2s; }
+.actions a:hover, .actions button:hover { border-color: #d7be98; background: #cbae8729; }
+.notice { padding: 10px 16px; background: #cbae870c; border-bottom: 1px solid #cbae8722; color: #c9b99f; font-size: 10px; line-height: 1.7; }
 .starters { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 18px 15px; }
 .starters button { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 5px 9px; border: 1px solid #d7be982b; border-radius: 7px; color: #c4b298; font-size: 9px; text-align: left; transition: background .2s; }
 .starters button:hover { background: #d7be9812; }
@@ -32,7 +38,7 @@
 .thinking > span:nth-child(3) { animation-delay: .3s; }
 .error { padding: 10px 12px; border: 1px solid #ccab7833; border-radius: 8px; color: #dcc8aa; font-size: 11px; line-height: 1.7; }
 .error button { margin-top: 6px; text-decoration: underline; text-underline-offset: 3px; }
-.chat button:focus-visible, .log:focus-visible { outline: 2px solid #d7be98; outline-offset: 3px; }
+.chat button:focus-visible, .chat a:focus-visible, .chat summary:focus-visible, .log:focus-visible { outline: 2px solid #d7be98; outline-offset: 3px; }
 @keyframes pulse { 50% { opacity: .25; transform: translateY(-3px); } }
 @media (max-width: 800px) {
   .chat { margin-top: 20px; }
@@ -41,4 +47,4 @@
   .header, .log { padding-inline: 14px; }
   .starters { padding-inline: 14px; }
 }
-@media (prefers-reduced-motion: reduce) { .thinking > span:not(:last-child) { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .thinking > span:not(:last-child) { animation: none; } .actions a, .actions button, .starters button, .send { transition: none; } }

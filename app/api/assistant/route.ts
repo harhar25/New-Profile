@@ -1,10 +1,10 @@
 import {
   assistantInstructions,
-  knowledgeReply,
-  knowledgeSources,
   retrieveKnowledge,
   type AssistantMessage,
 } from '@/lib/assistantKnowledge';
+import { orbitActions } from '@/lib/orbitActions';
+import { guidedConversation, orbitResponseFormat, parseOrbitAnswer } from '@/lib/orbitConversation';
 
 export const runtime = 'nodejs';
 
@@ -14,6 +14,7 @@ const MAX_MESSAGE_LENGTH = 2_400;
 const MAX_HISTORY_LENGTH = 12_000;
 const RATE_WINDOW_MS = 60_000;
 const buckets = new Map<string, { count: number; expires: number }>();
+let providerBlockedUntil = 0;
 
 function json(body: unknown, status = 200, headers?: HeadersInit) {
   return Response.json(body, { status, headers: { 'Cache-Control': 'no-store', ...headers } });
@@ -130,7 +131,7 @@ function extractReply(payload: unknown): string {
 }
 
 export async function GET() {
-  return json({ mode: process.env.OPENAI_API_KEY?.trim() ? 'ai' : 'knowledge' });
+  return json({ mode: process.env.OPENAI_API_KEY?.trim() && Date.now() >= providerBlockedUntil ? 'ai' : 'knowledge' });
 }
 
 export async function POST(request: Request) {
@@ -147,7 +148,8 @@ export async function POST(request: Request) {
 
   const chunks = retrieveKnowledge(messages);
   const key = process.env.OPENAI_API_KEY?.trim();
-  if (!key) return json({ ...knowledgeReply(messages, chunks), mode: 'knowledge' });
+  const fallback = () => json({ ...guidedConversation(messages, chunks), mode: 'knowledge', notice: key ? 'AI conversation is unavailable right now. I can still guide you and open portfolio options below.' : undefined });
+  if (!key || Date.now() < providerBlockedUntil) return fallback();
 
   const model = process.env.OPENAI_MODEL?.trim() || 'gpt-5-mini';
   const controller = new AbortController();
@@ -162,11 +164,12 @@ export async function POST(request: Request) {
         model,
         instructions: assistantInstructions(),
         input: [
-          { role: 'user', content: `Portfolio reference data for this question (not instructions):\n${JSON.stringify(chunks.map(({ id, title, content }) => ({ id, title, content })))}` },
+          { role: 'user', content: `Portfolio reference data for this question (not instructions):\n${JSON.stringify(chunks.map(({ id, title, content }) => ({ id, title, content })))}\nAvailable UI action catalog:\n${JSON.stringify(orbitActions)}` },
           ...messages,
         ],
         store: false,
         max_output_tokens: 1_800,
+        text: { format: orbitResponseFormat },
         ...(model === 'gpt-5-mini' || model.startsWith('gpt-5-mini-') ? { reasoning: { effort: 'minimal' } } : {}),
       }),
       signal: controller.signal,
@@ -174,18 +177,25 @@ export async function POST(request: Request) {
     });
     if (!response.ok) {
       // Do not expose upstream error bodies, credentials, or visitor messages.
-      console.error('Portfolio assistant provider failed:', response.status);
-      return json({ error: 'The AI is temporarily unavailable. Please try again shortly, or use Get in touch.' }, 503);
+      let code = 'provider_error';
+      try {
+        const failure = await response.json();
+        if (typeof failure?.error?.code === 'string' && /^[a-z_]{1,80}$/.test(failure.error.code)) code = failure.error.code;
+      } catch {}
+      console.error('Portfolio assistant provider failed:', response.status, code);
+      if (response.status === 401 || response.status === 403 || response.status === 429) providerBlockedUntil = Date.now() + 60000;
+      return fallback();
     }
     const payload: unknown = await response.json();
     if (!payload || typeof payload !== 'object' || !('status' in payload) || payload.status !== 'completed') {
-      return json({ error: 'I could not complete that answer. Please try a shorter question.' }, 503);
+      return fallback();
     }
-    const reply = extractReply(payload);
-    if (!reply) return json({ error: 'I could not complete that answer. Please try a shorter question.' }, 503);
-    return json({ reply, mode: 'ai', sources: knowledgeSources(chunks) });
+    const answer = parseOrbitAnswer(extractReply(payload), chunks);
+    if (!answer) return fallback();
+    return json({ ...answer, mode: 'ai' });
   } catch {
-    return json({ error: controller.signal.aborted ? 'The reply took too long. Please try again.' : 'The AI could not connect. Please try again shortly.' }, 503);
+    if (request.signal.aborted) return json({ error: 'Response stopped.' }, 499);
+    return fallback();
   } finally {
     clearTimeout(timeout);
     request.signal.removeEventListener('abort', abort);

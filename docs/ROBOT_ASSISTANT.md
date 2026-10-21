@@ -1,98 +1,75 @@
-# The conversational portfolio robot
+# Orbit conversations and portfolio interactions
 
-The robot has two clearly labelled modes:
+Orbit has two clearly labelled modes:
 
-- **Portfolio guide** works immediately without an API key. It searches published notes and quotes relevant passages. This is a local knowledge lookup, not a generative AI model.
-- **AI assistant** uses the OpenAI Responses API to write conversational replies using those notes and recent messages. A valid server API key is required.
+- **AI conversation** uses the configured OpenAI model to write replies, reason through a visitor's own workflow, explain general concepts, adapt to the visitor's language, and ask relevant follow-up questions. Verified portfolio passages ground claims about Harold.
+- **Portfolio guide** works without a key and when AI is unavailable. It provides limited local conversation rules, relevant portfolio passages, and the same page/contact actions. It is not a generative model.
 
-## Enable conversational AI
+## AI setup
 
-1. Copy `.env.example` to `.env.local`.
-2. Set `OPENAI_API_KEY` to your own OpenAI API key. Keep it out of client code, Git, screenshots, and chat messages.
-3. Keep `OPENAI_MODEL=gpt-5-mini`, or choose a Responses-compatible model available to your API project. The default uses minimal reasoning and a maximum of 1,800 output tokens.
-4. Restart the development server. For deployment, set the same variables in the hosting dashboard and redeploy.
+1. Set the server-only `OPENAI_API_KEY` in `.env.local` or the hosting dashboard. Never use a `NEXT_PUBLIC_` prefix or put a real key in Git, screenshots, or chat messages.
+2. `OPENAI_MODEL` defaults to `gpt-5-mini`. An alternative must support the Responses API and strict structured outputs. The existing default uses minimal reasoning and at most 1,800 output tokens.
+3. Restart development after changing environment variables. For production, set hosting variables and redeploy.
 
-`GET /api/assistant` reports only `{ "mode": "ai" }` or `{ "mode": "knowledge" }`. It does not validate a key or expose it. Real API usage requires available API billing/credits. An invalid key, unavailable model, or upstream outage produces a visible retry message.
+`GET /api/assistant` reports `ai` when a key is configured and the provider is not in a temporary cooldown; otherwise it reports `knowledge`. This does not verify credits or model access. A successful AI request is required to validate the connection.
 
-The integration follows the official OpenAI documentation for [conversation state](https://developers.openai.com/api/docs/guides/conversation-state), the [Responses API](https://developers.openai.com/api/reference/cli/resources/responses/methods/create), and [GPT-5 mini](https://developers.openai.com/api/docs/models/gpt-5-mini).
+The integration follows OpenAI's [conversation-state guidance](https://developers.openai.com/api/docs/guides/conversation-state), [structured output format](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses), and [GPT-5 mini documentation](https://developers.openai.com/api/docs/models/gpt-5-mini).
 
-### If a valid key cannot generate replies
+If the provider rejects a request, times out, or returns an incomplete or unreadable result, Orbit returns a guide response with a visible AI-unavailable notice. It never labels that answer as AI-generated. Authentication and rate/quota failures pause provider attempts for 60 seconds per server process. Logs contain only an HTTP status and a constrained error code, never credentials, provider bodies, or conversation text.
 
-The model-list endpoint can accept a key even when there are no credits available for generation. An OpenAI HTTP 429 with `error.code: "credit_balance_exhausted"` and `error.type: "insufficient_quota"` means the organization's prepaid API credit balance is depleted. Add credits in the OpenAI billing settings, then retry the chat. Repeated retries alone cannot restore access. See the official [OpenAI error codes](https://developers.openai.com/api/docs/guides/error-codes).
+A key can be accepted by a model-list request while generation is unavailable. A quota or credit-balance error requires the owner to check API billing; changing prompts cannot restore exhausted credits. See the [official error-code guidance](https://developers.openai.com/api/docs/guides/error-codes). Do not infer the current account balance from a configured key or an old error report.
 
-The portfolio deliberately returns a visitor-safe error instead of exposing billing details or provider responses. Its AI badge indicates that a key is configured; it does not confirm billing status. Completed responses are required before an AI answer is displayed, so a partial, incomplete response is never presented as a finished answer.
+## Conversation, memory, and learning
 
-## Give the robot more knowledge
+`components/RobotChat.tsx` keeps a bounded conversation in sessionStorage in the current browser tab. It restores across page reloads, expires after eight hours without a save, and is removed by **New conversation**. Up to 24 messages are kept, including the first three visitor messages when a longer chat is trimmed. Recent corrections remain in the recent history. The UI discloses this memory.
 
-Edit `content/robot-knowledge.json`. Each entry has a unique `id`, a descriptive `title`, and a `content` string:
+`lib/orbitSession.ts` builds a request with recent messages and bounded early visitor context, preserving introductions and initial goals within the API's limits. Session data is validated on restore, unsupported action IDs are discarded, and the composer waits until restoration finishes. An interrupted last turn can be retried. Stop aborts the response; a late reply cannot silently replace it.
 
-```json
-{
-  "entries": [
-    {
-      "id": "your-topic",
-      "title": "A clear topic or question",
-      "content": "Write verified information here. Separate paragraphs with \n\n when helpful."
-    }
-  ]
-}
-```
+Memory is conversation context, not automatic machine-learning training. Visitor statements do not update the model's weights, become facts about Harold, or modify the published knowledge. There is no shared visitor memory, training pipeline, vector database, or server conversation database in this implementation.
 
-Add entries to the existing array; keep the current entries you still want the robot to know. You can paste long explanations, FAQs, service descriptions, project notes, and approved case studies. JSON strings need escaped quotes (`\"`) and escaped newlines (`\n`). Do not add passwords, private customer data, API keys, or notes you would not share publicly: visitors can ask the assistant about any knowledge entry.
+## Reasoning and knowledge
 
-Good reference notes use descriptive titles, natural question wording, specific facts, and one main topic per entry. Include actual project constraints and verified outcomes when you have them. More words help only when they add relevant information. Delete outdated or conflicting facts.
+`lib/assistantKnowledge.ts` builds references from:
 
-Public profile details, skills, projects, experience, education, and contact links also come directly from `lib/profileData.ts`. The current admin editor stores changes in the browser, so those local edits do not automatically update the server robot. Update the source file for facts that should be published to all visitors.
+- `lib/profileData.ts`: published background, contact details, 70 skills, projects, and experience.
+- `lib/portfolioHighlights.ts`: the editorial workflow and the accurately scoped English listening certificate.
+- `lib/projectScreenshots.ts`: the current public gallery count and navigation.
+- `lib/automationPlayground.ts`: available tools and node types.
+- `content/robot-knowledge.json`: owner-maintained instructions, limits, navigation, and general workflow guidance.
 
-Orbit also reads the editorial workflow and certificate facts shared with their UI components in `lib/portfolioHighlights.ts`, the current screenshot manifest in `lib/projectScreenshots.ts`, and the playground's tool and node lists in `lib/automationPlayground.ts`. It knows the five published projects, current gallery count and navigation, the sample automation builder, and the C1 Advanced English listening certificate and PDF. These entries distinguish browser simulations from live integrations and the listening self-assessment from an official examination or a four-skill language result. The shared data keeps counts, dates, and download paths aligned with the site.
+Long entries are split into passages of roughly 900 characters. Retrieval weights the latest question, titles, explicit topics, and prior conversation. Short affirmatives can follow the assistant's last offered question, and ordinal project follow-ups can refer to the order of projects in its previous reply. Explicit topic changes take precedence.
 
-`content/robot-knowledge.json` supplies the playground instructions and limits, site navigation, and other owner-maintained notes. Specific certificate, screenshot, and playground questions take priority over generic project/contact keywords; follow-up questions about live playground actions preserve their topic. The chat's starter questions highlight the current projects, playground, and English certificate.
+AI instructions distinguish general knowledge from Harold-specific claims. Orbit may propose a trigger, validation, decision, action, and failure-handling design for a visitor's own tools. It must not present a proposed design as a delivered client project or invent prices, availability, outcomes, or credentials. The playground remains a browser simulation; the C1 certificate remains a listening self-assessment.
 
-Restart development or rebuild and redeploy after editing knowledge. The JSON is bundled into the server at build time. There is deliberately no unauthenticated web endpoint for changing its knowledge.
+Edit the public source data or `content/robot-knowledge.json` to publish new facts, then rebuild/redeploy. Browser-only admin edits do not update server references. Do not add secrets or private client information. There is no unauthenticated endpoint for changing knowledge.
 
-### What “training” means here
+## Real interactions
 
-Adding notes gives an existing model reference material for each answer. It does not change the model's weights, create a fine-tuned model, or permanently learn from visitor conversations. This is a practical starting point for a portfolio assistant that you can expand with plenty of verified text.
+`lib/orbitActions.ts` contains the trusted action catalog: projects, screenshot gallery, skills, automation playground, certificate section/PDF, n8n demo download, LinkedIn, GitHub, and the existing contact dialog.
 
-Long entries are split into passages of roughly 900 characters. A local keyword search selects up to five passages per question, weighting titles and the latest message. Short follow-up questions can include the previous question as context. The model receives these passages as data plus up to 16 recent chat messages. The source labels show which notes were supplied; they are not model-verified citations for every sentence.
+The model returns action **IDs**, not URLs or executable code. The server and client validate them against the catalog. A visitor chooses a displayed action; Orbit never automatically navigates, sends a message, submits an inquiry, books a meeting, changes a live account, or runs an automation. The contact action opens the real contact dialog and the visitor decides whether to complete its form.
 
-The current search suits a small or medium portfolio knowledge base. For a large document library or multilingual semantic search, add an embedding/vector search index and evaluate retrieval quality before increasing the content volume substantially.
+AI replies use a strict JSON schema in `lib/orbitConversation.ts`:
 
-## API contract
+- `reply`: natural text.
+- `action_ids`: up to three catalog IDs.
+- `follow_ups`: up to three short next questions.
+- `source_ids`: supplied portfolio references actually used.
 
-`POST /api/assistant` accepts JSON:
+The API maps these to `reply`, `actions`, `followUps`, and validated `sources`. Only trusted source IDs survive. General explanations can have no portfolio sources. UI references are expandable and are not a guarantee that every generated sentence is correct.
 
-```json
-{
-  "messages": [
-    { "role": "user", "content": "What GoHighLevel work does Harold do?" }
-  ]
-}
-```
+## API and data handling
 
-Success:
+`POST /api/assistant` accepts `{ "messages": [{ "role": "user", "content": "Help me plan a GHL workflow" }] }`.
 
-```json
-{
-  "reply": "The answer text",
-  "mode": "ai",
-  "sources": [{ "id": "services-overview", "title": "Services and areas of focus" }]
-}
-```
+Only user/assistant text roles are allowed; the last turn must be a user question. Limits remain 16 messages, 2,400 characters per message, 12,000 total history characters, and a 32 KiB body. Input errors use non-200 responses. Provider failures return a usable guide response with `mode: "knowledge"` and a notice. Provider calls time out after 25 seconds.
 
-Only `user` and `assistant` roles are accepted. The last message must be from the user. Limits are 16 messages, 2,400 characters per message, 12,000 characters of total history, and a 32 KiB request body. Errors return `{ "error": "A visitor-safe explanation" }` with a non-200 status. Provider calls time out after 25 seconds.
+Requests use `store: false`. In AI mode, recent visitor messages and selected public references are sent to OpenAI; applicable OpenAI data policies still apply. The app does not write conversations to a server database or server logs. This browser tab stores the bounded transcript until cleared/expired.
 
-## Hosting and data handling
+The route keeps its existing same-origin checks and in-memory limit of 60 requests/minute per process and 20 per client bucket. Set `ASSISTANT_TRUST_PROXY=true` only behind a proxy that overwrites forwarded headers. Otherwise clients share the anonymous bucket. Limits are not shared between server instances; configure hosting rate limits and API project spending limits for a larger public deployment.
 
-- API keys stay on the server. Reference notes are treated as data, and visitor messages cannot modify the saved knowledge.
-- Messages and relevant public notes are sent to OpenAI only in AI mode. Requests use `store: false`; this app does not store conversations in a database or write them to server logs. OpenAI's applicable API data policies still apply.
-- The route has an in-memory limit of 60 requests per minute per server process and 20 per minute per client bucket. By default, all visitors share the anonymous client bucket.
-- Enable `ASSISTANT_TRUST_PROXY=true` only behind a proxy that overwrites `X-Forwarded-For`, `X-Forwarded-Host`, and `X-Forwarded-Proto`. This enables separate rate-limit buckets using the forwarded address and uses the forwarded public host/protocol for same-origin checks. Without this setting, origin checks use the actual `Host` header and the request URL's protocol, so local production previews also work when Next uses an internal hostname. Buckets expire after one minute and are never persisted.
-- Memory limits reset on server restart and are not shared across serverless instances. For a public launch with significant traffic, use your host's rate limiting or a shared rate-limit store, and set an API project spending limit. Same-origin checks reduce browser cross-site use but are not authentication or bot protection.
-- The assistant cannot confirm current prices or availability, book a meeting, or send an inquiry. It directs visitors to Get in touch for those actions.
+## Verification
 
-## Verify changes
+Run `npm run test:orbit` for reference retrieval, follow-up continuity, visitor memory, safe session restoration, history limits, action/source filtering, structured provider payloads, and graceful quota-failure behavior. AI tests stub the provider and consume no API credit.
 
-Run `npm run test:orbit` for retrieval, follow-up, certificate scope, screenshot counts, and API contract checks. The AI-mode test substitutes a local provider response; it makes no external request and uses no live API credit.
-
-With no API key, check the mode endpoint and ask about skills, projects, pricing, and an unknown topic. Follow up with “Tell me more about that.” Confirm relevant reference passages appear and unknown facts are not invented. After adding a key, repeat those checks and verify that a bad key or network interruption produces a useful retry message. Test a new knowledge entry by asking a question whose answer exists only in that entry.
+Browser checks should cover introduction/name recall, a workflow planning turn, suggested follow-ups, contact dialog actions, internal links, reload/restoration, new-chat clearing, stop/retry, keyboard use, and mobile sizing. Label simulated AI responses as tests rather than evidence of a live connection. A separate minimal live provider request is needed to verify the configured account; keep its prompt non-personal and avoid sending visitor data as a diagnostic.
