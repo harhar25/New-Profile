@@ -1,5 +1,7 @@
-// Public portfolio screenshots, curated from public/uploads.
-export const projectScreenshots = [
+import { automationScreenshots } from './automationScreenshots';
+
+// Public portfolio screenshots, curated from uploads and Automation.
+const originalScreenshots = [
   ['Screenshot 2026-08-06 015716.png', 'CRM workflow configuration', 'CRM automation', 'Workflow actions and configuration inside the CRM.'],
   ['Screenshot 2026-08-06 022606.png', 'Blog creation workflow', 'Make automation', 'A branching scenario that connects content generation and publishing tools.'],
   ['Screenshot 2026-08-06 022651.png', 'Blog analytics workflow', 'Make automation', 'Publishing tools and spreadsheets connected in an analytics scenario.'],
@@ -18,3 +20,5 @@ export const projectScreenshots = [
 ].map(([filename, title, category, description]) => ({
   filename, title, category, description, src: `/uploads/${encodeURIComponent(filename)}`,
 }));
+
+export const projectScreenshots = [...originalScreenshots, ...automationScreenshots];

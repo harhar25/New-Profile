@@ -32,6 +32,7 @@ export default function ProjectsPageContent() {
               <Link href="/skills" className={styles.nextPage}>
                 Explore my skills <ArrowUpRight size={16} aria-hidden="true" />
               </Link>
+              <Link href="/automation" className={styles.nextPage}>Play with automation <ArrowUpRight size={16} aria-hidden="true" /></Link>
             </div>
           </div>
 

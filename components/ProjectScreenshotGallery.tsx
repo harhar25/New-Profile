@@ -7,6 +7,9 @@ import { projectScreenshots as screenshots } from '@/lib/projectScreenshots';
 import styles from './ProjectScreenshotGallery.module.css';
 
 type Phase = 'scatter' | 'line' | 'circle' | 'arc';
+const PAGE_SIZE = 12;
+// Keep server and browser CSS serialization identical during hydration.
+const coordinate = (value: number) => Math.round(value * 1000) / 1000;
 
 export default function ProjectScreenshotGallery() {
   const [selected, setSelected] = useState(0);
@@ -16,6 +19,8 @@ export default function ProjectScreenshotGallery() {
   const stage = useRef<HTMLDivElement>(null);
   const interacted = useRef(false);
   const screenshot = screenshots[selected];
+  const groupStart = Math.floor(selected / PAGE_SIZE) * PAGE_SIZE;
+  const visibleScreenshots = screenshots.slice(groupStart, groupStart + PAGE_SIZE);
 
   useEffect(() => {
     const element = stage.current;
@@ -77,9 +82,10 @@ export default function ProjectScreenshotGallery() {
           </a>
         </div>
         <p className={styles.circleLabel} aria-hidden="true">Connected tools.<br /><em>Considered systems.</em></p>
-        {screenshots.map((item, index) => {
-          const fraction = index / (screenshots.length - 1);
-          const circleAngle = index / screenshots.length * Math.PI * 2 - Math.PI / 2;
+        {visibleScreenshots.map((item, index) => {
+          const frameIndex = groupStart + index;
+          const fraction = index / Math.max(1, visibleScreenshots.length - 1);
+          const circleAngle = index / visibleScreenshots.length * Math.PI * 2 - Math.PI / 2;
           const radius = Math.min(width * 0.33, 205);
           let x = 0, y = 0, rotation = 0;
           if (phase === 'scatter') {
@@ -89,7 +95,7 @@ export default function ProjectScreenshotGallery() {
           } else if (phase === 'circle') {
             x = Math.cos(circleAngle) * radius;
             y = Math.sin(circleAngle) * radius;
-            rotation = index / screenshots.length * 360;
+            rotation = index / visibleScreenshots.length * 360;
           } else if (phase === 'line') {
             x = (fraction - 0.5) * (width - cardWidth - 20);
           } else {
@@ -99,14 +105,19 @@ export default function ProjectScreenshotGallery() {
             rotation = arcAngle * 22;
           }
           return (
-            <button key={item.src} type="button" className={styles.card} onClick={() => choose(index)} aria-label={`View screenshot ${index + 1}: ${item.title}`} aria-pressed={index === selected} style={{ width: cardWidth, transform: `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${rotation}deg)`, zIndex: index === selected ? 3 : 1 }}>
+            <button key={item.src} type="button" className={styles.card} onClick={() => choose(frameIndex)} aria-label={`View screenshot ${frameIndex + 1}: ${item.title}`} aria-pressed={frameIndex === selected} style={{ width: cardWidth, transform: `translate(-50%, -50%) translate(${coordinate(x)}px, ${coordinate(y)}px) rotate(${coordinate(rotation)}deg)`, zIndex: frameIndex === selected ? 3 : 1 }}>
               <span className={styles.flip}>
-                <span className={styles.front}><Image src={item.src} alt="" fill sizes="110px" /><span>{String(index + 1).padStart(2, '0')}</span></span>
-                <span className={styles.back} aria-hidden="true">View<br />{String(index + 1).padStart(2, '0')}</span>
+                <span className={styles.front}><Image src={item.src} alt="" fill sizes="110px" /><span>{String(frameIndex + 1).padStart(2, '0')}</span></span>
+                <span className={styles.back} aria-hidden="true">View<br />{String(frameIndex + 1).padStart(2, '0')}</span>
               </span>
             </button>
           );
         })}
+      </div>
+      <div className={styles.setNavigation}>
+        <button type="button" disabled={groupStart === 0} onClick={() => choose(Math.max(0, groupStart - PAGE_SIZE))}><ArrowLeft size={13} /> Previous set</button>
+        <span>Frames {groupStart + 1}–{groupStart + visibleScreenshots.length} of {screenshots.length}</span>
+        <button type="button" disabled={groupStart + PAGE_SIZE >= screenshots.length} onClick={() => choose(groupStart + PAGE_SIZE)}>Next set <ArrowRight size={13} /></button>
       </div>
       <div className={styles.details}>
         <div aria-live="polite" aria-atomic="true"><p className={styles.eyebrow}>{String(selected + 1).padStart(2, '0')} / {screenshots.length} &nbsp; — &nbsp; {screenshot.category}</p><h3>{screenshot.title}</h3><p>{screenshot.description}</p></div>

@@ -23,9 +23,11 @@ export function usePortfolio() {
 const menuLinks = [
   ['01', 'Home', '/#about'],
   ['02', 'The introduction', '/#chapter-one'],
+  ['↗', 'English proficiency', '/#english-proficiency'],
   ['03', 'The approach', '/#approach'],
   ['04', 'Projects', '/projects'],
   ['05', 'Skills', '/skills'],
+  ['↗', 'Automation lab', '/automation'],
   ['06', 'Meet Orbit', '/#playground'],
   ['07', 'Experience', '/#experience'],
   ['08', 'In motion', '/#story'],

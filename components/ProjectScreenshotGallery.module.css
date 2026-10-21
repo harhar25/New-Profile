@@ -32,6 +32,10 @@
 .navigation { display: flex; flex-shrink: 0; gap: 10px; }
 .navigation button { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid #f6f2ec40; border-radius: 50%; }
 .navigation button:hover { background: #c8ad8c; color: #181715; }
+.setNavigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-block: 14px 22px; color: #c8ad8c; font-size: 10px; }
+.setNavigation button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.setNavigation button:disabled { opacity: .3; cursor: default; }
+.setNavigation > span { color: #f6f2ec80; text-align: center; }
 .index { margin-top: 22px; color: #f6f2ec99; font-size: 12px; }
 .index summary { padding-block: 12px; cursor: pointer; }
 .index ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; list-style: none; margin-top: 16px; }

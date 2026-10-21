@@ -2,6 +2,7 @@
 
 import BackgroundPathsHero from './BackgroundPathsHero';
 import IntroductionSection from './IntroductionSection';
+import EnglishProficiencySection from './EnglishProficiencySection';
 import WorkflowPoster from './WorkflowPoster';
 import PortfolioLinksSection from './PortfolioLinksSection';
 import RobotShowcase from './RobotShowcase';
@@ -17,6 +18,7 @@ export default function HomeSections() {
     <>
       <BackgroundPathsHero fullName={personalInfo.fullName} location={personalInfo.location} suspended={contactOpen || menuOpen} />
       <IntroductionSection profile={profile} />
+      <EnglishProficiencySection />
       <WorkflowPoster fullName={personalInfo.fullName} location={personalInfo.location} title={personalInfo.title} />
       <PortfolioLinksSection />
       <RobotShowcase suspended={contactOpen || menuOpen} onContact={openContact} />
