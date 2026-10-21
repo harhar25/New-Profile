@@ -42,7 +42,8 @@
 .sample label + label { margin-top: 14px; }
 .canvasArea { min-width: 0; }
 .canvasHelp { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px 18px; border-bottom: 1px solid #ffffff1a; }
-.canvasHelp > span { display: flex; align-items: center; gap: 8px; color: #a7a197; font-size: 10px; line-height: 1.7; }
+.canvasHelp > span { display: flex; align-items: center; gap: 8px; min-height: 34px; color: #a7a197; font-size: 10px; line-height: 1.7; }
+.canvasHelp > span > svg { flex-shrink: 0; }
 .canvasHelp label { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .canvasHelp select { width: 75px; margin: 0; }
 .viewport { overflow: auto; max-height: 660px; background: #18191d; overscroll-behavior-x: contain; }
@@ -63,10 +64,21 @@
 .nodeBody strong { display: block; font-size: 11px; line-height: 1.4; font-weight: 500; max-width: 125px; overflow-wrap: anywhere; }
 .nodeBody small { display: block; font-size: 8px; color: #aaa7a0; line-height: 1.4; margin-top: 6px; }
 .nodeBody > svg { flex-shrink: 0; margin-left: auto; color: #81c19a; }
-.port { position: absolute; top: calc(50% - 9px); width: 18px; height: 18px; border: 3px solid #18191d; border-radius: 50%; background: #9c9da4; }
-.inputPort { left: -10px; }
-.outputPort { right: -10px; }
+.port { position: absolute; top: calc(50% - 11px); width: 22px; height: 22px; border: 4px solid #18191d; border-radius: 50%; background: #9c9da4; z-index: 2; touch-action: none; }
+.port::before { content: ''; position: absolute; inset: -9px; border-radius: inherit; }
+.inputPort { left: -12px; }
+.outputPort { right: -12px; cursor: crosshair !important; }
 .port[data-ready='true'], .port[aria-pressed='true'] { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.canvas[data-connecting='true'], .canvas[data-connecting='true'] button { cursor: crosshair; }
+.node[data-target='valid'] { outline: 2px solid var(--accent); outline-offset: 4px; }
+.node[data-target='invalid'] { outline: 2px solid #f09797; outline-offset: 4px; }
+.port[data-target='valid'] { background: #a7e4ba; box-shadow: 0 0 0 6px #a7e4ba33; }
+.port[data-target='invalid'] { background: #f09797; box-shadow: 0 0 0 6px #f0979733; }
+.previewWire { z-index: 5; }
+.previewWire path { stroke: var(--accent); stroke-width: 3; stroke-dasharray: 7 5; }
+.previewWire circle { fill: var(--accent); stroke: #18191d; stroke-width: 2; }
+.previewWire path[data-invalid='true'] { stroke: #f09797; }
+.previewWire circle[data-invalid='true'] { fill: #f09797; }
 .canvasFooter { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 15px 18px; font-size: 10px; color: #b3aba0; border-top: 1px solid #ffffff1a; }
 .canvasFooter > button { display: inline-flex; align-items: center; gap: 7px; padding: 6px; }
 .canvasFooter > button:last-child { margin-left: auto; }
@@ -112,8 +124,8 @@
 .page[data-platform='zapier'] .node { background: #302820; border-color: #a68360; border-radius: 5px; }
 .page[data-platform='zapier'] .viewport { background: #24201a; }
 .page[data-platform='zapier'] .node::before { content: counter(step); counter-set: step var(--step); position: absolute; left: -28px; top: 35px; color: #d8b48e; font-size: 12px; }
-.page[data-platform='ghl'] .inputPort, .page[data-platform='zapier'] .inputPort { top: -10px; left: calc(50% - 9px); right: auto; }
-.page[data-platform='ghl'] .outputPort, .page[data-platform='zapier'] .outputPort { top: auto; bottom: -10px; left: calc(50% - 9px); right: auto; }
+.page[data-platform='ghl'] .inputPort, .page[data-platform='zapier'] .inputPort { top: -12px; left: calc(50% - 11px); right: auto; }
+.page[data-platform='ghl'] .outputPort, .page[data-platform='zapier'] .outputPort { top: auto; bottom: -12px; left: calc(50% - 11px); right: auto; }
 @keyframes flow { to { stroke-dashoffset: -28; } }
 @media (max-width: 1100px) { .platforms small { display: none; } .bottomGrid { grid-template-columns: 1fr; } .configuration { border-right: 0; border-bottom: 1px solid #ffffff1a; } }
 @media (max-width: 760px) {
@@ -133,6 +145,7 @@
   .sample label + label { margin: 0; }
   .sample label:last-child { grid-column: 1 / -1; }
   .canvasHelp { flex-direction: column; align-items: start; gap: 12px; }
+  .canvasHelp > span { min-height: 51px; }
   .viewport { max-height: 550px; }
   .notice { padding: 14px 18px; font-size: 11px; }
   .configuration, .execution { padding: 22px 18px; }

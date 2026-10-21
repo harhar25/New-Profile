@@ -62,6 +62,8 @@ test('playground questions retrieve instructions ahead of general services', () 
   const answer = ask('How do I connect nodes in the automation playground?');
   assert.equal(answer.chunks[0].id, 'playground-how-to');
   assert.match(answer.reply, /output port and then an input port/);
+  assert.match(answer.reply, /Drag an output port/);
+  assert.match(answer.reply, /Press Escape/);
   assert.match(answer.reply, /\/automation/);
   assert.match(answer.reply, /Run workflow/);
 });
