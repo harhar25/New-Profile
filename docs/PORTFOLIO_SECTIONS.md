@@ -12,7 +12,7 @@ The portfolio uses a gold HM monogram in `app/icon.svg`, a multi-size `app/favic
 | Approach | `WorkflowPoster.tsx` | `.workflow-poster-*` in `app/globals.css` |
 | Links to Projects and Skills | `PortfolioLinksSection.tsx` | `PortfolioLinksSection.module.css` |
 | Conversational robot | `RobotShowcase.tsx`, `RobotChat.tsx` | Respective CSS modules |
-| Experience | `ExperienceSection.tsx` | Existing section classes in `app/globals.css` |
+| Experience | `ExperienceSection.tsx`, `ui/GlyphPortal.tsx` | `ExperienceSection.module.css` |
 | Photo corridor | `PortfolioMoments.tsx`, `ui/ImageStream.tsx` | `PortfolioMoments.module.css`, `ui/ImageStream.module.css` |
 | Credentials | `CredentialsSection.tsx` | Existing section classes in `app/globals.css` |
 | `/projects` | `ProjectsPageContent.tsx`, `ProjectsSection.tsx`, `SystemIllustration.tsx` | `PortfolioPages.module.css`, `FeatureBlocks.module.css` |
@@ -21,6 +21,8 @@ The portfolio uses a gold HM monogram in `app/icon.svg`, a multi-size `app/favic
 | `/automation` | `AutomationPlayground.tsx`, `lib/automationPlayground.ts` | `AutomationPlayground.module.css` |
 
 `PortfolioShell.tsx` shares navigation, profile data, and the contact popup across the public pages. `PortfolioFooter.tsx` is their shared contact section. Admin and API routes remain outside this shell.
+
+Experience adapts the supplied Glyph Portal (© 2026 Christian Katzmann, MIT; attribution retained in the component). A warm paper poster reads BUILD through a clipped bronze system diagram; native scrolling moves the camera into measured letter ink and reveals a chronological timeline made from the saved experience records. Hover, tap, or arrow keys choose the entry letter before scrolling. The skip link leads directly to stable `#experience-details`. Reduced motion, short viewports, unavailable canvas metrics, and stalled rendering use ordinary reading flow. The following work corridor remains after the complete timeline.
 
 `PortfolioNavbar.tsx` adapts the supplied AnimeNavBar design into a floating charcoal-and-gold pill. Real Next links expose Home, Projects, Skills, and the automation playground. The highlighted tab follows the route; a generated transparent illustration of Harold in `public/images/harold-nav-mascot.png` points down at it, and follows More or Contact while either is open. The source portraits remain unchanged. CSS animates the indicator, mascot travel, and a small bob; reduced motion disables these effects. Mobile tabs retain readable labels. More opens a scrollable section index with Escape, outside-click dismissal, focus management, inert background content, and scroll locking. Shared navigation clearance keeps anchor targets and the landing hero below the raised mascot.
 

@@ -1,57 +1,70 @@
 'use client';
 
-import ScrollReveal from '@/components/ScrollReveal';
+import Link from 'next/link';
+import { ArrowDownRight, ArrowUpRight, Workflow } from 'lucide-react';
+import GlyphPortal from '@/components/ui/GlyphPortal';
 import type { Experience } from '@/lib/profileData';
+import styles from './ExperienceSection.module.css';
 
 interface ExperienceSectionProps {
   experiences: Experience[];
 }
 
 export default function ExperienceSection({ experiences }: ExperienceSectionProps) {
+  const chapters = [...experiences].sort((a, b) => {
+    const aYear = Number.parseInt(a.startDate, 10);
+    const bYear = Number.parseInt(b.startDate, 10);
+    return Number.isFinite(aYear) && Number.isFinite(bYear) ? aYear - bYear : 0;
+  });
+
   return (
-    <section id="experience" className="bg-[#050505] px-5 py-24 text-[#f1f0eb] sm:px-8 lg:px-12 lg:py-36">
-      <div className="page-shell">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-2">
-            <p className="chapter-label text-white/40">Chapter V / Experience</p>
+    <section id="experience" className={styles.section} aria-labelledby="experience-title">
+      <GlyphPortal
+        word="BUILD"
+        focusChar="B"
+        scrollLength={2}
+        contentId="experience-details"
+        enterLabel="Skip to my experience"
+        className={styles.portal}
+        style={{ '--gp-paper': '#e8e2d8', '--gp-ink': '#34291f', '--gp-field': '#201b16', '--gp-foreground': '#f6eee2' }}
+        front={<div className={styles.opening}>
+          <div className={styles.openingTop}>
+            <div><p className={styles.eyebrow}>Chapter V / Experience</p><p className={styles.openingTitle}>A technical foundation.<br />A builder&apos;s mindset.</p></div>
+            <p className={styles.openingNote}>Every chapter connects what I&apos;ve learned<br />to the systems I build today.</p>
           </div>
-          <div className="lg:col-span-7">
-            <h2 className="editorial-heading max-w-[10ch] font-light uppercase">
-              Technical
-              <span className="block">foundation.</span>
-              <span className="block">Systems</span>
-              <span className="block">mindset.</span>
-            </h2>
+          <div className={styles.openingBottom}><span>01 / The foundation</span><ArrowDownRight size={20} strokeWidth={1.2} aria-hidden="true" /><span>02 / Into practice</span></div>
+        </div>}
+        background={<div className={styles.field}>
+          <div className={styles.fieldGrid} />
+          <svg className={styles.connections} viewBox="0 0 1440 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M-80 730H190Q290 730 290 630V460Q290 360 390 360H620Q720 360 720 260V-50" />
+              <path d="M480 1060V760Q480 660 580 660H930Q1030 660 1030 560V210Q1030 110 1130 110H1500" />
+              <path d="M-80 180H170Q270 180 270 280V460Q270 560 370 560H680Q780 560 780 660V1060" />
+            </g>
+            <g fill="currentColor"><circle cx="290" cy="460" r="6" /><circle cx="620" cy="360" r="6" /><circle cx="480" cy="760" r="6" /><circle cx="1030" cy="210" r="6" /><circle cx="780" cy="660" r="6" /></g>
+          </svg>
+          <span className={styles.fieldWord}>LEARN / CONNECT / BUILD</span>
+        </div>}
+      >
+        <div className={styles.details}>
+          <div className={styles.detailsHeading}>
+            <div><p className={styles.eyebrow}>The chapters behind the work</p><h2 id="experience-title">Learn. Build.<br /><span>Keep evolving.</span></h2></div>
+            <p>Every role sharpens how operational needs become practical, maintainable digital systems.</p>
           </div>
-          <div className="flex items-end lg:col-span-3 lg:pb-3">
-            <p className="max-w-xs text-sm leading-6 text-white/50">Every role sharpens how operational needs become practical, maintainable digital systems.</p>
+          <div className={styles.timeline}>
+            {chapters.map((experience, index) => <article key={experience.id} className={styles.chapter} data-experience-id={experience.id}>
+              <div className={styles.date}><span className={styles.marker} aria-hidden="true" /><p>{experience.startDate}</p><span>to {experience.current ? 'Present' : experience.endDate}</span></div>
+              <div className={styles.chapterBody}>
+                <div className={styles.chapterTop}><span>{experience.company}</span><span>{experience.current ? 'Current chapter' : `Chapter ${String(index + 1).padStart(2, '0')}`}</span></div>
+                <h3>{experience.title}</h3>
+                <p>{experience.description}</p>
+              </div>
+            </article>)}
           </div>
+          <div className={styles.closing}><p><Workflow size={18} strokeWidth={1.4} aria-hidden="true" />Built to learn. Ready for what comes next.</p><Link href="/projects">See it in practice <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
         </div>
-
-        <div className="mt-20 border-t border-white/20 lg:mt-32">
-          {experiences.map((experience, index) => (
-            <ScrollReveal key={experience.id}>
-              <article className="grid gap-7 border-b border-white/20 py-9 transition hover:bg-white/[0.025] sm:grid-cols-[0.32fr_1fr_auto] sm:px-2 lg:py-12">
-                <div>
-                  <p className="text-4xl font-extralight tracking-[-0.06em] text-white/80 sm:text-5xl">{experience.startDate}</p>
-                  <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.14em] text-[#d7ff4f]">to {experience.current ? 'Present' : experience.endDate}</p>
-                </div>
-                <div className="max-w-3xl">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">{experience.company}</p>
-                  <h3 className="mt-3 text-3xl font-light uppercase leading-none tracking-[-0.045em] sm:text-4xl">{experience.title}</h3>
-                  <p className="mt-5 max-w-2xl text-sm leading-6 text-white/50">{experience.description}</p>
-                </div>
-                <span className="font-mono text-[10px] text-white/25">{String(index + 1).padStart(2, '0')}</span>
-              </article>
-            </ScrollReveal>
-          ))}
-        </div>
-
-        <div className="mt-24 grid gap-8 border-y border-white/20 py-10 sm:grid-cols-[auto_1fr] sm:items-center lg:mt-36">
-          <span className="h-3 w-3 rounded-full bg-[#d7ff4f] shadow-[0_0_20px_rgba(215,255,79,0.65)]" />
-          <p className="max-w-5xl text-[clamp(2rem,5vw,5.5rem)] font-extralight uppercase leading-[0.95] tracking-[-0.06em] text-white/85">Built to learn. Trusted to deliver. Ready to improve what comes next.</p>
-        </div>
-      </div>
+      </GlyphPortal>
     </section>
   );
 }
