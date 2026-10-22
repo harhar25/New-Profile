@@ -32,10 +32,10 @@
 .status { margin: 0; font-size: 12px; text-align: center; }
 .progress { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #ffffff1f; }
 .progress div { height: 100%; background: linear-gradient(90deg, #ffffff80, #fffffff2); transform: scaleX(var(--progress)); transform-origin: left; }
-.content { outline: none; min-height: 100svh; background: #fafafa; color: #18181b; }
-/* The light home page also needs an opaque canvas during gate dismissal,
+.content { outline: none; min-height: 100svh; background: #0c0907; color: #fff3df; }
+/* Match the amber hero during gate dismissal,
    scroll restoration, and browser overscroll. Other routes retain their theme. */
-:global(html):has(.content), :global(body):has(.content) { background: #fafafa; }
+:global(html):has(.content), :global(body):has(.content) { background: #0c0907; }
 /* Keep layout and font metrics stable while the entrance covers the page. */
 .content[hidden] { display: block; visibility: hidden; }
 @keyframes bounce { 0%, 100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(5px); opacity: 1; } }

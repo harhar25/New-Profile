@@ -4,7 +4,7 @@ Each homepage section is composed independently in `components/HomeSections.tsx`
 
 | Page / section | Component | Styling |
 | --- | --- | --- |
-| `/` landing | `BackgroundPathsHero.tsx` | `BackgroundPathsHero.module.css` |
+| `/` landing | `ShaderHero.tsx`, `useHeroBackground.ts`, `lib/heroShader.ts` | `ShaderHero.module.css` |
 | Introduction | `IntroductionSection.tsx` | `.intro-*` in `app/globals.css` |
 | English listening certificate | `EnglishProficiencySection.tsx` | `EnglishProficiencySection.module.css` |
 | Approach | `WorkflowPoster.tsx` | `.workflow-poster-*` in `app/globals.css` |
@@ -20,6 +20,8 @@ Each homepage section is composed independently in `components/HomeSections.tsx`
 
 `PortfolioShell.tsx` shares navigation, profile data, and the contact popup across the public pages. `PortfolioFooter.tsx` is their shared contact section. Admin and API routes remain outside this shell.
 
+The homepage Projects and Skills links adapt the supplied Glass Folder Cards design through `ui/PortfolioFolder.tsx` and its CSS module. Warm smoked glass and pale sage glass hold real screenshot and skill previews. Hover or keyboard focus lifts the files; clicking or pressing Enter/Space opens the folder and exposes preview links. Escape or moving focus out closes it. Each folder has a separate, always-visible link to its full page. The skill count and preview lists use the shared profile data. Responsive geometry uses CSS, and reduced motion disables transitions and pointer tilt.
+
 The shared footer exposes public LinkedIn and GitHub links in new tabs, with default profile URLs used when saved social fields are empty. Its Email control uses `EmailReveal.tsx` and `PortfolioFooter.module.css` to show a selectable address in a brief wobbling popup on hover, keyboard focus, or touch. Escape, outside presses, and leaving the control dismiss it; reduced-motion preferences disable the wobble. Email addresses are displayed as text without mailto navigation, including in the contact dialog.
 
 Orbit combines contextual portfolio retrieval with a conversational AI prompt, strict structured replies, trusted page/contact actions, and bounded memory in the current browser tab. Its labelled guide mode remains useful when AI is unavailable. See `docs/ROBOT_ASSISTANT.md` for setup, memory behavior, provider limits, and validation.
@@ -32,6 +34,6 @@ The Projects page includes the 15 original `Screenshot*.png` uploads plus 48 dis
 
 The homepage features the English listening certificate immediately after the introduction. Its preview is a direct raster rendering of `public/C1_certificate/Harold_jey_N_Madjos_C1_certificate-listening.pdf`; view and download actions link to that original PDF. The section reports Exam English, 24 July 2026, CEFR C1 Advanced listening, and the certificate's self-assessment qualification without extending the result to speaking, reading, or writing.
 
-The landing curves use the owner-supplied SVG geometry with 18 continuous strokes per rail. Each rail drifts slowly as one layer; stroke dashes and opacity do not animate. Background motion can be paused, stops outside the viewport or when a dialog/menu is open, and respects reduced motion preferences. The homepage wrapper and browser canvas use the same light background to prevent a dark flash during gate dismissal or overscroll.
+The landing hero adapts the owner-supplied amber shader design, including the fragment shader credited to Matthias Hurrle (@atzedent). It introduces Harold with two lines of gold-gradient type, a role badge, and working Projects and Skills buttons. The WebGL2 background is capped at 800,000 drawing pixels and 30 rendered frames per second, and pauses behind the entrance, outside the viewport, in background tabs, when a menu/dialog is open, or with the pause control. Reduced motion renders a still frame. A warm CSS background remains visible while loading, if WebGL is unavailable, or during context loss; a restored context rebuilds the renderer. Pointer movement adds a small offset without blocking touch scrolling. The homepage wrapper, navigation tone, and browser canvas match the dark hero during entry and overscroll.
 
 The work corridor adapts the owner-supplied ImageStreamHero geometry in the existing `#story` section, between Experience and Credentials. It uses local workflow and website screenshots from `public/uploads`, landscape cards that contain the full image, CSS perspective, and a pause control. Every image gets a card on each rail, including collections larger than ten images. Motion stops offscreen, in background tabs, while a menu/contact dialog is open, and for reduced-motion preferences. The former WebGL gallery remains available in `ui/3d-gallery-photography.tsx` but is no longer mounted here.

@@ -5,7 +5,7 @@ import PortfolioGate from '@/components/PortfolioGate';
 export default function Home() {
   return (
     <PortfolioGate>
-      <PortfolioShell>
+      <PortfolioShell tone="dark">
         <HomeSections />
       </PortfolioShell>
     </PortfolioGate>

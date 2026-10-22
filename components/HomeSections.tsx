@@ -1,6 +1,6 @@
 'use client';
 
-import BackgroundPathsHero from './BackgroundPathsHero';
+import ShaderHero from './ShaderHero';
 import IntroductionSection from './IntroductionSection';
 import EnglishProficiencySection from './EnglishProficiencySection';
 import WorkflowPoster from './WorkflowPoster';
@@ -16,7 +16,7 @@ export default function HomeSections() {
   const { personalInfo } = profile;
   return (
     <>
-      <BackgroundPathsHero fullName={personalInfo.fullName} location={personalInfo.location} suspended={contactOpen || menuOpen} />
+      <ShaderHero fullName={personalInfo.fullName} location={personalInfo.location} suspended={contactOpen || menuOpen} />
       <IntroductionSection profile={profile} />
       <EnglishProficiencySection />
       <WorkflowPoster fullName={personalInfo.fullName} location={personalInfo.location} title={personalInfo.title} />

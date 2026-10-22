@@ -19,7 +19,7 @@ export default function PortfolioGate({ children }: { children: ReactNode }) {
     try { seen = sessionStorage.getItem('portfolio-entered') === 'true'; } catch {}
     if (window.location.hash || seen) {
       // Resolve the browser-only entry decision before paint so return visits
-      // do not flash the dark video gate over the light landing page.
+      // render the landing page immediately.
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEntered(true);
     }
