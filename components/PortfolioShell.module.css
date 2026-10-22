@@ -1,17 +1,51 @@
 .shell { isolation: isolate; }
-.shell[data-tone="light"] { background: #fafafa; }
-.nav { color: #f6f2ec; }
-.lightNav { color: #18181b; }
-.lightNav .brand { border-color: #18181b60; }
-.navStart { display: flex; align-items: center; gap: 28px; }
-.routeLinks { display: flex; align-items: center; gap: 26px; font-size: 11px; font-weight: 500; }
-.routeLinks a { padding-block: 8px; border-bottom: 1px solid transparent; transition: opacity .2s, border-color .2s; }
-.routeLinks a:hover { opacity: .6; }
-.routeLinks a[aria-current="page"] { border-bottom-color: currentColor; }
-.nav a:focus-visible, .nav button:focus-visible, .menuLink:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
-.menuInner { margin-block: 130px 70px; }
-.menu.menu { align-items: flex-start; transition: opacity .45s ease, transform .45s ease; }
-.menuLink { font-size: clamp(2.3rem, 4.5vw, 4rem); padding-block: .55rem; }
-.menuContact { width: 100%; text-align: left; }
-@media (max-width: 767px) { .routeLinks { display: none; } }
-@media (max-width: 639px) { .menuLink { font-size: clamp(1.8rem, 8.4vw, 2.8rem); } }
+.shell[data-tone='light'] { background: #fafafa; }
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 168px 24px 32px;
+  background: #100e0bc9;
+  color: #f4eadd;
+  backdrop-filter: blur(16px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s, visibility .25s;
+}
+.menu[data-open='true'] { opacity: 1; visibility: visible; pointer-events: auto; }
+.menuPanel { flex-shrink: 0; width: min(100%, 860px); padding: 28px; border: 1px solid #d2b17d33; border-radius: 26px; background: linear-gradient(145deg, #2d2721, #1d1b18); box-shadow: inset 0 1px 0 #fff1cd0a, 0 30px 80px #0000004d; transform: translateY(-10px); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.menu[data-open='true'] .menuPanel { transform: none; }
+.menuHeading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 25px; }
+.menuHeading p { margin-bottom: 9px; color: #bca98d; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+.menuHeading h2 { font-size: clamp(25px, 3vw, 34px); font-weight: 450; letter-spacing: -.05em; line-height: 1.2; }
+.closeMenu { display: grid; width: 44px; height: 44px; flex-shrink: 0; place-items: center; border: 1px solid #e0c2992e; border-radius: 50%; background: #e0c2990a; color: #d2c2ab; transition: background .2s; }
+.closeMenu:hover { background: #e0c2991f; }
+.menuGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 18px; list-style: none; }
+.menuLink { display: flex; align-items: center; gap: 14px; min-height: 53px; padding: 13px 15px; border: 1px solid #f2dec01a; border-radius: 12px; background: #ffffff03; color: #d5cbbd; font-size: 13px; text-decoration: none; transition: background .2s, border-color .2s, color .2s; }
+.menuLink > span:first-child { width: 18px; flex-shrink: 0; color: #af956e; font-family: var(--font-geist-mono), monospace; font-size: 9px; }
+.menuLink > span:nth-child(2) { flex: 1; }
+.menuLink > svg { flex-shrink: 0; opacity: .6; }
+.menuLink:hover, .menuLink[aria-current] { border-color: #e4bf813d; background: #c69b4d14; color: #ffe2ae; }
+.menuFooter { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 24px; padding-top: 22px; border-top: 1px solid #e0c29924; }
+.menuFooter p { color: #bfaf98; font-size: 10px; line-height: 1.8; }
+.menuFooter p span { color: #9c907f; }
+.menuContact { display: inline-flex; align-items: center; justify-content: center; gap: 20px; min-height: 44px; padding: 11px 19px; border: 1px solid #edcd9b66; border-radius: 999px; background: #ddba7e; color: #292015; font-size: 11px; font-weight: 500; }
+.menu a:focus-visible, .menu button:focus-visible { outline: 2px solid #edc88d; outline-offset: 3px; }
+@media (max-width: 639px) {
+  .menu { padding: 150px 14px 24px; }
+  .menuPanel { padding: 22px 18px; border-radius: 22px; }
+  .menuHeading { margin-bottom: 20px; }
+  .menuGrid { grid-template-columns: 1fr; gap: 6px; }
+  .menuLink { min-height: 49px; padding: 11px 12px; font-size: 12px; }
+  .menuFooter { gap: 15px; }
+  .menuFooter p { font-size: 9px; }
+  .menuContact { gap: 12px; padding-inline: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .menu, .menu * { transition: none; } }
+@media print { .menu { display: none; } }

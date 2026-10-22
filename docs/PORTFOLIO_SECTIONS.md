@@ -2,6 +2,8 @@
 
 Each homepage section is composed independently in `components/HomeSections.tsx`. Replace a section component or give it a dedicated CSS module to change its design without rewriting the page.
 
+The portfolio uses a gold HM monogram in `app/icon.svg`, a multi-size `app/favicon.ico`, and `app/apple-icon.png` for browser tabs and phone shortcuts. Open Graph and Twitter PNG cards use the editable source in `public/brand/social-card.svg`. Next's file-based metadata publishes these images across the site. `NEXT_PUBLIC_SITE_URL` can set a custom domain for absolute preview URLs; otherwise the Vercel production/deployment URL is used, with localhost for local builds.
+
 | Page / section | Component | Styling |
 | --- | --- | --- |
 | `/` landing | `ShaderHero.tsx`, `useHeroBackground.ts`, `lib/heroShader.ts` | `ShaderHero.module.css` |
@@ -19,6 +21,8 @@ Each homepage section is composed independently in `components/HomeSections.tsx`
 | `/automation` | `AutomationPlayground.tsx`, `lib/automationPlayground.ts` | `AutomationPlayground.module.css` |
 
 `PortfolioShell.tsx` shares navigation, profile data, and the contact popup across the public pages. `PortfolioFooter.tsx` is their shared contact section. Admin and API routes remain outside this shell.
+
+`PortfolioNavbar.tsx` adapts the supplied AnimeNavBar design into a floating charcoal-and-gold pill. Real Next links expose Home, Projects, Skills, and the automation playground. The highlighted tab follows the route; a generated transparent illustration of Harold in `public/images/harold-nav-mascot.png` points down at it, and follows More or Contact while either is open. The source portraits remain unchanged. CSS animates the indicator, mascot travel, and a small bob; reduced motion disables these effects. Mobile tabs retain readable labels. More opens a scrollable section index with Escape, outside-click dismissal, focus management, inert background content, and scroll locking. Shared navigation clearance keeps anchor targets and the landing hero below the raised mascot.
 
 The homepage Projects and Skills links adapt the supplied Glass Folder Cards design through `ui/PortfolioFolder.tsx` and its CSS module. Warm smoked glass and pale sage glass hold real screenshot and skill previews. Hover or keyboard focus lifts the files; clicking or pressing Enter/Space opens the folder and exposes preview links. Escape or moving focus out closes it. Each folder has a separate, always-visible link to its full page. The skill count and preview lists use the shared profile data. Responsive geometry uses CSS, and reduced motion disables transitions and pointer tilt.
 

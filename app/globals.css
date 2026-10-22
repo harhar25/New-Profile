@@ -7,6 +7,7 @@
   --foreground: #f6f2ec;
   --paper: #e8e2d8;
   --signal: #b89b78;
+  --portfolio-nav-clearance: 160px;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -19,7 +20,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 72px;
+  scroll-padding-top: var(--portfolio-nav-clearance);
 }
 
 html,
@@ -152,6 +153,7 @@ body {
 }
 
 @media (max-width: 639px) {
+  :root { --portfolio-nav-clearance: 148px; }
   .nav-contact {
     position: fixed;
     top: 18px;

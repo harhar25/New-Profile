@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="80%" cy="35%" r="75%">
+      <stop stop-color="#63401f"/>
+      <stop offset="1" stop-color="#181715"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fff0d0"/>
+      <stop offset="1" stop-color="#dca257"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g fill="none" stroke="#c5a278" stroke-opacity=".13">
+    <circle cx="978" cy="282" r="232"/>
+    <circle cx="978" cy="282" r="278"/>
+    <circle cx="978" cy="282" r="324"/>
+  </g>
+  <text x="80" y="90" fill="#c5a278" font-family="Arial, sans-serif" font-size="14" letter-spacing="3">THE WORK. THE KNOW-HOW.</text>
+  <g font-family="Arial, sans-serif" font-size="100" font-weight="700" letter-spacing="-6" fill="url(#gold)">
+    <text x="74" y="236">Harold</text>
+    <text x="74" y="340">Madjos.</text>
+  </g>
+  <text x="80" y="404" fill="#e8dccb" font-family="Arial, sans-serif" font-size="27">Automation &amp; AI Systems Specialist</text>
+  <g transform="translate(830 142) scale(3)">
+    <rect width="96" height="96" rx="22" fill="#181715"/>
+    <circle cx="48" cy="48" r="37" fill="none" stroke="#c5a278" stroke-width="1.5"/>
+    <g transform="translate(-5 -1)" fill="#efca8b">
+      <path d="M27 32h7l-2.5 13H43l2.5-13h7l-6.5 34h-7l2.7-14H30.2l-2.7 14h-7z"/>
+      <path d="M57 32h7l4 18 10-18h8l-6.5 34h-7l4-21-10 17h-4l-4-17-4 21h-7z"/>
+    </g>
+  </g>
+  <path d="M80 494H1120" stroke="#e4c59b" stroke-opacity=".24"/>
+  <text x="80" y="550" fill="#bbae9e" font-family="Arial, sans-serif" font-size="18">GoHighLevel · n8n · Make · Integrations</text>
+  <text x="1120" y="550" text-anchor="end" fill="#c5a278" font-family="Arial, sans-serif" font-size="12" letter-spacing="2">PORTFOLIO / HM</text>
+</svg>
