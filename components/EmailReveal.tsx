@@ -35,6 +35,7 @@ export default function EmailReveal({ email }: { email: string }) {
       <button
         type="button"
         className={styles.socialLink}
+        data-footer-magnetic
         aria-label="Show email address"
         aria-expanded={open}
         aria-controls={open ? popupId : undefined}

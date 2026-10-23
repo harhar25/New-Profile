@@ -273,11 +273,8 @@ body {
 }
 .luxury-site .text-\[\#d7ff4f\] { color: #bda17f; }
 .luxury-site .bg-\[\#d7ff4f\] { background-color: #bda17f; }
-.luxury-site #work,
-.luxury-site #credentials { background: #181715; color: #f6f2ec; }
-.luxury-site #expertise,
-.luxury-site #contact { background: #e8e2d8; color: #181715; }
-.luxury-site #credentials { padding-top: clamp(8rem, 16vw, 16rem); padding-bottom: clamp(8rem, 16vw, 16rem); }
+.luxury-site #work { background: #181715; color: #f6f2ec; }
+.luxury-site #expertise { background: #e8e2d8; color: #181715; }
 .luxury-site .project-surface {
   background: radial-gradient(circle at 65% 35%, #5a5148 0%, #302b27 25%, #171613 74%);
   box-shadow: inset 0 0 0 1px rgba(238, 226, 209, .12);
